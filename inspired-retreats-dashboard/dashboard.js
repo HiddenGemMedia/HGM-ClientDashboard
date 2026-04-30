@@ -538,15 +538,15 @@
     );
     setText(els.totalLeadsChartSub, "Cumulative leads · " + formatNumber(firstMonth.totalLeads) + " → " + formatNumber(latestMonth.totalLeads));
 
-    setText(els.revenueTotalValue, formatRoiCompactCurrency(totals.totalRevenue));
+    setText(els.revenueTotalValue, formatRoiCompactCurrency(totals.directRevenue));
     setText(els.revenueYoYBadge, "Period total");
     setText(els.revenueDirectValue, formatRoiCompactCurrency(totals.directRevenue));
     setText(els.revenueDirectNote, formatPercent(totals.directSplitShare, 0) + " direct split");
     setText(els.revenueDirectShareValue, formatPercent(totals.directSplitShare, 0));
     setText(els.revenueDirectPeakMonth, peakDirectRevenueMonth ? peakDirectRevenueMonth.shortLabel + " '" + peakDirectRevenueMonth.key.slice(2, 4) : "-");
     setText(els.revenueDirectSplitAvg, formatPercent(totals.avgDirectSplit, 0));
-    setText(els.revenueVsLastYear, formatRoiCompactCurrency(totals.totalRevenue / Math.max(state.roiMonths.length, 1)));
-    setText(els.revenuePeakMonth, peakRevenueMonth ? peakRevenueMonth.shortLabel + " '" + peakRevenueMonth.key.slice(2, 4) : "-");
+    setText(els.revenueVsLastYear, formatRoiCompactCurrency(totals.directRevenue / Math.max(state.roiMonths.length, 1)));
+    setText(els.revenuePeakMonth, peakDirectRevenueMonth ? peakDirectRevenueMonth.shortLabel + " '" + peakDirectRevenueMonth.key.slice(2, 4) : "-");
     setText(els.revenueSplitNote, bestSplitMonth ? bestSplitMonth.shortLabel + " peak " + formatPercent(bestSplitMonth.directSplit, 0) : "Selected range");
     setText(els.revenueSplitDirectValue, formatRoiCompactCurrency(totals.directRevenue));
     setText(els.revenueSplitPeakMonth, bestSplitMonth ? bestSplitMonth.shortLabel + " '" + bestSplitMonth.key.slice(2, 4) : "-");
