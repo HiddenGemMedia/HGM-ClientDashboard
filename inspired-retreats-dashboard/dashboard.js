@@ -221,7 +221,7 @@
       const roiRows = getPerformanceRoiRows(selectedClientSlug);
       const metaRows = getMetaRows(selectedClientSlug);
 
-      const roiMonths = buildRoiMetrics(getHistoricalMonthKeys(roiRows, selectedMonth, 5), roiRows);
+      const roiMonths = buildRoiMetrics(getHistoricalMonthKeys(roiRows, selectedMonth, 3), roiRows);
       const filteredMetaRows = filterMetaRows(getHistoricalMonthKeys(metaRows, selectedMonth, 3), metaRows);
       state.roiMonths = roiMonths;
       state.metaRows = filteredMetaRows;
@@ -238,7 +238,7 @@
       switchView(state.activeView);
 
       if (state.activeView === "roi" && !state.roiMonths.length) {
-        showMessage("No workbook rows were found for this client in the selected 5-month window.", "info");
+        showMessage("No workbook rows were found for this client in the selected 3-month window.", "info");
       } else if (state.activeView === "meta" && !state.metaModel.months.length) {
         showMessage("No workbook Meta Ads rows were found for this client in the selected 3-month window.", "info");
       } else {
@@ -429,8 +429,9 @@
     const bestSplitMonth = highestMonth(state.roiMonths, "directSplit");
     const latestMonth = state.roiMonths[state.roiMonths.length - 1];
     const firstMonth = state.roiMonths[0];
+    const latestFollowers = latestMonth ? numeric(latestMonth.totalFollowers) : 0;
     const startedFollowers = getFollowerStartValue(state.roiMonths);
-    const netNewFollowers = Math.max(0, totals.totalFollowers - startedFollowers);
+    const netNewFollowers = Math.max(0, latestFollowers - startedFollowers);
     const startedLeads = getLeadStartValue(state.roiMonths);
     const currentLeads = latestMonth ? numeric(latestMonth.newLeads) : 0;
 
@@ -448,7 +449,7 @@
       peakViewsMonth
         ? peakViewsMonth.label + " delivered the strongest visibility with " + formatNumber(peakViewsMonth.totalViews) + " total views."
         : "View data is available from the workbook for the selected months.",
-      "Social following grew from " + formatNumber(startedFollowers) + " to " + formatNumber(totals.totalFollowers) + ", adding " + formatNumber(netNewFollowers) + " net new followers.",
+      "Social following grew from " + formatNumber(startedFollowers) + " to " + formatNumber(latestFollowers) + ", adding " + formatNumber(netNewFollowers) + " net new followers.",
       "The selected range generated " + formatNumber(totals.newLeads) + " new leads with an average cost per lead of " + formatCurrency(totals.avgCostPerLead) + ".",
       "Website traffic totaled " + formatNumber(totals.websiteTraffic) + " sessions while ad spend reached " + formatCurrency(totals.adSpend, 0) + ".",
       "Direct booking revenue totaled " + formatCurrency(totals.directRevenue, 0) + ", representing a " + formatPercent(totals.directSplitShare, 0) + " direct split.",
@@ -484,8 +485,8 @@
     );
     setText(els.contentViewsChartSub, "Platform breakdown · " + formatShortMonthYearKey(firstMonth.key) + " – " + formatShortMonthYearKey(latestMonth.key));
 
-    setText(els.audienceTotalFollowers, formatRoiCompactNumber(totals.totalFollowers));
-    setTrendBadge(els.audienceGrowthBadge, percentDelta(startedFollowers, totals.totalFollowers));
+    setText(els.audienceTotalFollowers, formatRoiCompactNumber(netNewFollowers));
+    setTrendBadge(els.audienceGrowthBadge, percentDelta(startedFollowers, latestFollowers));
     setText(els.audienceStartedFollowers, formatNumber(startedFollowers));
     setText(els.audienceNetNewFollowers, "+" + formatNumber(netNewFollowers));
     const instagramStart = getPlatformStartValue(state.roiMonths, "igFollowers");
@@ -538,15 +539,15 @@
     );
     setText(els.totalLeadsChartSub, "Cumulative leads · " + formatNumber(firstMonth.totalLeads) + " → " + formatNumber(latestMonth.totalLeads));
 
-    setText(els.revenueTotalValue, formatRoiCompactCurrency(totals.directRevenue));
+    setText(els.revenueTotalValue, formatRoiCompactCurrency(totals.totalRevenue));
     setText(els.revenueYoYBadge, "Period total");
     setText(els.revenueDirectValue, formatRoiCompactCurrency(totals.directRevenue));
     setText(els.revenueDirectNote, formatPercent(totals.directSplitShare, 0) + " direct split");
     setText(els.revenueDirectShareValue, formatPercent(totals.directSplitShare, 0));
     setText(els.revenueDirectPeakMonth, peakDirectRevenueMonth ? peakDirectRevenueMonth.shortLabel + " '" + peakDirectRevenueMonth.key.slice(2, 4) : "-");
     setText(els.revenueDirectSplitAvg, formatPercent(totals.avgDirectSplit, 0));
-    setText(els.revenueVsLastYear, formatRoiCompactCurrency(totals.directRevenue / Math.max(state.roiMonths.length, 1)));
-    setText(els.revenuePeakMonth, peakDirectRevenueMonth ? peakDirectRevenueMonth.shortLabel + " '" + peakDirectRevenueMonth.key.slice(2, 4) : "-");
+    setText(els.revenueVsLastYear, formatRoiCompactCurrency(totals.totalRevenue / Math.max(state.roiMonths.length, 1)));
+    setText(els.revenuePeakMonth, peakRevenueMonth ? peakRevenueMonth.shortLabel + " '" + peakRevenueMonth.key.slice(2, 4) : "-");
     setText(els.revenueSplitNote, bestSplitMonth ? bestSplitMonth.shortLabel + " peak " + formatPercent(bestSplitMonth.directSplit, 0) : "Selected range");
     setText(els.revenueSplitDirectValue, formatRoiCompactCurrency(totals.directRevenue));
     setText(els.revenueSplitPeakMonth, bestSplitMonth ? bestSplitMonth.shortLabel + " '" + bestSplitMonth.key.slice(2, 4) : "-");
@@ -567,7 +568,7 @@
     setBarWidth(els.funnelSessionsFill, funnelWidths[2]);
     setText(els.funnelLeadsValue, formatRoiCompactNumber(totals.newLeads));
     setBarWidth(els.funnelLeadsFill, funnelWidths[3]);
-    setText(els.funnelRevenueValue, formatRoiCompactCurrency(totals.totalRevenue));
+    setText(els.funnelRevenueValue, formatRoiCompactCurrency(totals.directRevenue));
     setBarWidth(els.funnelRevenueFill, funnelWidths[4]);
     setText(els.funnelFollowersConv, "↓ " + formatPercent(share(netNewFollowers, totals.totalViews), 1) + " to followers");
     setText(els.funnelTrafficConv, "↓ to website sessions");
@@ -575,8 +576,8 @@
     setText(els.funnelRevenueConv, "↓ to revenue");
     setText(els.funnelCostFollower, formatCurrency(totals.avgCostPerFollower));
     setText(els.funnelCostLead, formatCurrency(totals.avgCostPerLead));
-    setText(els.funnelRevenuePerSpend, "$" + round2(totals.adSpend ? totals.totalRevenue / totals.adSpend : 0));
-    setText(els.funnelRevenuePerSpendNote, formatCurrency(totals.adSpend, 0) + " spend → " + formatCurrency(totals.totalRevenue, 0) + " revenue");
+    setText(els.funnelRevenuePerSpend, "$" + round2(totals.adSpend ? totals.directRevenue / totals.adSpend : 0));
+    setText(els.funnelRevenuePerSpendNote, formatCurrency(totals.adSpend, 0) + " spend → " + formatCurrency(totals.directRevenue, 0) + " direct revenue");
 
     renderRoiCharts();
   }
@@ -623,7 +624,7 @@
     setText(els.audienceFacebookStart, "0");
     setText(els.audienceFacebookShare, "0%");
     setText(els.audienceCostPerFollower, "0");
-    setText(els.audienceCostPerFollowerNote, "5-month total");
+    setText(els.audienceCostPerFollowerNote, "3-month total");
     setText(els.audienceTiktokFollowers, "0");
     setText(els.audienceTiktokGrowth, "0%");
     setText(els.audienceDistributionSub, "Latest month snapshot");
@@ -636,7 +637,7 @@
     setText(els.leadNewLeadsValue, "0");
     setText(els.leadPipelineGrowth, "0%");
     setText(els.leadTotalPipeline, "0");
-    setText(els.leadPipelineNote, "5-month total pipeline");
+    setText(els.leadPipelineNote, "3-month total pipeline");
     setText(els.leadAvgCostPerLead, "0");
     setText(els.leadCostBadge, "0%");
     setText(els.newLeadsChartSub, "Monthly lead acquisition");
@@ -770,6 +771,7 @@
           axisTicks: { color: gridColor }
         },
         yaxis: {
+          min: typeof extra.min === "number" ? extra.min : undefined,
           labels: {
             style: {
               colors: mutedText,
@@ -1023,6 +1025,7 @@
       sharedChart(190, "area"),
       sharedAxis(formatNumber, {
         showLegend: false,
+        min: 0,
         tooltipFormatter: function (value) { return formatNumber(value) + " leads"; }
       }),
       {
@@ -1077,6 +1080,7 @@
         axisTicks: { color: gridColor }
       },
       yaxis: {
+        min: 0,
         labels: {
           minWidth: 64,
           style: { colors: mutedText, fontSize: "12px", fontWeight: 600 },
@@ -1095,8 +1099,8 @@
         padding: { left: 8, right: 18, top: 6, bottom: 0 }
       },
       tooltip: {
-        shared: false,
-        intersect: true,
+        shared: true,
+        intersect: false,
         theme: "light",
         y: {
           formatter: function (value) {
