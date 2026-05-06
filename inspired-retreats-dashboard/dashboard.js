@@ -1238,7 +1238,7 @@
   }
 
   function renderMetaCampaignSections(meta) {
-    const campaignTypes = meta.campaignTypes;
+    const campaignTypes = visibleMetaCampaignTypes(meta);
     if (!campaignTypes.length) {
       return "";
     }
@@ -1256,7 +1256,7 @@
   }
 
   function renderMetaCampaignHighlights(meta) {
-    const cards = meta.campaignTypes.map(function (campaignType) {
+    const cards = visibleMetaCampaignTypes(meta).map(function (campaignType) {
       const rows = meta.rowsByCampaign[campaignType] || [];
       return renderMetaCampaignHighlightCard(campaignType, rows);
     }).join("");
@@ -1326,6 +1326,15 @@
 
   function metaCampaignToggleKey(campaignType) {
     return slugify(campaignType);
+  }
+
+  function visibleMetaCampaignTypes(meta) {
+    return (meta.campaignTypes || []).filter(function (campaignType) {
+      const rows = meta.rowsByCampaign[campaignType] || [];
+      return rows.some(function (row) {
+        return numeric(row.spend) > 0 || numeric(row.revenue) > 0 || numeric(row.impressions) > 0;
+      });
+    });
   }
 
   function renderMetaCampaignSection(meta, campaignType) {

@@ -96,6 +96,13 @@ def build_meta_row_map(headers: list[str], row: tuple[object, ...]) -> dict[str,
         seen[header] = seen.get(header, 0) + 1
         key = header if seen[header] == 1 else f"{header}_{seen[header]}"
         row_map[key] = row[index]
+
+    # Preserve the original Facebook spend column while promoting the split spend
+    # column to the canonical "spend" field used by the dashboard.
+    if len(row) > 4:
+        row_map["spend_total"] = row[4]
+    if len(row) > 5 and row[5] not in (None, ""):
+        row_map["spend"] = row[5]
     return row_map
 
 MANUAL_META_CLIENTS = {
