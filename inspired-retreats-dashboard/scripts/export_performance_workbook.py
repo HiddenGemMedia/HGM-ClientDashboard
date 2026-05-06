@@ -24,77 +24,79 @@ EXCLUDED_ROI_SHEETS = {
 DISCOVERY_LABELS = {"followers", "new leads", "leads"}
 RETARGETING_LABELS = {"retargeting"}
 
-META_SHEETS = [
-    {
-      "name": "Jan 2026",
-      "year": 2026,
-      "month": 1,
-      "columns": {
-          "campaign_spend": 4,
-          "impressions": 5,
-          "profile_visits": 6,
-          "cost_per_visit": 7,
-          "leads_followers": 8,
-          "cost_per_lead_follower": 9,
-          "instagram_bio_leads": 10,
-          "bookings_email": 11,
-          "bookings_fb": 12,
-          "cost_per_booking": 13,
-          "avg_booking_value": 14,
-          "pct_avg_booking_value": 15,
-          "revenue": 16,
-          "roas": 17,
-          "blended_roas": 18,
-          "comments": [19, 20],
-      },
-    },
-    {
-      "name": "Feb 2026",
-      "year": 2026,
-      "month": 2,
-      "columns": {
-          "campaign_spend": 5,
-          "impressions": 6,
-          "profile_visits": 7,
-          "cost_per_visit": 8,
-          "leads_followers": 9,
-          "cost_per_lead_follower": 10,
-          "instagram_bio_leads": 11,
-          "bookings_email": 12,
-          "bookings_fb": 13,
-          "cost_per_booking": 14,
-          "avg_booking_value": 15,
-          "pct_avg_booking_value": 16,
-          "revenue": 17,
-          "roas": 18,
-          "blended_roas": 19,
-          "comments": [20, 21],
-      },
-    },
-    {
-      "name": "March 2026",
-      "year": 2026,
-      "month": 3,
-      "columns": {
-          "campaign_spend": 5,
-          "impressions": 6,
-          "profile_visits": 7,
-          "cost_per_visit": 8,
-          "leads_followers": 9,
-          "cost_per_lead_follower": 10,
-          "instagram_bio_leads": 11,
-          "bookings_email": 12,
-          "bookings_fb": 13,
-          "cost_per_booking": 15,
-          "avg_booking_value": 14,
-          "pct_avg_booking_value": 16,
-          "revenue": 17,
-          "roas": 18,
-          "blended_roas": 19,
-          "comments": [22],
-      },
-    },
+META_MONTH_PATTERNS = [
+    ("january", 1),
+    ("jan", 1),
+    ("february", 2),
+    ("feb", 2),
+    ("march", 3),
+    ("mar", 3),
+    ("april", 4),
+    ("apr", 4),
+    ("may", 5),
+    ("june", 6),
+    ("jun", 6),
+    ("july", 7),
+    ("jul", 7),
+    ("august", 8),
+    ("aug", 8),
+    ("september", 9),
+    ("sept", 9),
+    ("sep", 9),
+    ("october", 10),
+    ("oct", 10),
+    ("november", 11),
+    ("nov", 11),
+    ("december", 12),
+    ("dec", 12),
 ]
+
+META_COMMENT_KEYS = (
+    "comments",
+    "comment",
+    "notes",
+    "recommended_action",
+    "todos",
+    "todo",
+)
+
+
+def parse_meta_sheet_config(sheet_name: str) -> dict[str, object] | None:
+    text = clean_text(sheet_name).lower()
+    year_match = re.search(r"\b(20\d{2})\b", text)
+    if not year_match:
+        return None
+
+    month = None
+    for token, month_number in META_MONTH_PATTERNS:
+        if re.search(r"\b" + re.escape(token) + r"\b", text):
+            month = month_number
+            break
+
+    if month is None:
+        return None
+
+    return {"name": sheet_name, "year": int(year_match.group(1)), "month": month}
+
+
+def find_meta_header_row(sheet) -> tuple[int | None, list[str]]:
+    for row_index, row in enumerate(sheet.iter_rows(min_row=1, max_row=8, values_only=True), start=1):
+        headers = [normalize_header(value) for value in row]
+        if "campaign_type" in headers and ("spend" in headers or "campaign_spend" in headers):
+            return row_index, headers
+    return None, []
+
+
+def build_meta_row_map(headers: list[str], row: tuple[object, ...]) -> dict[str, object]:
+    row_map: dict[str, object] = {}
+    seen: dict[str, int] = {}
+    for index, header in enumerate(headers):
+        if not header or index >= len(row):
+            continue
+        seen[header] = seen.get(header, 0) + 1
+        key = header if seen[header] == 1 else f"{header}_{seen[header]}"
+        row_map[key] = row[index]
+    return row_map
 
 MANUAL_META_CLIENTS = {
     "asheville river cabins": ("asheville-river-cabins", "Asheville River Cabins"),
@@ -228,6 +230,19 @@ def get_value(row_map: dict[str, object], *keys: str):
         if key in row_map:
             return row_map[key]
     return None
+
+
+def collect_comments(row_map: dict[str, object], *comment_keys: str) -> str:
+    values = []
+    for key in comment_keys:
+        value = get_value(row_map, key)
+        if value in (None, "", True, False):
+            continue
+        if isinstance(value, str):
+            text = clean_text(value)
+            if text:
+                values.append(text)
+    return " | ".join(dict.fromkeys(values))
 
 
 def find_roi_header_row(sheet) -> tuple[int | None, list[str]]:
@@ -424,28 +439,33 @@ def export_roi_workbook():
     return clients, rows_by_client_slug
 
 
-def collect_comments(row: tuple[object, ...], comment_columns: list[int]) -> str:
-    values = []
-    for column_index in comment_columns:
-        if column_index < len(row):
-            text = clean_text(row[column_index])
-            if text:
-                values.append(text)
-    return " | ".join(values)
-
-
 def export_meta_workbook():
     workbook = load_workbook(META_WORKBOOK_PATH, data_only=True)
     clients_by_slug = {}
     meta_rows_by_client_slug: dict[str, list[dict[str, object]]] = {}
 
-    for sheet_config in META_SHEETS:
+    sheet_configs = []
+    for sheet_name in workbook.sheetnames:
+        sheet_config = parse_meta_sheet_config(sheet_name)
+        if sheet_config:
+            sheet_configs.append(sheet_config)
+
+    sheet_configs.sort(key=lambda config: (config["year"], config["month"], config["name"].lower()))
+
+    for sheet_config in sheet_configs:
         sheet = workbook[sheet_config["name"]]
-        columns = sheet_config["columns"]
+        header_row_index, headers = find_meta_header_row(sheet)
+        if not header_row_index:
+            continue
+
         current: MetaClientMonth | None = None
         month_blocks: list[MetaClientMonth] = []
 
-        for row in sheet.iter_rows(min_row=2, max_col=24, values_only=True):
+        for row in sheet.iter_rows(min_row=header_row_index + 1, max_col=sheet.max_column, values_only=True):
+            if not any(value not in (None, "") for value in row):
+                continue
+
+            row_map = build_meta_row_map(headers, row)
             raw_name = clean_text(row[0])
             if raw_name:
                 if current is not None:
@@ -461,34 +481,67 @@ def export_meta_workbook():
             if current is None:
                 continue
 
-            campaign_type = classify_campaign(row[3])
+            campaign_type = classify_campaign(get_value(row_map, "campaign_type"))
             if campaign_type is None:
                 continue
 
-            avg_booking_value = clean_number(row[columns["avg_booking_value"]])
+            avg_booking_value = clean_number(
+                get_value(row_map, "avg_booking_value", "average_booking_value")
+            )
             if avg_booking_value is not None:
                 current.avg_booking_value = avg_booking_value
 
-            comment = collect_comments(row, columns["comments"])
+            comment = collect_comments(row_map, *META_COMMENT_KEYS)
             if comment:
                 current.comments.append(comment)
 
             payload = {
-                "spend": row[columns["campaign_spend"]],
-                "impressions": row[columns["impressions"]],
-                "profile_visits": row[columns["profile_visits"]],
-                "cost_per_visit": row[columns["cost_per_visit"]],
-                "leads_followers": row[columns["leads_followers"]],
-                "cost_per_lead_follower": row[columns["cost_per_lead_follower"]],
-                "ig_bio_leads": row[columns["instagram_bio_leads"]],
-                "bookings_email": row[columns["bookings_email"]],
-                "bookings_fb": row[columns["bookings_fb"]],
-                "cost_per_booking": row[columns["cost_per_booking"]],
-                "avg_booking_value": row[columns["avg_booking_value"]],
-                "pct_avg_booking_value": row[columns["pct_avg_booking_value"]],
-                "revenue": row[columns["revenue"]],
-                "roas": row[columns["roas"]],
-                "blended_roas": row[columns["blended_roas"]],
+                "spend": get_value(row_map, "spend", "campaign_spend"),
+                "impressions": get_value(row_map, "impressions"),
+                "profile_visits": get_value(
+                    row_map,
+                    "profile_website_visits_link_clicks",
+                    "profile_website_visits",
+                    "profile_website_visits_visits",
+                ),
+                "cost_per_visit": get_value(row_map, "cost_per_visit"),
+                "leads_followers": get_value(row_map, "leads_followers"),
+                "cost_per_lead_follower": get_value(
+                    row_map,
+                    "cost_per_lead_follower",
+                    "cost_lead_or_follower",
+                    "cost_per_follower",
+                    "cost_per_lead",
+                ),
+                "ig_bio_leads": get_value(row_map, "instagram_bio_leads", "ig_bio_leads"),
+                "bookings_email": get_value(
+                    row_map,
+                    "bookings_email_cross_matched_code_used",
+                    "bookings_email_matched",
+                    "bookings_email",
+                ),
+                "bookings_fb": get_value(
+                    row_map,
+                    "bookings_facebook_events",
+                    "bookings_fb_events",
+                    "bookings_fb",
+                ),
+                "cost_per_booking": get_value(row_map, "cost_per_booking"),
+                "avg_booking_value": get_value(row_map, "avg_booking_value", "average_booking_value"),
+                "pct_avg_booking_value": get_value(
+                    row_map,
+                    "pct_avg_booking_value",
+                    "pct_of_avg_booking_value_spent_on_getting_a_booking",
+                ),
+                "revenue": get_value(
+                    row_map,
+                    "total_direct_booking_revenue",
+                    "revenue",
+                    "ad_revenue",
+                    "ads_rev_value",
+                ),
+                "roas": get_value(row_map, "roas_2", "roas"),
+                "blended_roas": get_value(row_map, "blended_roas"),
                 "comments": comment,
             }
 
