@@ -10,6 +10,7 @@
 
   const state = {
     performanceWorkbook: null,
+    accessClients: [],
     roiAnalysis: {},
     metaAnalysis: {},
     client: null,
@@ -266,17 +267,19 @@
     try {
       const loaded = await Promise.all([
         fetchPerformanceWorkbook(),
+        fetchAccessClients(),
         fetchRoiAnalysis(),
         fetchMetaAnalysis()
       ]);
       state.performanceWorkbook = loaded[0];
-      state.roiAnalysis = loaded[1];
-      state.metaAnalysis = loaded[2];
+      state.accessClients = loaded[1];
+      state.roiAnalysis = loaded[2];
+      state.metaAnalysis = loaded[3];
       state.availableClients = (state.performanceWorkbook && state.performanceWorkbook.clients) || [];
       renderClientOptions();
       const params = new URLSearchParams(window.location.search);
       const routeClient = params.get("client");
-      const selectedSlug = canonicalizeClientSlug(routeClient || DEFAULT_CLIENT_SLUG || (state.availableClients[0] && state.availableClients[0].slug) || "");
+      const selectedSlug = resolveRouteClientSlug(routeClient || DEFAULT_CLIENT_SLUG || (state.availableClients[0] && state.availableClients[0].slug) || "");
       els.clientSelect.value = state.availableClients.some(function (client) {
         return client.slug === selectedSlug;
       }) ? selectedSlug : ((state.availableClients[0] && state.availableClients[0].slug) || "");
@@ -369,6 +372,21 @@
     return normalizePerformanceWorkbook(await response.json());
   }
 
+  async function fetchAccessClients() {
+    try {
+      const response = await fetch("Data/client-access-codes.json?ts=" + Date.now(), {
+        cache: "no-store"
+      });
+      if (!response.ok) {
+        return [];
+      }
+      const payload = await response.json();
+      return Array.isArray(payload.clients) ? payload.clients : [];
+    } catch (_error) {
+      return [];
+    }
+  }
+
   async function fetchRoiAnalysis() {
     try {
       const response = await fetch("Data/roi-analysis.json?ts=" + Date.now(), {
@@ -403,6 +421,53 @@
       return CLIENT_ALIASES[candidate].indexOf(normalized) !== -1;
     });
     return canonical || normalized;
+  }
+
+  function normalizeAccessCode(value) {
+    return String(value || "").replace(/\D/g, "").slice(0, 5);
+  }
+
+  function resolveRouteClientSlug(routeClient) {
+    var normalized = String(routeClient || "").trim();
+    var directCanonical = canonicalizeClientSlug(normalized);
+
+    if (state.availableClients.some(function (client) {
+      return client.slug === directCanonical;
+    })) {
+      return directCanonical;
+    }
+
+    var tokenCanonical = canonicalizeClientSlug(normalized.replace(/\d{5}$/, ""));
+    if (state.availableClients.some(function (client) {
+      return client.slug === tokenCanonical;
+    })) {
+      return tokenCanonical;
+    }
+
+    return directCanonical;
+  }
+
+  function buildRouteClientParam(clientSlug) {
+    var canonicalClientSlug = canonicalizeClientSlug(clientSlug);
+    var params = new URLSearchParams(window.location.search);
+    var existing = String(params.get("client") || "").trim();
+    var code = normalizeAccessCode(params.get("code"));
+    var matchedAccessClient = state.accessClients.find(function (client) {
+      return canonicalizeClientSlug(client.clientSlug) === canonicalClientSlug;
+    });
+
+    if (existing) {
+      var existingBase = canonicalizeClientSlug(existing.replace(/\d{5}$/, ""));
+      if (existingBase === canonicalClientSlug && /\d{5}$/.test(existing)) {
+        return existing;
+      }
+    }
+
+    if (!code && matchedAccessClient) {
+      code = normalizeAccessCode(matchedAccessClient.accessCode);
+    }
+
+    return code ? canonicalClientSlug + code : canonicalClientSlug;
   }
 
   function normalizePerformanceWorkbook(workbook) {
@@ -3115,9 +3180,11 @@
 
   function updateRoute(clientSlug, month, view) {
     const params = new URLSearchParams(window.location.search);
-    params.set("client", clientSlug);
+    params.set("client", buildRouteClientParam(clientSlug));
     params.set("month", month);
     params.set("view", view || "roi");
+    params.delete("code");
+    params.delete("clientName");
     window.history.replaceState({}, "", window.location.pathname + "?" + params.toString());
   }
 

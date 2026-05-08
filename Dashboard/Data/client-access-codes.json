@@ -1,0 +1,268 @@
+{
+  "generatedAt": "2026-05-08",
+  "format": "5-digit numeric access code",
+  "prefixHandledInUi": true,
+  "preservedExistingCodes": true,
+  "clients": [
+    {
+      "clientName": "Abode Luxury Rentals",
+      "clientSlug": "abode-luxury-rentals",
+      "accessCode": "99805"
+    },
+    {
+      "clientName": "American River",
+      "clientSlug": "american-river",
+      "accessCode": "73199"
+    },
+    {
+      "clientName": "Apple Mountain",
+      "clientSlug": "apple-mountain",
+      "accessCode": "31760"
+    },
+    {
+      "clientName": "Apple Mountain Resort",
+      "clientSlug": "apple-mountain-resort",
+      "accessCode": "76126"
+    },
+    {
+      "clientName": "Asheville River Cabins",
+      "clientSlug": "asheville-river-cabins",
+      "accessCode": "45253"
+    },
+    {
+      "clientName": "Away2PA",
+      "clientSlug": "away2pa",
+      "accessCode": "83893"
+    },
+    {
+      "clientName": "Awayframes",
+      "clientSlug": "awayframes",
+      "accessCode": "47252"
+    },
+    {
+      "clientName": "Big Moon Ranch",
+      "clientSlug": "big-moon-ranch",
+      "accessCode": "94581"
+    },
+    {
+      "clientName": "Bison ridge",
+      "clientSlug": "bison-ridge",
+      "accessCode": "16537"
+    },
+    {
+      "clientName": "Bison Ridge Retreat",
+      "clientSlug": "bison-ridge-retreat",
+      "accessCode": "35491"
+    },
+    {
+      "clientName": "Casa Oso",
+      "clientSlug": "casa-oso",
+      "accessCode": "48890"
+    },
+    {
+      "clientName": "Casa Oso Ad Account",
+      "clientSlug": "casa-oso-ad-account",
+      "accessCode": "62166"
+    },
+    {
+      "clientName": "Cowan Creek Lodges",
+      "clientSlug": "cowan-creek-lodges",
+      "accessCode": "84026"
+    },
+    {
+      "clientName": "Creekside",
+      "clientSlug": "creekside",
+      "accessCode": "28163"
+    },
+    {
+      "clientName": "Dwell Luxury Rentals",
+      "clientSlug": "dwell-luxury-rentals",
+      "accessCode": "25674"
+    },
+    {
+      "clientName": "Edenwood NC",
+      "clientSlug": "edenwood-nc",
+      "accessCode": "82237"
+    },
+    {
+      "clientName": "Endless Stays",
+      "clientSlug": "endless-stays",
+      "accessCode": "97009"
+    },
+    {
+      "clientName": "Evergreen Cabins",
+      "clientSlug": "evergreen-cabins",
+      "accessCode": "94882"
+    },
+    {
+      "clientName": "FLOHOM",
+      "clientSlug": "flohom",
+      "accessCode": "53965"
+    },
+    {
+      "clientName": "Green Springs Inn",
+      "clientSlug": "green-springs-inn",
+      "accessCode": "27768"
+    },
+    {
+      "clientName": "Hiawassee Glamping",
+      "clientSlug": "hiawassee-glamping",
+      "accessCode": "13046"
+    },
+    {
+      "clientName": "Hillside Amble",
+      "clientSlug": "hillside-amble",
+      "accessCode": "42154"
+    },
+    {
+      "clientName": "Home Base",
+      "clientSlug": "home-base",
+      "accessCode": "80511"
+    },
+    {
+      "clientName": "Inspired Retreats",
+      "clientSlug": "inspired-retreats",
+      "accessCode": "59871"
+    },
+    {
+      "clientName": "Lush Hollow",
+      "clientSlug": "lush-hollow",
+      "accessCode": "81230"
+    },
+    {
+      "clientName": "Myrinn",
+      "clientSlug": "myrinn",
+      "accessCode": "64099"
+    },
+    {
+      "clientName": "Nature Nooks",
+      "clientSlug": "nature-nooks",
+      "accessCode": "73984"
+    },
+    {
+      "clientName": "New",
+      "clientSlug": "new",
+      "accessCode": "28960"
+    },
+    {
+      "clientName": "North Star Nature Suites",
+      "clientSlug": "north-star-nature-suites",
+      "accessCode": "51726"
+    },
+    {
+      "clientName": "Paradise Pointe",
+      "clientSlug": "paradise-pointe",
+      "accessCode": "58971"
+    },
+    {
+      "clientName": "Parker Reserve",
+      "clientSlug": "parker-reserve",
+      "accessCode": "25494"
+    },
+    {
+      "clientName": "Pine Valley Cabins",
+      "clientSlug": "pine-valley-cabins",
+      "accessCode": "25595"
+    },
+    {
+      "clientName": "Red White & Blue Views",
+      "clientSlug": "red-white-blue-views",
+      "accessCode": "52987"
+    },
+    {
+      "clientName": "Reflections Resorts",
+      "clientSlug": "reflections-resorts",
+      "accessCode": "72013"
+    },
+    {
+      "clientName": "Riveria",
+      "clientSlug": "riveria",
+      "accessCode": "57764"
+    },
+    {
+      "clientName": "Roundhouse Resort & Spa",
+      "clientSlug": "roundhouse-resort-spa",
+      "accessCode": "14195"
+    },
+    {
+      "clientName": "Starlight Haven Hot Springs",
+      "clientSlug": "starlight-haven-hot-springs",
+      "accessCode": "86998"
+    },
+    {
+      "clientName": "Starlight Haven Weiss Lake",
+      "clientSlug": "starlight-haven-weiss-lake",
+      "accessCode": "99761"
+    },
+    {
+      "clientName": "Stay Different",
+      "clientSlug": "stay-different",
+      "accessCode": "82965"
+    },
+    {
+      "clientName": "Stay on 30a",
+      "clientSlug": "stay-on-30a",
+      "accessCode": "99066"
+    },
+    {
+      "clientName": "Stay Saluda",
+      "clientSlug": "stay-saluda",
+      "accessCode": "61768"
+    },
+    {
+      "clientName": "Stay With Branch",
+      "clientSlug": "stay-with-branch",
+      "accessCode": "30325"
+    },
+    {
+      "clientName": "StayLuxe",
+      "clientSlug": "stayluxe",
+      "accessCode": "17135"
+    },
+    {
+      "clientName": "The Cohost Company",
+      "clientSlug": "the-cohost-company",
+      "accessCode": "83136"
+    },
+    {
+      "clientName": "Three Suns",
+      "clientSlug": "three-suns",
+      "accessCode": "86758"
+    },
+    {
+      "clientName": "Three suns Cabins",
+      "clientSlug": "three-suns-cabins",
+      "accessCode": "99217"
+    },
+    {
+      "clientName": "Treetop Escapes",
+      "clientSlug": "treetop-escapes",
+      "accessCode": "15516"
+    },
+    {
+      "clientName": "Twin beds",
+      "clientSlug": "twin-beds",
+      "accessCode": "83719"
+    },
+    {
+      "clientName": "Vinifera Homes",
+      "clientSlug": "vinifera-homes",
+      "accessCode": "64627"
+    },
+    {
+      "clientName": "Wanderin Star Farms",
+      "clientSlug": "wanderin-star-farms",
+      "accessCode": "21645"
+    },
+    {
+      "clientName": "Wauhatchie Woodlands",
+      "clientSlug": "wauhatchie-woodlands",
+      "accessCode": "61935"
+    },
+    {
+      "clientName": "Yosemite Dream Stays",
+      "clientSlug": "yosemite-dream-stays",
+      "accessCode": "91944"
+    }
+  ]
+}

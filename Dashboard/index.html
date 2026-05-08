@@ -158,6 +158,10 @@
       margin-bottom: 6px;
     }
 
+    .sidebar-field.is-hidden {
+      display: none;
+    }
+
     .sidebar-control-shell {
       position: relative;
       display: flex;
@@ -3790,7 +3794,7 @@
         <div class="sidebar-kicker" id="sidebarDashboardTitle">Performance Dashboard</div>
         <div class="sidebar-current-month" id="sidebarCurrentMonth">March 2026</div>
         <div class="sidebar-controls">
-          <div class="sidebar-field">
+          <div class="sidebar-field is-hidden">
             <label for="clientSelect">Client</label>
             <div class="sidebar-control-shell">
               <select class="sidebar-select" id="clientSelect"></select>
