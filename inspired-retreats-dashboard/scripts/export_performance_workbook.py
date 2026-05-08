@@ -540,11 +540,12 @@ def export_meta_workbook():
                     "pct_avg_booking_value",
                     "pct_of_avg_booking_value_spent_on_getting_a_booking",
                 ),
+                # Meta ads revenue should come from the ad-specific revenue columns,
+                # not the ROI workbook's total direct booking revenue field.
                 "revenue": get_value(
                     row_map,
-                    "total_direct_booking_revenue",
-                    "revenue",
                     "ad_revenue",
+                    "revenue",
                     "ads_rev_value",
                 ),
                 "roas": get_value(row_map, "roas_2", "roas"),

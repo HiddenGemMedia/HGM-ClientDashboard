@@ -3,19 +3,29 @@
   const DEFAULT_CLIENT_SLUG = (config.defaults && config.defaults.client) || "inspired-retreats";
   const DEFAULT_MONTH = (config.defaults && (config.defaults.month || config.defaults.to)) || "2026-03";
   const META_COLORS = ["#2663EB", "#F7AD43", "#12B981"];
+  const CLIENT_ALIASES = {
+    "apple-mountain": ["apple-mountain", "apple-mountain-resort"],
+    "casa-oso": ["casa-oso", "casa-oso-ad-account"]
+  };
 
   const state = {
     performanceWorkbook: null,
+    roiAnalysis: {},
+    metaAnalysis: {},
     client: null,
     availableClients: [],
     activeView: "roi",
     selectedMonth: DEFAULT_MONTH,
     roiMonths: [],
+    allRoiMonths: [],
     metaRows: [],
     metaModel: null,
     metaExpandedCampaigns: {},
     metaComparisonExpanded: false,
-    allCharts: []
+    pendingMetaScrollKey: "",
+    allCharts: [],
+    sidebarOpen: false,
+    chartLabelBreakpoint: ""
   };
 
   const els = {
@@ -28,6 +38,9 @@
     applyFilterBtn: document.getElementById("applyFilterBtn"),
     statusMessage: document.getElementById("statusMessage"),
     downloadPdfBtn: document.getElementById("downloadPdfBtn"),
+    sidebarToggle: document.getElementById("sidebarToggle"),
+    sidebarBackdrop: document.getElementById("sidebarBackdrop"),
+    sidebarPanel: document.getElementById("sidebarPanel"),
     roiSegmentBtn: document.getElementById("roiSegmentBtn"),
     metaSegmentBtn: document.getElementById("metaSegmentBtn"),
     roiNav: document.getElementById("roiNav"),
@@ -39,8 +52,19 @@
     summaryNewLeads: document.getElementById("summaryNewLeads"),
     summaryTotalRevenue: document.getElementById("summaryTotalRevenue"),
     summaryDirectSplitAvg: document.getElementById("summaryDirectSplitAvg"),
+    summaryLabel1: document.getElementById("summaryLabel1"),
+    summaryLabel2: document.getElementById("summaryLabel2"),
+    summaryLabel3: document.getElementById("summaryLabel3"),
+    summaryLabel4: document.getElementById("summaryLabel4"),
+    summaryLabel5: document.getElementById("summaryLabel5"),
+    summaryLabel6: document.getElementById("summaryLabel6"),
+    summaryNote1: document.getElementById("summaryNote1"),
+    summaryNote2: document.getElementById("summaryNote2"),
+    summaryNote3: document.getElementById("summaryNote3"),
     summaryAvgCostPerLead: document.getElementById("summaryAvgCostPerLead"),
     summaryAvgCostPerLeadNote: document.getElementById("summaryAvgCostPerLeadNote"),
+    summaryNote5: document.getElementById("summaryNote5"),
+    summaryNote6: document.getElementById("summaryNote6"),
     summaryOverviewList: document.getElementById("summaryOverviewList"),
     contentInstagramViews: document.getElementById("contentInstagramViews"),
     contentMetaViews: document.getElementById("contentMetaViews"),
@@ -136,6 +160,7 @@
 
   function bindUi() {
     els.applyFilterBtn.addEventListener("click", loadDashboard);
+    bindSidebarDrawer();
     if (els.downloadPdfBtn) {
       els.downloadPdfBtn.addEventListener("click", function () {
         window.print();
@@ -156,6 +181,72 @@
         renderRoiCharts();
       }
     });
+
+    let resizeTimer = null;
+    state.chartLabelBreakpoint = getChartLabelBreakpoint();
+    window.addEventListener("resize", function () {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(function () {
+        const nextBreakpoint = getChartLabelBreakpoint();
+        if (nextBreakpoint === state.chartLabelBreakpoint) {
+          return;
+        }
+        state.chartLabelBreakpoint = nextBreakpoint;
+        if (state.activeView === "roi" && state.roiMonths.length) {
+          renderRoiCharts();
+          return;
+        }
+        if (state.activeView === "meta" && state.metaModel && state.metaModel.months.length) {
+          renderMetaCharts(state.metaModel);
+        }
+      }, 120);
+    });
+  }
+
+  function bindSidebarDrawer() {
+    if (els.sidebarToggle) {
+      els.sidebarToggle.addEventListener("click", function () {
+        setSidebarOpen(!state.sidebarOpen);
+      });
+    }
+
+    if (els.sidebarBackdrop) {
+      els.sidebarBackdrop.addEventListener("click", function () {
+        setSidebarOpen(false);
+      });
+    }
+
+    window.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        setSidebarOpen(false);
+      }
+    });
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 900) {
+        setSidebarOpen(false, true);
+      }
+    });
+  }
+
+  function setSidebarOpen(open, silent) {
+    state.sidebarOpen = !!open;
+    if (els.sidebarPanel) {
+      els.sidebarPanel.classList.toggle("is-open", state.sidebarOpen);
+    }
+    if (els.sidebarBackdrop) {
+      els.sidebarBackdrop.classList.toggle("is-visible", state.sidebarOpen);
+    }
+    if (els.sidebarToggle) {
+      els.sidebarToggle.setAttribute("aria-expanded", state.sidebarOpen ? "true" : "false");
+      els.sidebarToggle.setAttribute("aria-label", state.sidebarOpen ? "Close navigation menu" : "Open navigation menu");
+    }
+    if (!silent && state.sidebarOpen && els.sidebarPanel) {
+      const firstControl = els.sidebarPanel.querySelector(".nav-link, .segment-link, button, select, input");
+      if (firstControl && typeof firstControl.focus === "function") {
+        firstControl.focus();
+      }
+    }
   }
 
   function hydrateDefaults() {
@@ -173,12 +264,19 @@
 
   async function bootstrap() {
     try {
-      state.performanceWorkbook = await fetchPerformanceWorkbook();
+      const loaded = await Promise.all([
+        fetchPerformanceWorkbook(),
+        fetchRoiAnalysis(),
+        fetchMetaAnalysis()
+      ]);
+      state.performanceWorkbook = loaded[0];
+      state.roiAnalysis = loaded[1];
+      state.metaAnalysis = loaded[2];
       state.availableClients = (state.performanceWorkbook && state.performanceWorkbook.clients) || [];
       renderClientOptions();
       const params = new URLSearchParams(window.location.search);
       const routeClient = params.get("client");
-      const selectedSlug = routeClient || DEFAULT_CLIENT_SLUG || (state.availableClients[0] && state.availableClients[0].slug) || "";
+      const selectedSlug = canonicalizeClientSlug(routeClient || DEFAULT_CLIENT_SLUG || (state.availableClients[0] && state.availableClients[0].slug) || "");
       els.clientSelect.value = state.availableClients.some(function (client) {
         return client.slug === selectedSlug;
       }) ? selectedSlug : ((state.availableClients[0] && state.availableClients[0].slug) || "");
@@ -208,8 +306,9 @@
 
     try {
       state.selectedMonth = selectedMonth;
-      updateRoute(selectedClientSlug, selectedMonth, state.activeView);
-      const performanceClient = getPerformanceClient(selectedClientSlug);
+      const canonicalClientSlug = canonicalizeClientSlug(selectedClientSlug);
+      updateRoute(canonicalClientSlug, selectedMonth, state.activeView);
+      const performanceClient = getPerformanceClient(canonicalClientSlug);
 
       if (!performanceClient) {
         throw new Error("The selected client was not found in the workbook data file.");
@@ -218,14 +317,16 @@
       state.client = performanceClient;
       syncClientFrame(performanceClient, selectedMonth);
 
-      const roiRows = getPerformanceRoiRows(selectedClientSlug);
-      const metaRows = getMetaRows(selectedClientSlug);
+      const roiRows = getPerformanceRoiRows(canonicalClientSlug);
+      const metaRows = getMetaRows(canonicalClientSlug);
 
       const roiMonths = buildRoiMetrics(getHistoricalMonthKeys(roiRows, selectedMonth, 3), roiRows);
+      const allRoiMonths = buildRoiMetrics(getAllMonthKeys(roiRows), roiRows);
       const filteredMetaRows = filterMetaRows(getHistoricalMonthKeys(metaRows, selectedMonth, 3), metaRows);
       state.roiMonths = roiMonths;
+      state.allRoiMonths = allRoiMonths;
       state.metaRows = filteredMetaRows;
-      state.metaModel = buildMetaModel(filteredMetaRows);
+      state.metaModel = normalizeMetaSpendBoundaryMonths(buildMetaModel(filteredMetaRows), roiRows);
       syncMetaExpandedCampaigns(state.metaModel);
 
       if (state.roiMonths.length) {
@@ -265,7 +366,91 @@
     if (!response.ok) {
       throw new Error("Could not load the performance workbook data file.");
     }
-    return response.json();
+    return normalizePerformanceWorkbook(await response.json());
+  }
+
+  async function fetchRoiAnalysis() {
+    try {
+      const response = await fetch("Data/roi-analysis.json?ts=" + Date.now(), {
+        cache: "no-store"
+      });
+      if (!response.ok) {
+        return {};
+      }
+      return await response.json();
+    } catch (_error) {
+      return {};
+    }
+  }
+
+  async function fetchMetaAnalysis() {
+    try {
+      const response = await fetch("Data/meta-analysis.json?ts=" + Date.now(), {
+        cache: "no-store"
+      });
+      if (!response.ok) {
+        return {};
+      }
+      return await response.json();
+    } catch (_error) {
+      return {};
+    }
+  }
+
+  function canonicalizeClientSlug(slug) {
+    var normalized = String(slug || "").trim();
+    var canonical = Object.keys(CLIENT_ALIASES).find(function (candidate) {
+      return CLIENT_ALIASES[candidate].indexOf(normalized) !== -1;
+    });
+    return canonical || normalized;
+  }
+
+  function normalizePerformanceWorkbook(workbook) {
+    var nextWorkbook = Object.assign({}, workbook);
+    var nextClients = ((workbook && workbook.clients) || []).slice();
+    var nextRowsByClientSlug = Object.assign({}, (workbook && workbook.rowsByClientSlug) || {});
+    var nextMetaRowsByClientSlug = Object.assign({}, (workbook && workbook.metaRowsByClientSlug) || {});
+
+    Object.keys(CLIENT_ALIASES).forEach(function (canonicalSlug) {
+      var aliases = CLIENT_ALIASES[canonicalSlug];
+      var matchingClients = nextClients.filter(function (client) {
+        return aliases.indexOf(client.slug) !== -1;
+      });
+
+      if (!matchingClients.length) {
+        return;
+      }
+
+      var canonicalClient = matchingClients.find(function (client) {
+        return client.slug === canonicalSlug;
+      }) || matchingClients[0];
+
+      canonicalClient = Object.assign({}, canonicalClient, { slug: canonicalSlug });
+
+      nextClients = nextClients.filter(function (client) {
+        return aliases.indexOf(client.slug) === -1;
+      });
+      nextClients.push(canonicalClient);
+
+      nextRowsByClientSlug[canonicalSlug] = aliases.reduce(function (rows, alias) {
+        return rows.concat(nextRowsByClientSlug[alias] || []);
+      }, []).sort(compareWorkbookRows);
+
+      nextMetaRowsByClientSlug[canonicalSlug] = aliases.reduce(function (rows, alias) {
+        return rows.concat(nextMetaRowsByClientSlug[alias] || []);
+      }, []).sort(compareWorkbookRows);
+    });
+
+    nextWorkbook.clients = nextClients.sort(function (left, right) {
+      return String(left.name || "").localeCompare(String(right.name || ""));
+    });
+    nextWorkbook.rowsByClientSlug = nextRowsByClientSlug;
+    nextWorkbook.metaRowsByClientSlug = nextMetaRowsByClientSlug;
+    return nextWorkbook;
+  }
+
+  function compareWorkbookRows(left, right) {
+    return toMonthKey(left.year, left.month).localeCompare(toMonthKey(right.year, right.month));
   }
 
   function getPerformanceClient(slug) {
@@ -331,7 +516,9 @@
         websiteTraffic: numeric(roi.website_traffic),
         adSpend: numeric(roi.ad_spend),
         totalRevenue: numeric(roi.total_booking_revenue),
+        totalRevenueLy: numeric(roi.ly_total_booking_revenue),
         directRevenue: numeric(roi.direct_booking_revenue),
+        directRevenueLy: numeric(roi.ly_direct_booking_revenue),
         directSplit: numeric(roi.direct_booking_split_pct)
       };
     }).filter(Boolean);
@@ -388,24 +575,33 @@
     return Array.from(monthSet).sort().slice(-limit);
   }
 
+  function getAllMonthKeys(rows) {
+    return Array.from(rows.reduce(function (set, row) {
+      set.add(toMonthKey(row.year, row.month));
+      return set;
+    }, new Set())).sort();
+  }
+
   function getFollowerStartValue(months) {
     if (!months.length || months.length === 1) {
       return 0;
     }
-    const candidate = months.slice(0, Math.min(months.length, 4)).find(function (month) {
-      return numeric(month.totalFollowers) > 0;
-    });
-    return candidate ? numeric(candidate.totalFollowers) : 0;
+    const firstValue = numeric(months[0].totalFollowers);
+    if (firstValue > 0) {
+      return firstValue;
+    }
+    return numeric((months[1] && months[1].totalFollowers) || 0);
   }
 
   function getPlatformStartValue(months, key) {
     if (!months.length || months.length === 1) {
       return 0;
     }
-    const candidate = months.slice(0, Math.min(months.length, 4)).find(function (month) {
-      return numeric(month[key]) > 0;
-    });
-    return candidate ? numeric(candidate[key]) : 0;
+    const firstValue = numeric(months[0][key]);
+    if (firstValue > 0) {
+      return firstValue;
+    }
+    return numeric((months[1] && months[1][key]) || 0);
   }
 
   function getLeadStartValue(months) {
@@ -444,8 +640,9 @@
     setText(els.summaryTotalRevenue, formatRoiCompactCurrency(totals.totalRevenue));
     setText(els.summaryDirectSplitAvg, formatPercent(totals.avgDirectSplit, 0));
     setText(els.summaryAvgCostPerLead, formatRoiCompactNumber(sumMetric(state.roiMonths, "totalLeads")));
+    setDefaultRoiOverviewLabels();
 
-    renderList(els.summaryOverviewList, [
+    const defaultOverviewItems = [
       peakViewsMonth
         ? peakViewsMonth.label + " delivered the strongest visibility with " + formatNumber(peakViewsMonth.totalViews) + " total views."
         : "View data is available from the workbook for the selected months.",
@@ -456,7 +653,9 @@
       peakRevenueMonth
         ? peakRevenueMonth.label + " was the top revenue month at " + formatCurrency(peakRevenueMonth.totalRevenue, 0) + "."
         : "Revenue data is loaded from the workbook."
-    ]);
+    ];
+    renderList(els.summaryOverviewList, defaultOverviewItems);
+    applyRoiAnalysis(canonicalizeClientSlug(state.client && state.client.slug), selectedMonth);
 
     const latestMonthLabel = latestMonth ? latestMonth.label : "Selected month";
 
@@ -485,27 +684,32 @@
     );
     setText(els.contentViewsChartSub, "Platform breakdown · " + formatShortMonthYearKey(firstMonth.key) + " – " + formatShortMonthYearKey(latestMonth.key));
 
-    setText(els.audienceTotalFollowers, formatRoiCompactNumber(netNewFollowers));
+    const instagramStart = getPlatformStartValue(state.roiMonths, "igFollowers");
+    const instagramCurrent = latestMonth ? numeric(latestMonth.igFollowers) : 0;
+    const instagramNetNew = Math.max(0, instagramCurrent - instagramStart);
+    const facebookStart = getPlatformStartValue(state.roiMonths, "fbFollowers");
+    const facebookCurrent = latestMonth ? numeric(latestMonth.fbFollowers) : 0;
+    const facebookNetNew = Math.max(0, facebookCurrent - facebookStart);
+    const tiktokStart = getPlatformStartValue(state.roiMonths, "tiktokFollowers");
+    const tiktokCurrent = latestMonth ? numeric(latestMonth.tiktokFollowers) : 0;
+    const tiktokNetNew = Math.max(0, tiktokCurrent - tiktokStart);
+    const totalPlatformNetNew = instagramNetNew + facebookNetNew + tiktokNetNew;
+
+    setText(els.audienceTotalFollowers, formatNumber(totalPlatformNetNew));
     setTrendBadge(els.audienceGrowthBadge, percentDelta(startedFollowers, latestFollowers));
     setText(els.audienceStartedFollowers, formatNumber(startedFollowers));
-    setText(els.audienceNetNewFollowers, "+" + formatNumber(netNewFollowers));
-    const instagramStart = getPlatformStartValue(state.roiMonths, "igFollowers");
-    const instagramNetNew = Math.max(0, totals.igFollowers - instagramStart);
-    const facebookStart = getPlatformStartValue(state.roiMonths, "fbFollowers");
-    const facebookNetNew = Math.max(0, totals.fbFollowers - facebookStart);
-    const tiktokStart = getPlatformStartValue(state.roiMonths, "tiktokFollowers");
-    const tiktokNetNew = Math.max(0, totals.tiktokFollowers - tiktokStart);
+    setText(els.audienceNetNewFollowers, "+" + formatNumber(totalPlatformNetNew));
 
-    setText(els.audienceInstagramFollowers, formatNumber(totals.igFollowers));
-    setTrendBadge(els.audienceInstagramNote, percentDelta(instagramStart, totals.igFollowers));
+    setText(els.audienceInstagramFollowers, formatNumber(instagramNetNew));
+    setTrendBadge(els.audienceInstagramNote, percentDelta(instagramStart, instagramCurrent));
     setText(els.audienceInstagramStart, formatNumber(instagramStart));
     setText(els.audienceInstagramShare, "+" + formatNumber(instagramNetNew));
-    setText(els.audienceFacebookFollowers, formatNumber(totals.fbFollowers));
-    setTrendBadge(els.audienceFacebookNote, percentDelta(facebookStart, totals.fbFollowers));
+    setText(els.audienceFacebookFollowers, formatNumber(facebookNetNew));
+    setTrendBadge(els.audienceFacebookNote, percentDelta(facebookStart, facebookCurrent));
     setText(els.audienceFacebookStart, formatNumber(facebookStart));
     setText(els.audienceFacebookShare, "+" + formatNumber(facebookNetNew));
-    setText(els.audienceCostPerFollower, formatNumber(totals.tiktokFollowers));
-    setTrendBadge(els.audienceCostPerFollowerNote, percentDelta(tiktokStart, totals.tiktokFollowers));
+    setText(els.audienceCostPerFollower, formatNumber(tiktokNetNew));
+    setTrendBadge(els.audienceCostPerFollowerNote, percentDelta(tiktokStart, tiktokCurrent));
     setText(els.audienceTiktokFollowers, formatNumber(tiktokStart));
     setText(els.audienceTiktokGrowth, "+" + formatNumber(tiktokNetNew));
     setText(els.audienceDistributionSub, latestMonth.label + " snapshot");
@@ -524,11 +728,9 @@
 
     setText(els.leadNewLeadsValue, formatRoiCompactNumber(totals.newLeads));
     setText(els.leadPipelineGrowth, "↑ " + formatPercent(latestMonth.leadGrowth, 0) + " growth");
-    const totalPipeline = state.roiMonths.reduce(function (sum, month) {
-      return sum + (month.totalLeads || 0);
-    }, 0);
+    const totalPipeline = latestMonth ? numeric(latestMonth.totalLeads) : 0;
     setText(els.leadTotalPipeline, formatNumber(totalPipeline));
-    setText(els.leadPipelineNote, state.roiMonths.length + "-month total pipeline");
+    setText(els.leadPipelineNote, latestMonth ? latestMonth.label + " pipeline total" : "Selected month pipeline");
     setText(els.leadAvgCostPerLead, formatNumber(currentLeads));
     setTrendBadge(els.leadCostBadge, percentDelta(startedLeads, currentLeads));
     setText(
@@ -593,6 +795,7 @@
     setText(els.summaryDirectSplitAvg, "0%");
     setText(els.summaryAvgCostPerLead, "0");
     setText(els.summaryAvgCostPerLeadNote, "As of selected month");
+    setDefaultRoiOverviewLabels();
 
     setText(els.contentInstagramViews, "0");
     setText(els.contentMetaViews, "0");
@@ -711,7 +914,6 @@
     const totalRevenueColor = "#2563EB";
     const directRevenueColor = "#7C3AED";
     const splitColor = "#2563EB";
-
     function createChart(id, key, options) {
       const target = document.getElementById(id);
       if (!target) {
@@ -755,18 +957,60 @@
       };
     }
 
+    function buildResponsiveXAxisLabelOptions(categories, options) {
+      options = options || {};
+      const breakpoint = getChartLabelBreakpoint();
+      const count = Array.isArray(categories) ? categories.length : 0;
+      let step = 1;
+
+      if (breakpoint === "xs") {
+        step = count > 8 ? 3 : count > 4 ? 2 : 1;
+      } else if (breakpoint === "sm") {
+        step = count > 10 ? 3 : count > 5 ? 2 : 1;
+      } else if (breakpoint === "md") {
+        step = count > 12 ? 2 : 1;
+      }
+
+      const rotate = typeof options.rotate === "number"
+        ? options.rotate
+        : breakpoint === "xs"
+          ? -55
+          : breakpoint === "sm"
+            ? -40
+            : 0;
+      const fontSize = breakpoint === "xs" ? "10px" : breakpoint === "sm" ? "11px" : "12px";
+      const minHeight = rotate ? (breakpoint === "xs" ? 62 : 52) : 36;
+      const maxHeight = rotate ? (breakpoint === "xs" ? 62 : 52) : 40;
+
+      return {
+        hideOverlappingLabels: false,
+        trim: false,
+        rotate: rotate,
+        rotateAlways: rotate !== 0,
+        minHeight: minHeight,
+        maxHeight: maxHeight,
+        offsetY: options.offsetY || 0,
+        style: {
+          colors: options.colors || axisText,
+          fontSize: fontSize,
+          fontWeight: options.fontWeight || 600
+        },
+        formatter: function (value, _timestamp, opts) {
+          const index = opts && typeof opts.i === "number" ? opts.i : categories.indexOf(value);
+          if (step > 1 && index >= 0 && index % step !== 0 && index !== count - 1) {
+            return "";
+          }
+          return value;
+        }
+      };
+    }
+
     function sharedAxis(yFormatter, extra) {
       extra = extra || {};
       return {
         xaxis: {
           categories: shortLabels,
-          labels: {
-            style: {
-              colors: axisText,
-              fontSize: "12px",
-              fontWeight: 600
-            }
-          },
+          labels: buildResponsiveXAxisLabelOptions(shortLabels),
           axisBorder: { show: false },
           axisTicks: { color: gridColor }
         },
@@ -945,7 +1189,16 @@
               size: "70%",
               labels: {
                 show: true,
-                value: { show: false },
+                value: {
+                  show: true,
+                  fontSize: "18px",
+                  fontWeight: 700,
+                  color: axisText,
+                  offsetY: 18,
+                  formatter: function (value) {
+                    return formatPercent(share(numeric(value), latest.totalFollowers), 0);
+                  }
+                },
                 total: {
                   show: true,
                   label: latest.shortLabel + " Followers",
@@ -1068,14 +1321,7 @@
       xaxis: {
         categories: compactMonthYearLabels,
         tickPlacement: "on",
-        labels: {
-          hideOverlappingLabels: false,
-          trim: false,
-          minHeight: 40,
-          maxHeight: 40,
-          offsetY: 4,
-          style: { colors: axisText, fontSize: "12px", fontWeight: 600 }
-        },
+        labels: buildResponsiveXAxisLabelOptions(compactMonthYearLabels, { offsetY: 4 }),
         axisBorder: { show: false },
         axisTicks: { color: gridColor }
       },
@@ -1145,10 +1391,84 @@
         }
       }
     ));
+
+    createChart("revenueLyChart", "roi-revenue-ly", {
+      series: [
+        { name: "Total Revenue", data: state.allRoiMonths.map(function (month) { return month.totalRevenue; }) },
+        { name: "Direct Booking Revenue", data: state.allRoiMonths.map(function (month) { return month.directRevenue; }) },
+        { name: "LY Revenue", data: state.allRoiMonths.map(function (month) { return month.totalRevenueLy; }) }
+      ],
+      chart: {
+        type: "line",
+        height: 210,
+        fontFamily: "Inter, sans-serif",
+        toolbar: { show: false },
+        animations: { enabled: true, easing: "easeinout", speed: 520 },
+        zoom: { enabled: false }
+      },
+      dataLabels: { enabled: false },
+      stroke: {
+        curve: "smooth",
+        width: [3.5, 3, 3],
+        dashArray: [0, 0, 7]
+      },
+      xaxis: {
+        categories: state.allRoiMonths.map(function (month) { return formatShortMonthYearKeyCompact(month.key); }),
+        tickPlacement: "on",
+        labels: buildResponsiveXAxisLabelOptions(
+          state.allRoiMonths.map(function (month) { return formatShortMonthYearKeyCompact(month.key); }),
+          { offsetY: 4 }
+        ),
+        axisBorder: { show: false },
+        axisTicks: { color: gridColor }
+      },
+      yaxis: {
+        min: 0,
+        labels: {
+          minWidth: 64,
+          style: { colors: mutedText, fontSize: "12px", fontWeight: 600 },
+          formatter: formatCurrencyCompact
+        }
+      },
+      colors: [totalRevenueColor, directRevenueColor, "#94A3B8"],
+      grid: {
+        borderColor: gridColor,
+        strokeDashArray: 0,
+        xaxis: { lines: { show: false } },
+        padding: { left: 8, right: 18, top: 6, bottom: 0 }
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        theme: "light",
+        y: {
+          formatter: function (value) {
+            return formatCurrency(value, 0);
+          }
+        }
+      },
+      markers: {
+        size: 4,
+        strokeColors: "#ffffff",
+        strokeWidth: 2,
+        hover: { size: 6 }
+      },
+      legend: {
+        position: "bottom",
+        horizontalAlign: "center",
+        offsetY: 6,
+        fontSize: "13px",
+        fontWeight: 600,
+        labels: { colors: axisText },
+        markers: { radius: 4 }
+      }
+    });
   }
 
   function renderMetaView(selectedMonth) {
     const meta = state.metaModel || buildMetaModel(state.metaRows);
+    const pendingMetaScrollKey = state.pendingMetaScrollKey;
+    state.pendingMetaScrollKey = "";
     if (!meta.months.length) {
       els.metaView.innerHTML = [
         '<div class="meta-view">',
@@ -1189,6 +1509,15 @@
     ].join("");
 
     els.metaView.innerHTML = header;
+    bindMetaViewInteractions();
+    if (pendingMetaScrollKey) {
+      requestAnimationFrame(function () {
+        const target = els.metaView.querySelector('[data-meta-campaign-section="' + pendingMetaScrollKey + '"]');
+        if (target && typeof target.scrollIntoView === "function") {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
     renderMetaCharts(meta);
   }
 
@@ -1201,11 +1530,11 @@
       renderMetaChartCard("Revenue vs. Spend Trend", "Monthly direct revenue and total spend", "meta-rev-spend"),
       '<div class="meta-feature-stack">' +
         renderMetaKpiNoSpark("Total ad spend", meta.months, function (month) { return month.totalSpend; }, formatCurrency) +
-        renderMetaKpiNoSpark("Blended ROAS", meta.months, function (month) { return month.blendedRoas; }, formatMultiple) +
+        renderMetaKpiNoSpark("Avg booking value", meta.months, function (month) { return month.avgBookingValue; }, formatCurrency) +
       '</div>',
       "</div>",
       '<div class="meta-chart-grid meta-chart-grid-2">',
-      renderMetaChartCard("Blended ROAS trend", "Month-over-month benchmark lines shown", "meta-roas-trend"),
+      renderMetaChartCard("Avg booking value trend", "Month-over-month booking value lines shown", "meta-booking-value-trend"),
       renderMetaChartCard("Monthly Revenue by Campaign Type", "How each campaign type contributed each month", "meta-bookings"),
       "</div>",
       "</section>"
@@ -1213,6 +1542,17 @@
   }
 
   function renderMetaSummaryStrip(meta) {
+    const analysisEntry = getMetaAnalysisEntry(canonicalizeClientSlug(state.client && state.client.slug), state.selectedMonth);
+    if (analysisEntry && Array.isArray(analysisEntry.performance_overview) && analysisEntry.performance_overview.length) {
+      return [
+        '<section class="meta-summary-strip">',
+        analysisEntry.performance_overview.slice(0, 6).map(function (item) {
+          return renderMetaSummaryStat(item.label || "-", item.value || "-", item.note || "");
+        }).join(""),
+        "</section>"
+      ].join("");
+    }
+
     const summary = buildMetaSummary(meta);
 
     return [
@@ -1287,7 +1627,7 @@
       '<div class="meta-channel-icon" style="background:' + accent.bg + "; color:" + accent.color + ';">' + accent.icon + "</div>",
       '<div><div class="meta-channel-title">' + escapeHtml(campaignType) + '</div><div class="meta-channel-subtitle">' + escapeHtml(accent.subtitle) + "</div></div>",
       "</div>",
-      '<div class="meta-channel-toggle">' + (isOpen ? "Hide" : "Show") + "</div>",
+      '<button class="meta-channel-toggle" type="button" data-meta-campaign-toggle-button="' + escapeHtml(campaignType) + '" aria-expanded="' + (isOpen ? "true" : "false") + '" aria-label="' + (isOpen ? "Hide " : "Show ") + escapeHtml(campaignType) + ' details">' + (isOpen ? "Hide" : "Show") + "</button>",
       "</div>",
       '<div class="meta-channel-stats">',
       renderMetaChannelStat("Total Spend", formatCurrency(summary.totalSpend, 0), summary.monthCount + "-month total"),
@@ -1320,6 +1660,57 @@
     };
   }
 
+  function buildRetargetingRoasTakeaway(rows) {
+    if (!rows.length) {
+      return "ROAS data is not available for this period.";
+    }
+
+    const peakRoasRow = highestRow(rows, "roas");
+    const lowRoasRow = lowestPositiveRow(rows, "roas");
+    const latestRow = rows[rows.length - 1];
+
+    if (!peakRoasRow) {
+      return "ROAS data is not available for this period.";
+    }
+
+    if (latestRow && latestRow === peakRoasRow) {
+      return latestRow.label + " posted the strongest ROAS at " + formatMultiple(latestRow.roas) + ", showing retargeting efficiency improved into the latest month.";
+    }
+
+    if (lowRoasRow && peakRoasRow !== lowRoasRow) {
+      return peakRoasRow.label + " posted the strongest ROAS at " + formatMultiple(peakRoasRow.roas) + ", up from " + formatMultiple(lowRoasRow.roas) + " in " + lowRoasRow.label + ".";
+    }
+
+    return peakRoasRow.label + " posted the strongest ROAS at " + formatMultiple(peakRoasRow.roas) + ".";
+  }
+
+  function buildDiscoveryTrafficTakeaway(rows) {
+    if (!rows.length) {
+      return "Traffic data is not available for this period.";
+    }
+
+    const peakImpressionsRow = highestRow(rows, "impressions");
+    const peakVisitsRow = highestRow(rows, "profileVisits");
+    const latestRow = rows[rows.length - 1];
+    const latestVisitShare = latestRow && latestRow.impressions > 0
+      ? latestRow.profileVisits / latestRow.impressions
+      : 0;
+
+    if (peakImpressionsRow && peakVisitsRow && peakImpressionsRow.key === peakVisitsRow.key) {
+      return peakImpressionsRow.label + " led both reach and traffic, with " + formatNumber(peakImpressionsRow.impressions) + " impressions and " + formatNumber(peakImpressionsRow.profileVisits) + " page visits.";
+    }
+
+    if (latestRow && latestVisitShare > 0) {
+      return latestRow.label + " converted reach into " + formatNumber(latestRow.profileVisits) + " page visits from " + formatNumber(latestRow.impressions) + " impressions.";
+    }
+
+    if (peakImpressionsRow) {
+      return peakImpressionsRow.label + " delivered the strongest reach at " + formatNumber(peakImpressionsRow.impressions) + " impressions.";
+    }
+
+    return "Traffic data is not available for this period.";
+  }
+
   function isMetaCampaignExpanded(campaignType) {
     return !!state.metaExpandedCampaigns[metaCampaignToggleKey(campaignType)];
   }
@@ -1345,13 +1736,20 @@
     const retargetingSummary = isRetargeting ? summarizeRetargetingRows(rows) : null;
     const discoverySummary = isDiscovery ? summarizeDiscoveryRows(rows) : null;
     const rangeLabel = formatMetaMonthRange(rows);
+    const analysisEntry = getMetaAnalysisEntry(canonicalizeClientSlug(state.client && state.client.slug), state.selectedMonth);
+    const retargetingTakeaways = analysisEntry && Array.isArray(analysisEntry.retargeting_key_takeaways) && analysisEntry.retargeting_key_takeaways.length
+      ? analysisEntry.retargeting_key_takeaways
+      : [buildRetargetingRoasTakeaway(rows)];
+    const discoveryTakeaways = analysisEntry && Array.isArray(analysisEntry.discovery_key_takeaways) && analysisEntry.discovery_key_takeaways.length
+      ? analysisEntry.discovery_key_takeaways
+      : [buildDiscoveryTrafficTakeaway(rows)];
 
     if (isRetargeting) {
       return [
-        '<div class="meta-section" style="margin:26px 0 20px;">',
+        '<div class="meta-section" data-meta-campaign-section="' + escapeHtml(chartKey) + '" style="margin:26px 0 20px;">',
         renderMetaStageHeader("—", campaignType + " Campaign"),
         '<div class="meta-campaign-table-card"><div class="meta-campaign-table-wrap"><table class="meta-campaign-table">',
-        "<thead><tr><th>Month</th><th>Spend</th><th>Revenue</th><th>ROAS</th><th>Impressions</th><th>Page Visits</th><th>Bookings</th><th>Avg Booking Value</th><th>Cost/Booking</th><th>Cost/Booking %</th></tr></thead>",
+        "<thead><tr><th>Month</th><th>Spend</th><th>Revenue</th><th>ROAS</th><th>Impressions</th><th>Page Visits</th><th>Bookings</th><th>Cost/Booking</th><th>Cost/Booking %</th></tr></thead>",
         "<tbody>",
         rows.map(renderMetaCampaignTableRow).join(""),
         "</tbody></table></div></div>",
@@ -1365,17 +1763,17 @@
         "</div>",
         '<div class="meta-chart-grid meta-chart-grid-2" style="margin-top:22px;">',
         renderMetaChartCard("ROAS by month", "Shows how efficiently retargeting turned spend into revenue each month", "meta-" + chartKey + "-roas-month"),
-        renderMetaChartCard("Avg booking value", "Average revenue from each tracked booking by month", "meta-" + chartKey + "-booking-value"),
+        renderMetaTakeawayCard(retargetingTakeaways),
         "</div>",
         "</div>"
       ].join("");
     }
 
     return [
-      '<div class="meta-section" style="margin:26px 0 20px;">',
+      '<div class="meta-section" data-meta-campaign-section="' + escapeHtml(chartKey) + '" style="margin:26px 0 20px;">',
       renderMetaStageHeader("—", campaignType + " Campaign"),
       '<div class="meta-campaign-table-card"><div class="meta-campaign-table-wrap"><table class="meta-campaign-table">',
-      "<thead><tr><th>Month</th><th>Spend</th><th>Revenue</th><th>ROAS</th><th>Impressions</th><th>Followers</th><th>Page Visits</th><th>Bookings</th><th>Avg Booking Value</th><th>Cost/Booking</th><th>Cost/Booking %</th></tr></thead>",
+      "<thead><tr><th>Month</th><th>Spend</th><th>Revenue</th><th>ROAS</th><th>Impressions</th><th>Followers</th><th>Page Visits</th><th>Bookings</th><th>Cost/Booking</th><th>Cost/Booking %</th></tr></thead>",
       "<tbody>",
       rows.map(renderMetaDiscoveryCampaignTableRow).join(""),
       "</tbody></table></div></div>",
@@ -1396,7 +1794,7 @@
             "</div>",
             '<div class="meta-chart-grid meta-chart-grid-2" style="margin-top:18px;">',
             renderMetaChartCard("Impressions vs page visits", "Reach compared with the visits driven from that traffic", "meta-" + chartKey + "-impressions-visits"),
-            renderMetaChartCard("Avg booking value", "Average revenue earned from each booking by month", "meta-" + chartKey + "-booking-value"),
+            renderMetaTakeawayCard(discoveryTakeaways),
             "</div>"
           ].join("")
         : [
@@ -1506,7 +1904,6 @@
       '<td class="meta-strong">' + escapeHtml(formatNumber(row.impressions)) + "</td>",
       '<td class="meta-strong">' + escapeHtml(formatNumber(row.profileVisits)) + "</td>",
       '<td class="meta-strong">' + escapeHtml(formatNullableNumber(totalCampaignBookings(row))) + "</td>",
-      '<td class="meta-strong">' + escapeHtml(formatNullableCurrency(row.avgBookingValue)) + "</td>",
       '<td class="meta-strong">' + escapeHtml(formatNullableCurrency(row.costPerBooking)) + "</td>",
       '<td class="meta-strong">' + escapeHtml(formatNullablePercent(row.pctAvgBookingValue)) + "</td>",
       "</tr>"
@@ -1524,7 +1921,6 @@
       '<td class="meta-strong">' + escapeHtml(formatNullableNumber(row.leadsFollowers)) + "</td>",
       '<td class="meta-strong">' + escapeHtml(formatNumber(row.profileVisits)) + "</td>",
       '<td class="meta-strong">' + escapeHtml(formatNullableNumber(totalCampaignBookings(row))) + "</td>",
-      '<td class="meta-strong">' + escapeHtml(formatNullableCurrency(row.avgBookingValue)) + "</td>",
       '<td class="meta-strong">' + escapeHtml(formatNullableCurrency(row.costPerBooking)) + "</td>",
       '<td class="meta-strong">' + escapeHtml(formatNullablePercent(row.pctAvgBookingValue)) + "</td>",
       "</tr>"
@@ -1591,15 +1987,19 @@
 
 
   function renderMetaInsights(meta) {
+    const analysisEntry = getMetaAnalysisEntry(canonicalizeClientSlug(state.client && state.client.slug), state.selectedMonth);
     const bestRoas = highestMonth(meta.months, "blendedRoas");
+    const insightTakeaways = analysisEntry && Array.isArray(analysisEntry.performance_insights) && analysisEntry.performance_insights.length
+      ? analysisEntry.performance_insights
+      : [
+          bestRoas ? bestRoas.label + " posted the strongest blended ROAS at " + formatMultiple(bestRoas.blendedRoas) + "." : "ROAS data is limited for the selected months."
+        ];
 
     return [
       '<section class="meta-section" id="meta-insights">',
       renderMetaStageHeader("03", "Performance Insights"),
       '<div class="meta-insight-split">',
-      renderMetaTakeawayCard([
-        bestRoas ? bestRoas.label + " posted the strongest blended ROAS at " + formatMultiple(bestRoas.blendedRoas) + "." : "ROAS data is limited for the selected months."
-      ]),
+      renderMetaTakeawayCard(insightTakeaways),
       renderMetaEfficiencyCard(meta),
       "</div>",
       "</section>"
@@ -1758,9 +2158,12 @@
     const monthLabels = meta.months.map(function (month) { return month.label; });
     const shortYearLabels = meta.months.map(function (month) { return month.shortYearLabel || formatShortMonthYearKeyCompact(month.key); });
     const shortMonthLabels = meta.months.map(function (month) { return month.shortLabel; });
-    const roasSeries = meta.months.map(function (month) { return month.blendedRoas; });
-    const roasMax = Math.max.apply(null, roasSeries.concat([10]));
-    const roasCeiling = roundUpAxis(roasMax);
+    const bookingValueSeries = meta.months.map(function (month) { return month.avgBookingValue; });
+    const bookingValueMax = Math.max.apply(null, bookingValueSeries.concat([0]));
+    const bookingValueMin = Math.min.apply(null, bookingValueSeries.filter(function (value) {
+      return numeric(value) > 0;
+    }).concat([0]));
+    const bookingValueAxis = buildCurrencyAxisBounds(bookingValueMin, bookingValueMax, 250);
 
     const revenueChartEl = document.querySelector("#meta-rev-spend");
     if (revenueChartEl) {
@@ -1779,14 +2182,7 @@
       ],
       xaxis: Object.assign({}, sharedXAxis(shortYearLabels, { offsetY: 8 }), {
         tickPlacement: "between",
-        labels: {
-          style: { colors: "#8FA1BF", fontSize: "11px", fontWeight: 600 },
-          hideOverlappingLabels: false,
-          trim: false,
-          rotate: 0,
-          minHeight: 36,
-          maxHeight: 36
-        }
+        labels: buildResponsiveSharedXAxisLabels(shortYearLabels, { offsetY: 8 })
       }),
       yaxis: sharedYAxis(function (value) { return formatCurrencyCompact(value); }, { minWidth: 52, offsetX: 4 }),
       colors: ["#4F7DF3", "#F59E0B"],
@@ -1809,17 +2205,23 @@
       }), "meta-rev-spend");
     }
 
-    const roasChartEl = document.querySelector("#meta-roas-trend");
+    const roasChartEl = document.querySelector("#meta-booking-value-trend");
     if (roasChartEl) {
       pushChart(new ApexCharts(roasChartEl, {
       chart: Object.assign({}, sharedChart("line", 280), {
         offsetX: 0
       }),
       series: [
-        { name: "Blended ROAS", type: "line", data: roasSeries }
+        { name: "Avg booking value", type: "line", data: bookingValueSeries }
       ],
       xaxis: sharedXAxis(monthLabels, { offsetY: 6 }),
-      yaxis: sharedYAxis(function (value) { return round2(value) + "x"; }, { offsetX: 4, minWidth: 40, min: 0, max: roasCeiling, tickAmount: 6 }),
+      yaxis: sharedYAxis(function (value) { return formatCurrencyCompact(value); }, {
+        offsetX: 4,
+        minWidth: 40,
+        min: bookingValueAxis.min,
+        max: bookingValueAxis.max,
+        tickAmount: bookingValueAxis.tickAmount
+      }),
       colors: [monthColor(2)],
       stroke: { width: 3, curve: "smooth", lineCap: "round" },
       markers: {
@@ -1834,10 +2236,10 @@
       tooltip: {
         shared: false,
         intersect: true,
-        y: { formatter: function (value) { return formatMultiple(value); } }
+        y: { formatter: function (value) { return formatCurrency(value, 0); } }
       },
       dataLabels: { enabled: false }
-      }), "meta-roas-trend");
+      }), "meta-booking-value-trend");
     }
 
     const bookingsChartEl = document.querySelector("#meta-bookings");
@@ -1896,12 +2298,9 @@
       if (isRetargeting) {
         const spendRevenueEl = document.querySelector("#meta-" + chartKey + "-spend-revenue");
         const roasMonthEl = document.querySelector("#meta-" + chartKey + "-roas-month");
-        const bookingValueEl = document.querySelector("#meta-" + chartKey + "-booking-value");
         const spendValues = rows.map(function (row) { return numeric(row.spend); });
         const revenueValues = rows.map(function (row) { return numeric(row.revenue); });
-        const bookingValueValues = rows.map(function (row) { return numeric(row.avgBookingValue); });
         const roasMonthMax = roundUpAxis(Math.max.apply(null, performanceValues.concat([2])));
-        const bookingValueMax = roundUpValue(Math.max.apply(null, bookingValueValues.concat([0])));
 
         if (spendRevenueEl) {
           pushChart(new ApexCharts(spendRevenueEl, {
@@ -1914,12 +2313,7 @@
             ],
             xaxis: Object.assign({}, sharedXAxis(campaignMonthLabels, { offsetY: 8 }), {
               tickPlacement: "between",
-              labels: {
-                style: { colors: "#8FA1BF", fontSize: "11px", fontWeight: 600 },
-                hideOverlappingLabels: false,
-                trim: false,
-                rotate: 0
-              }
+              labels: buildResponsiveSharedXAxisLabels(campaignMonthLabels, { offsetY: 8 })
             }),
             yaxis: sharedYAxis(function (value) { return formatCurrencyCompact(value); }, { minWidth: 54, offsetX: 4 }),
             colors: ["#2663EB", "#F7AD43"],
@@ -1968,24 +2362,6 @@
           }), "meta-" + chartKey + "-roas-month");
         }
 
-        if (bookingValueEl) {
-          pushChart(new ApexCharts(bookingValueEl, {
-            chart: sharedChart("bar", 215),
-            series: [{ name: "Avg booking value", type: "bar", data: bookingValueValues }],
-            xaxis: sharedXAxis(campaignMonthLabels, { offsetY: 6 }),
-            yaxis: sharedYAxis(function (value) { return formatCurrencyCompact(value); }, { offsetX: 4, minWidth: 52, min: 0, max: bookingValueMax, tickAmount: 4 }),
-            colors: ["#12B981"],
-            plotOptions: sharedBarPlot(),
-            grid: sharedGrid({ padding: { left: 16, right: 10, top: 10, bottom: 18 } }),
-            legend: { show: false },
-            tooltip: {
-              shared: false,
-              intersect: true,
-              y: { formatter: function (value) { return formatCurrency(value, 0); } }
-            },
-            dataLabels: { enabled: false }
-          }), "meta-" + chartKey + "-booking-value");
-        }
 
         return;
       }
@@ -1994,15 +2370,12 @@
         const spendRevenueEl = document.querySelector("#meta-" + chartKey + "-spend-revenue");
         const roasEl = document.querySelector("#meta-" + chartKey + "-roas");
         const impressionsVisitsEl = document.querySelector("#meta-" + chartKey + "-impressions-visits");
-        const bookingValueEl = document.querySelector("#meta-" + chartKey + "-booking-value");
         const spendValues = rows.map(function (row) { return numeric(row.spend); });
         const revenueValues = rows.map(function (row) { return numeric(row.revenue); });
         const impressionValues = rows.map(function (row) { return numeric(row.impressions); });
         const visitValues = rows.map(function (row) { return numeric(row.profileVisits); });
-        const bookingValueValues = rows.map(function (row) { return numeric(row.avgBookingValue); });
         const roasMax = roundUpAxis(Math.max.apply(null, performanceValues.concat([2])));
         const impressionsVisitsMax = roundUpValue(Math.max.apply(null, impressionValues.concat(visitValues).concat([0])));
-        const bookingValueMax = roundUpValue(Math.max.apply(null, bookingValueValues.concat([0])));
 
         if (spendRevenueEl) {
           pushChart(new ApexCharts(spendRevenueEl, {
@@ -2015,12 +2388,7 @@
             ],
             xaxis: Object.assign({}, sharedXAxis(campaignMonthLabels, { offsetY: 8 }), {
               tickPlacement: "between",
-              labels: {
-                style: { colors: "#8FA1BF", fontSize: "11px", fontWeight: 600 },
-                hideOverlappingLabels: false,
-                trim: false,
-                rotate: 0
-              }
+              labels: buildResponsiveSharedXAxisLabels(campaignMonthLabels, { offsetY: 8 })
             }),
             yaxis: sharedYAxis(function (value) { return formatCurrencyCompact(value); }, { minWidth: 54, offsetX: 4 }),
             colors: ["#2663EB", "#F7AD43"],
@@ -2097,24 +2465,6 @@
           }), "meta-" + chartKey + "-impressions-visits");
         }
 
-        if (bookingValueEl) {
-          pushChart(new ApexCharts(bookingValueEl, {
-            chart: sharedChart("bar", 235),
-            series: [{ name: "Avg booking value", type: "bar", data: bookingValueValues }],
-            xaxis: sharedXAxis(campaignMonthLabels, { offsetY: 6 }),
-            yaxis: sharedYAxis(function (value) { return formatCurrencyCompact(value); }, { offsetX: 4, minWidth: 52, min: 0, max: bookingValueMax, tickAmount: 4 }),
-            colors: ["#2663EB"],
-            plotOptions: sharedBarPlot(),
-            grid: sharedGrid({ padding: { left: 16, right: 10, top: 10, bottom: 18 } }),
-            legend: { show: false },
-            tooltip: {
-              shared: false,
-              intersect: true,
-              y: { formatter: function (value) { return formatCurrency(value, 0); } }
-            },
-            dataLabels: { enabled: false }
-          }), "meta-" + chartKey + "-booking-value");
-        }
 
         return;
       }
@@ -2331,16 +2681,18 @@
           totalSpend: 0,
           attributedRevenue: 0,
           blendedRoas: 0,
+          avgBookingValue: 0,
           maxEmailBookings: 0,
           maxFbBookings: 0
         };
       }
 
       monthMap[row.key].totalSpend += row.spend;
-      monthMap[row.key].attributedRevenue = Math.max(monthMap[row.key].attributedRevenue, numeric(row.revenue));
+      monthMap[row.key].attributedRevenue += numeric(row.revenue);
       monthMap[row.key].blendedRoas = Math.max(monthMap[row.key].blendedRoas, numeric(row.blendedRoas) || numeric(row.roas));
-      monthMap[row.key].maxEmailBookings = Math.max(monthMap[row.key].maxEmailBookings, numeric(row.bookingsEmail));
-      monthMap[row.key].maxFbBookings = Math.max(monthMap[row.key].maxFbBookings, numeric(row.bookingsFb));
+      monthMap[row.key].avgBookingValue = Math.max(monthMap[row.key].avgBookingValue, numeric(row.avgBookingValue));
+      monthMap[row.key].maxEmailBookings += numeric(row.bookingsEmail);
+      monthMap[row.key].maxFbBookings += numeric(row.bookingsFb);
 
       if (!rowsByCampaign[row.campaignType]) {
         rowsByCampaign[row.campaignType] = [];
@@ -2368,6 +2720,25 @@
       rowsByCampaign: rowsByCampaign,
       campaignTypes: campaignOrder
     };
+  }
+
+  function normalizeMetaSpendBoundaryMonths(meta, roiRows) {
+    if (!meta || !meta.months || !meta.months.length) {
+      return meta;
+    }
+
+    const roiMap = (roiRows || []).reduce(function (accumulator, row) {
+      accumulator[toMonthKey(row.year, row.month)] = numeric(row.ad_spend);
+      return accumulator;
+    }, {});
+
+    meta.months.forEach(function (month) {
+      if ((month.key === "2025-12" || month.key === "2026-01") && Object.prototype.hasOwnProperty.call(roiMap, month.key)) {
+        month.totalSpend = roiMap[month.key];
+      }
+    });
+
+    return meta;
   }
 
   function buildMetaSummary(meta) {
@@ -2427,22 +2798,6 @@
   }
 
   function handleNavClick(event) {
-    const metaComparisonToggle = event.target.closest("[data-meta-comparison-toggle]");
-    if (metaComparisonToggle) {
-      event.preventDefault();
-      state.metaComparisonExpanded = !state.metaComparisonExpanded;
-      destroyCharts("meta-");
-      renderMetaView(els.monthInput.value);
-      return;
-    }
-
-    const metaChannelCard = event.target.closest("[data-meta-campaign-toggle]");
-    if (metaChannelCard) {
-      event.preventDefault();
-      handleMetaCampaignToggle(metaChannelCard.getAttribute("data-meta-campaign-toggle"));
-      return;
-    }
-
     const link = event.target.closest(".nav-link");
     if (!link) {
       return;
@@ -2460,6 +2815,7 @@
 
     event.preventDefault();
     target.scrollIntoView({ behavior: "smooth", block: "start" });
+    setSidebarOpen(false, true);
 
     const navRoot = link.closest(".sidebar-nav");
     if (navRoot) {
@@ -2469,8 +2825,43 @@
     }
   }
 
+  function bindMetaViewInteractions() {
+    if (!els.metaView) {
+      return;
+    }
+
+    const comparisonToggle = els.metaView.querySelector("[data-meta-comparison-toggle]");
+    if (comparisonToggle) {
+      comparisonToggle.addEventListener("click", function (event) {
+        event.preventDefault();
+        state.metaComparisonExpanded = !state.metaComparisonExpanded;
+        destroyCharts("meta-");
+        renderMetaView(els.monthInput.value);
+      });
+    }
+
+    els.metaView.querySelectorAll("[data-meta-campaign-toggle-button]").forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        handleMetaCampaignToggle(button.getAttribute("data-meta-campaign-toggle-button"));
+      });
+    });
+
+    els.metaView.querySelectorAll("[data-meta-campaign-toggle]").forEach(function (card) {
+      card.addEventListener("click", function (event) {
+        if (event.target.closest("[data-meta-campaign-toggle-button]")) {
+          return;
+        }
+        event.preventDefault();
+        handleMetaCampaignToggle(card.getAttribute("data-meta-campaign-toggle"));
+      });
+    });
+  }
+
   function switchView(view) {
     state.activeView = view === "meta" ? "meta" : "roi";
+    setSidebarOpen(false, true);
     els.sidebarDashboardTitle.textContent = state.activeView === "meta" ? "Meta Ads Dashboard" : "Performance Dashboard";
     applyViewState();
     updateRoute(els.clientSelect.value, els.monthInput.value, state.activeView);
@@ -2497,6 +2888,7 @@
       state.metaExpandedCampaigns[existingKey] = false;
     });
     state.metaExpandedCampaigns[key] = shouldOpen;
+    state.pendingMetaScrollKey = shouldOpen ? key : "";
     destroyCharts("meta-");
     renderMetaView(els.monthInput.value);
   }
@@ -2545,6 +2937,82 @@
     element.innerHTML = items.map(function (item) {
       return "<li>" + escapeHtml(item) + "</li>";
     }).join("");
+  }
+
+  function setDefaultRoiOverviewLabels() {
+    setText(els.summaryLabel1, "New Followers");
+    setText(els.summaryLabel2, "Total Views");
+    setText(els.summaryLabel3, "Total Revenue");
+    setText(els.summaryLabel4, "Total Pipeline");
+    setText(els.summaryLabel5, "New Leads");
+    setText(els.summaryLabel6, "Direct Split");
+    setText(els.summaryNote1, "Selected range");
+    setText(els.summaryNote2, "All platforms");
+    setText(els.summaryNote3, "Period total");
+    setText(els.summaryNote5, "Acquired");
+    setText(els.summaryNote6, "Average");
+  }
+
+  function applyRoiAnalysis(clientSlug, selectedMonth) {
+    const entry = getRoiAnalysisEntry(clientSlug, selectedMonth);
+    if (!entry) {
+      return;
+    }
+
+    const overview = Array.isArray(entry.performance_overview) ? entry.performance_overview.slice(0, 6) : [];
+    const overviewValues = [
+      els.summaryNewFollowers,
+      els.summaryTotalImpressions,
+      els.summaryTotalRevenue,
+      els.summaryAvgCostPerLead,
+      els.summaryNewLeads,
+      els.summaryDirectSplitAvg
+    ];
+    const overviewLabels = [
+      els.summaryLabel1,
+      els.summaryLabel2,
+      els.summaryLabel3,
+      els.summaryLabel4,
+      els.summaryLabel5,
+      els.summaryLabel6
+    ];
+    const overviewNotes = [
+      els.summaryNote1,
+      els.summaryNote2,
+      els.summaryNote3,
+      els.summaryAvgCostPerLeadNote,
+      els.summaryNote5,
+      els.summaryNote6
+    ];
+
+    overview.forEach(function (item, index) {
+      if (!overviewValues[index]) {
+        return;
+      }
+      setText(overviewLabels[index], item.label || "-");
+      setText(overviewValues[index], item.value || "-");
+      setText(overviewNotes[index], item.note || "");
+    });
+
+    if (Array.isArray(entry.key_takeaways) && entry.key_takeaways.length) {
+      renderList(els.summaryOverviewList, entry.key_takeaways);
+    }
+  }
+
+  function getRoiAnalysisEntry(clientSlug, selectedMonth) {
+    const clientData = state.roiAnalysis && state.roiAnalysis[clientSlug];
+    if (!clientData || !clientData.roi) {
+      return null;
+    }
+    return clientData.roi[selectedMonth] || null;
+  }
+
+  function getMetaAnalysisEntry(clientSlug, selectedMonth) {
+    const clientData = state.metaAnalysis && state.metaAnalysis[clientSlug];
+    if (!clientData || !clientData.meta) {
+      return null;
+    }
+    return clientData.meta[selectedMonth] || null;
   }
 
   function renderPills(element, items) {
@@ -2683,6 +3151,20 @@
     };
   }
 
+  function getChartLabelBreakpoint() {
+    const width = window.innerWidth || document.documentElement.clientWidth || 1440;
+    if (width < 720) {
+      return "xs";
+    }
+    if (width < 980) {
+      return "sm";
+    }
+    if (width < 1280) {
+      return "md";
+    }
+    return "lg";
+  }
+
   function sharedXAxis(categories, options) {
     options = options || {};
     return {
@@ -2692,9 +3174,51 @@
       crosshairs: {
         show: false
       },
-      labels: {
-        style: { colors: "#8FA1BF", fontSize: "11px", fontWeight: 500 },
-        offsetY: options.offsetY || 0
+      labels: buildResponsiveSharedXAxisLabels(categories, options)
+    };
+  }
+
+  function buildResponsiveSharedXAxisLabels(categories, options) {
+    options = options || {};
+    const breakpoint = getChartLabelBreakpoint();
+    const count = Array.isArray(categories) ? categories.length : 0;
+    let step = 1;
+
+    if (breakpoint === "xs") {
+      step = count > 8 ? 3 : count > 4 ? 2 : 1;
+    } else if (breakpoint === "sm") {
+      step = count > 10 ? 3 : count > 5 ? 2 : 1;
+    } else if (breakpoint === "md") {
+      step = count > 12 ? 2 : 1;
+    }
+
+    const rotate = typeof options.rotate === "number"
+      ? options.rotate
+      : breakpoint === "xs"
+        ? -55
+        : breakpoint === "sm"
+          ? -40
+          : 0;
+
+    return {
+      style: {
+        colors: "#8FA1BF",
+        fontSize: breakpoint === "xs" ? "10px" : "11px",
+        fontWeight: 500
+      },
+      offsetY: options.offsetY || 0,
+      hideOverlappingLabels: false,
+      trim: false,
+      rotate: rotate,
+      rotateAlways: rotate !== 0,
+      minHeight: rotate ? (breakpoint === "xs" ? 62 : 52) : 36,
+      maxHeight: rotate ? (breakpoint === "xs" ? 62 : 52) : 36,
+      formatter: function (value, _timestamp, opts) {
+        const index = opts && typeof opts.i === "number" ? opts.i : categories.indexOf(value);
+        if (step > 1 && index >= 0 && index % step !== 0 && index !== count - 1) {
+          return "";
+        }
+        return value;
       }
     };
   }
@@ -2753,6 +3277,19 @@
       return Math.ceil(value / 1000) * 1000;
     }
     return Math.ceil(value / 5000) * 5000;
+  }
+
+  function buildCurrencyAxisBounds(minValue, maxValue, step) {
+    const safeStep = step || 250;
+    const safeMax = Math.max(0, numeric(maxValue));
+    const safeMin = Math.max(0, numeric(minValue));
+    const axisMin = safeMin > 0 ? Math.floor(safeMin / safeStep) * safeStep : 0;
+    const axisMax = Math.max(axisMin + safeStep, Math.ceil(safeMax / safeStep) * safeStep);
+    return {
+      min: axisMin,
+      max: axisMax,
+      tickAmount: Math.max(1, Math.round((axisMax - axisMin) / safeStep))
+    };
   }
 
   function sharedLegend(show) {
@@ -2896,6 +3433,18 @@
     }
     return rows.reduce(function (highest, row) {
       return !highest || numeric(row[field]) > numeric(highest[field]) ? row : highest;
+    }, null);
+  }
+
+  function lowestPositiveRow(rows, field) {
+    const filtered = rows.filter(function (row) {
+      return numeric(row[field]) > 0;
+    });
+    if (!filtered.length) {
+      return null;
+    }
+    return filtered.reduce(function (lowest, row) {
+      return !lowest || numeric(row[field]) < numeric(lowest[field]) ? row : lowest;
     }, null);
   }
 
