@@ -5,34 +5,19 @@
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "44.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "2.1K",
+            "note": "Apr '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Apr '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Apr '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "914",
-            "note": "Apr '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$508",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -44,8 +29,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in April 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 44.5K impressions and 2,096 page visits."
         ]
       }
@@ -57,34 +40,19 @@
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "6.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "163",
+            "note": "Apr '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Apr '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Apr '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "79",
-            "note": "Apr '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$104",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -96,8 +64,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in April 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 6.7K impressions and 163 page visits."
         ]
       }
@@ -129,14 +95,14 @@
             "note": "Retargeting, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,046",
-            "note": "Dec '25 leads/followers"
+            "label": "Discovery Reach",
+            "value": "181.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$11.8K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "373",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -182,14 +148,14 @@
             "note": "Retargeting, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,046",
-            "note": "Dec '25 leads/followers"
+            "label": "Discovery Reach",
+            "value": "287.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$13.8K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "746",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -235,14 +201,14 @@
             "note": "Retargeting, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,419",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "399.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$13.8K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.1K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -288,14 +254,14 @@
             "note": "Retargeting, Apr '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,419",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "502.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$41.5K",
-            "note": "Apr '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "986",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -345,14 +311,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,794",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "77.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "Dec '25",
-            "note": "Retargeting active"
+            "label": "Best Traffic Month",
+            "value": "3.8K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -362,9 +328,8 @@
           "Across the full 2-month window, Discovery delivered 77.9K impressions, 4,013 page visits, and 1,794 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "December 2025 generated $0 in attributed revenue and 0 attributed bookings from Retargeting.",
-          "The campaign also drove 0 page visits, showing healthy lower-funnel interest from returning audiences.",
-          "Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month."
+          "Retargeting data is limited in this month, but the campaign still maintained lower-funnel activity.",
+          "Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum."
         ],
         "performance_insights": [
           "Meta Ads generated $17,832 in attributed revenue across the selected period, with 8 attributed bookings in total.",
@@ -397,14 +362,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,734",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "276.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "Dec '25",
-            "note": "Retargeting active"
+            "label": "Best Traffic Month",
+            "value": "8.5K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -414,9 +379,8 @@
           "Across the full 3-month window, Discovery delivered 276.8K impressions, 12,551 page visits, and 5,528 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "December 2025 generated $0 in attributed revenue and 0 attributed bookings from Retargeting.",
-          "The campaign also drove 0 page visits, showing healthy lower-funnel interest from returning audiences.",
-          "Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month."
+          "Retargeting data is limited in this month, but the campaign still maintained lower-funnel activity.",
+          "Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum."
         ],
         "performance_insights": [
           "Meta Ads generated $34,462 in attributed revenue across the selected period, with 12 attributed bookings in total.",
@@ -449,14 +413,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,734",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "476.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "7.9K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -499,14 +463,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,734",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "497.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "4K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -553,14 +517,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,527",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "85.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "3.1K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -603,14 +567,14 @@
             "note": "Discovery, Apr '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,527",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "207.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "3.5K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -657,14 +621,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,460",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "215.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "Dec '25",
-            "note": "Retargeting active"
+            "label": "Best Traffic Month",
+            "value": "7.7K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -674,9 +638,8 @@
           "Across the full 2-month window, Discovery delivered 215.1K impressions, 11,305 page visits, and 5,477 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "December 2025 generated $0 in attributed revenue and 0 attributed bookings from Retargeting.",
-          "The campaign also drove 0 page visits, showing healthy lower-funnel interest from returning audiences.",
-          "Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month."
+          "Retargeting data is limited in this month, but the campaign still maintained lower-funnel activity.",
+          "Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum."
         ],
         "performance_insights": [
           "Meta Ads generated $2,587 in attributed revenue across the selected period, with 4 attributed bookings in total.",
@@ -709,14 +672,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,460",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "373.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "Dec '25",
-            "note": "Retargeting active"
+            "label": "Best Traffic Month",
+            "value": "7.6K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -726,9 +689,8 @@
           "Across the full 3-month window, Discovery delivered 373.3K impressions, 18,869 page visits, and 8,786 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "December 2025 generated $0 in attributed revenue and 0 attributed bookings from Retargeting.",
-          "The campaign also drove 0 page visits, showing healthy lower-funnel interest from returning audiences.",
-          "Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month."
+          "Retargeting data is limited in this month, but the campaign still maintained lower-funnel activity.",
+          "Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum."
         ],
         "performance_insights": [
           "Meta Ads generated $3,645 in attributed revenue across the selected period, with 6 attributed bookings in total.",
@@ -761,14 +723,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,826",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "521.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "9K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -811,14 +773,14 @@
             "note": "Discovery, Apr '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,826",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "466.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "3.7K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -845,34 +807,24 @@
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "58.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "2K",
+            "note": "Apr '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Apr '26",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$2,905",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Apr '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "959",
-            "note": "Apr '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$402",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -884,8 +836,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in April 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 58.8K impressions and 1,960 page visits."
         ]
       }
@@ -897,34 +847,19 @@
         "range_label": "December 2025 to February 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "20.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "933",
+            "note": "Feb '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "383",
-            "note": "Feb '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$147",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -936,8 +871,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in February 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 20.1K impressions and 933 page visits."
         ]
       }
@@ -949,34 +882,19 @@
         "range_label": "December 2025 to February 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "20.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "933",
+            "note": "Feb '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "383",
-            "note": "Feb '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$147",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -988,8 +906,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in February 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 20.1K impressions and 933 page visits."
         ]
       }
@@ -1001,34 +917,24 @@
         "range_label": "January 2026 to March 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "34.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "1.2K",
+            "note": "Mar '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Mar '26",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$600",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Mar '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "633",
-            "note": "Mar '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$400",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -1040,8 +946,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in March 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 34.8K impressions and 1,202 page visits."
         ]
       },
@@ -1049,34 +953,24 @@
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "88.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "1.4K",
+            "note": "Apr '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Mar '26",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$600",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Mar '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "722",
-            "note": "Apr '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$918",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -1088,9 +982,9 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "March 2026 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 88.2K impressions, 2,621 page visits, and 1,355 leads and followers."
+          "April 2026 was the strongest awareness month, reaching 53,442 impressions and 1,419 page visits.",
+          "Discovery kept demand building throughout the window, contributing 88.2K impressions, 2,621 page visits, and 1,355 leads and followers.",
+          "Paid activity stayed consistent across the window, with $918 in spend supporting ongoing visibility and traffic."
         ]
       }
     }
@@ -1121,14 +1015,14 @@
             "note": "Retargeting, Jan '26"
           },
           {
-            "label": "Discovery Reach",
-            "value": "0",
-            "note": "No discovery data"
+            "label": "Total Page Visits",
+            "value": "5,450",
+            "note": "Paid traffic"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$28.2K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.9K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1170,21 +1064,21 @@
             "note": "Retargeting, Jan '26"
           },
           {
-            "label": "Discovery Reach",
-            "value": "0",
-            "note": "No discovery data"
+            "label": "Total Page Visits",
+            "value": "8,172",
+            "note": "Paid traffic"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$28.2K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.7K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
           "Discovery data is limited in this window, but the account still maintained a visible top-of-funnel presence."
         ],
         "retargeting_key_takeaways": [
-          "February 2026 maintained Retargeting output with $0 in attributed revenue.",
+          "February 2026 kept Retargeting active with 2,722 page visits from returning audiences.",
           "Booking volume also peaked in February 2026, with 42 attributed bookings captured from warm traffic.",
           "Retargeting efficiency stayed healthy across the range, with the best ROAS landing at 43.18x in January 2026.",
           "The most efficient booking cost came in February 2026 at $20 per booking, showing stronger conversion quality as the campaign matured."
@@ -1223,14 +1117,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "979",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "45.4K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2.1K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1273,14 +1167,14 @@
             "note": "Discovery, Apr '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "979",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "97.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1307,34 +1201,24 @@
         "range_label": "January 2026 to March 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "12.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "588",
+            "note": "Mar '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Mar '26",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$600",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Mar '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "283",
-            "note": "Mar '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$136",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -1346,8 +1230,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in March 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 12.5K impressions and 588 page visits."
         ]
       },
@@ -1355,34 +1237,24 @@
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "98.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "3.5K",
+            "note": "Apr '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Mar '26",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$600",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Mar '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,793",
-            "note": "Apr '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$977",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -1394,9 +1266,9 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "March 2026 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 98.5K impressions, 4,111 page visits, and 2,076 leads and followers."
+          "April 2026 was the strongest awareness month, reaching 86,021 impressions and 3,523 page visits.",
+          "Discovery kept demand building throughout the window, contributing 98.5K impressions, 4,111 page visits, and 2,076 leads and followers.",
+          "Paid activity stayed consistent across the window, with $977 in spend supporting ongoing visibility and traffic."
         ]
       }
     }
@@ -1407,34 +1279,24 @@
         "range_label": "January 2026 to March 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "166.4K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "11.1K",
+            "note": "Mar '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Mar '26",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$950",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Mar '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "2,212",
-            "note": "Mar '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$1,362",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -1446,8 +1308,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in March 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 166.4K impressions and 11,107 page visits."
         ]
       },
@@ -1455,34 +1315,24 @@
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "314K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "8.6K",
+            "note": "Apr '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Mar '26",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$1,150",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Mar '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "2,212",
-            "note": "Mar '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$2,834",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -1494,9 +1344,9 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "March 2026 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 314K impressions, 19,695 page visits, and 3,074 leads and followers."
+          "March 2026 was the strongest awareness month, reaching 166,412 impressions and 11,107 page visits.",
+          "Discovery kept demand building throughout the window, contributing 314K impressions, 19,695 page visits, and 3,074 leads and followers.",
+          "Paid activity stayed consistent across the window, with $2,834 in spend supporting ongoing visibility and traffic."
         ]
       }
     }
@@ -1527,14 +1377,14 @@
             "note": "Retargeting, Dec '25"
           },
           {
-            "label": "Discovery Reach",
-            "value": "0",
-            "note": "No discovery data"
+            "label": "Total Page Visits",
+            "value": "6,748",
+            "note": "Paid traffic"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$17.7K",
-            "note": "Dec '25 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.6K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1576,14 +1426,14 @@
             "note": "Retargeting, Dec '25"
           },
           {
-            "label": "Discovery Reach",
-            "value": "0",
-            "note": "No discovery data"
+            "label": "Total Page Visits",
+            "value": "9,229",
+            "note": "Paid traffic"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$17.7K",
-            "note": "Dec '25 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.5K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1625,14 +1475,14 @@
             "note": "Retargeting, Jan '26"
           },
           {
-            "label": "Discovery Reach",
-            "value": "0",
-            "note": "No discovery data"
+            "label": "Total Page Visits",
+            "value": "7,541",
+            "note": "Paid traffic"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$2.5K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.4K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1674,14 +1524,14 @@
             "note": "Retargeting, Apr '26"
           },
           {
-            "label": "Discovery Reach",
-            "value": "0",
-            "note": "No discovery data"
+            "label": "Total Page Visits",
+            "value": "6,826",
+            "note": "Paid traffic"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$17.8K",
-            "note": "Apr '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.9K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1727,14 +1577,14 @@
             "note": "Retargeting, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "803",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "86.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$22.1K",
-            "note": "Dec '25 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "5.1K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1780,14 +1630,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "803",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "138.4K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$22.1K",
-            "note": "Dec '25 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "5.7K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1833,14 +1683,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,045",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "247.4K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$31.1K",
-            "note": "Mar '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "6K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1886,14 +1736,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,045",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "308K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$31.1K",
-            "note": "Mar '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "4.8K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1943,14 +1793,14 @@
             "note": "Retargeting, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,765",
-            "note": "Dec '25 leads/followers"
+            "label": "Discovery Reach",
+            "value": "226.4K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$7.2K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "706",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -1996,14 +1846,14 @@
             "note": "Retargeting, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,765",
-            "note": "Dec '25 leads/followers"
+            "label": "Discovery Reach",
+            "value": "346.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$8K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "829",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2049,14 +1899,14 @@
             "note": "Retargeting, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,890",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "377.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$8K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "548",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2102,14 +1952,14 @@
             "note": "Retargeting, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,463",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "366.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$8K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "500",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2159,14 +2009,14 @@
             "note": "Discovery, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,454",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "296.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "8.6K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2209,14 +2059,14 @@
             "note": "Discovery, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,454",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "430.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "6.2K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2259,14 +2109,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,454",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "436.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.8K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2309,14 +2159,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,547",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "384.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.2K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2343,92 +2193,55 @@
         "range_label": "November 2025 to January 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Total Page Visits",
+            "value": "3,149",
+            "note": "Paid traffic"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
-          },
-          {
-            "label": "Best Month",
-            "value": "Dec '25",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Retargeting, Dec '25"
-          },
-          {
-            "label": "Discovery Reach",
-            "value": "0",
-            "note": "No discovery data"
-          },
-          {
-            "label": "Retargeting Traffic",
-            "value": "1.7K",
-            "note": "Dec '25 page visits"
+            "label": "Best Traffic Month",
+            "value": "1.5K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
           "Discovery data is limited in this window, but the account still maintained a visible top-of-funnel presence."
         ],
         "retargeting_key_takeaways": [
-          "January 2026 maintained Retargeting output with $0 in attributed revenue.",
-          "Across the full 2-month window, Retargeting delivered $0 in attributed revenue and 0 attributed bookings."
+          "January 2026 kept Retargeting active with 1,484 page visits from returning audiences.",
+          "Across the full 2-month window, Retargeting drove 3,149 page visits and kept warm traffic moving back to site."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "December 2025 was the strongest overall month, delivering $0 in combined attributed revenue."
+          "Retargeting supported lower-funnel momentum with 3,149 page visits from warm audiences."
         ]
       },
       "2026-02": {
         "range_label": "December 2025 to February 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Total Page Visits",
+            "value": "5,197",
+            "note": "Paid traffic"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
-          },
-          {
-            "label": "Best Month",
-            "value": "Dec '25",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Retargeting, Dec '25"
-          },
-          {
-            "label": "Discovery Reach",
-            "value": "0",
-            "note": "No discovery data"
-          },
-          {
-            "label": "Retargeting Traffic",
+            "label": "Best Traffic Month",
             "value": "2K",
             "note": "Feb '26 page visits"
+          },
+          {
+            "label": "Total Spend",
+            "value": "$274",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
           "Discovery data is limited in this window, but the account still maintained a visible top-of-funnel presence."
         ],
         "retargeting_key_takeaways": [
-          "February 2026 maintained Retargeting output with $0 in attributed revenue.",
-          "Across the full 3-month window, Retargeting delivered $0 in attributed revenue and 0 attributed bookings."
+          "February 2026 kept Retargeting active with 2,048 page visits from returning audiences.",
+          "Across the full 3-month window, Retargeting drove 5,197 page visits and kept warm traffic moving back to site."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "December 2025 was the strongest overall month, delivering $0 in combined attributed revenue."
+          "Retargeting supported lower-funnel momentum with 5,197 page visits from warm audiences."
         ]
       },
       "2026-03": {
@@ -2455,12 +2268,12 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "824",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "31K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Traffic",
+            "label": "Best Traffic Month",
             "value": "2K",
             "note": "Feb '26 page visits"
           }
@@ -2472,14 +2285,13 @@
           "Overall, Discovery kept new people entering the funnel and supported healthy awareness for the brand."
         ],
         "retargeting_key_takeaways": [
-          "March 2026 maintained Retargeting output with $0 in attributed revenue.",
-          "Across the full 3-month window, Retargeting delivered $0 in attributed revenue and 0 attributed bookings."
+          "Across the full 3-month window, Retargeting drove 3,532 page visits and kept warm traffic moving back to site."
         ],
         "performance_insights": [
           "Meta Ads generated $3,801 in attributed revenue across the selected period, with 3 attributed bookings in total.",
           "March 2026 was the strongest overall month, delivering $3,801 in combined attributed revenue.",
           "Discovery kept demand building throughout the window, contributing 31K impressions, 1,741 page visits, and 824 leads and followers.",
-          "Average blended ROAS held at 17x, keeping the account in a strong efficiency range over the full period."
+          "Retargeting supported lower-funnel momentum with 3,532 page visits from warm audiences."
         ]
       },
       "2026-04": {
@@ -2506,12 +2318,12 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "824",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "62.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Traffic",
+            "label": "Best Traffic Month",
             "value": "2K",
             "note": "Feb '26 page visits"
           }
@@ -2523,14 +2335,13 @@
           "Across the full 2-month window, Discovery delivered 62.5K impressions, 3,304 page visits, and 1,523 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "March 2026 maintained Retargeting output with $0 in attributed revenue.",
-          "Across the full 2-month window, Retargeting delivered $0 in attributed revenue and 0 attributed bookings."
+          "Across the full 2-month window, Retargeting drove 2,048 page visits and kept warm traffic moving back to site."
         ],
         "performance_insights": [
           "Meta Ads generated $6,970 in attributed revenue across the selected period, with 6 attributed bookings in total.",
           "March 2026 was the strongest overall month, delivering $3,801 in combined attributed revenue.",
           "Discovery kept demand building throughout the window, contributing 62.5K impressions, 3,304 page visits, and 1,523 leads and followers.",
-          "Average blended ROAS held at 15.35x, keeping the account in a strong efficiency range over the full period."
+          "Retargeting supported lower-funnel momentum with 2,048 page visits from warm audiences."
         ]
       }
     }
@@ -2561,14 +2372,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,317",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "120.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.3K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2611,14 +2422,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,317",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "198.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "4.9K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2661,14 +2472,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,317",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "271K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.3K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2711,14 +2522,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,113",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "275.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "4K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2765,14 +2576,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,721",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "269.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "8.5K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2815,12 +2626,12 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,721",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "387.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Traffic",
+            "label": "Best Traffic Month",
             "value": "208",
             "note": "Feb '26 page visits"
           }
@@ -2832,15 +2643,14 @@
           "Across the full 3-month window, Discovery delivered 387.6K impressions, 20,381 page visits, and 6,336 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "February 2026 generated $0 in attributed revenue and 0 attributed bookings from Retargeting.",
           "The campaign also drove 208 page visits, showing healthy lower-funnel interest from returning audiences.",
-          "Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month."
+          "Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum."
         ],
         "performance_insights": [
           "Meta Ads generated $39,819 in attributed revenue across the selected period, with 9 attributed bookings in total.",
           "January 2026 was the strongest overall month, delivering $21,403 in combined attributed revenue.",
           "Discovery kept demand building throughout the window, contributing 387.6K impressions, 20,381 page visits, and 6,336 leads and followers.",
-          "Average blended ROAS held at 8x, keeping the account in a strong efficiency range over the full period."
+          "Retargeting supported lower-funnel momentum with 208 page visits from warm audiences."
         ]
       },
       "2026-03": {
@@ -2867,12 +2677,12 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,721",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "425.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Traffic",
+            "label": "Best Traffic Month",
             "value": "1.3K",
             "note": "Mar '26 page visits"
           }
@@ -2884,14 +2694,14 @@
           "Across the full 3-month window, Discovery delivered 425.5K impressions, 18,043 page visits, and 5,814 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "March 2026 maintained Retargeting output with $0 in attributed revenue.",
-          "Across the full 2-month window, Retargeting delivered $0 in attributed revenue and 0 attributed bookings."
+          "March 2026 kept Retargeting active with 1,282 page visits from returning audiences.",
+          "Across the full 2-month window, Retargeting drove 1,490 page visits and kept warm traffic moving back to site."
         ],
         "performance_insights": [
           "Meta Ads generated $50,704 in attributed revenue across the selected period, with 10 attributed bookings in total.",
           "January 2026 was the strongest overall month, delivering $21,403 in combined attributed revenue.",
           "Discovery kept demand building throughout the window, contributing 425.5K impressions, 18,043 page visits, and 5,814 leads and followers.",
-          "Average blended ROAS held at 6.80x, keeping the account in a strong efficiency range over the full period."
+          "Retargeting supported lower-funnel momentum with 1,490 page visits from warm audiences."
         ]
       },
       "2026-04": {
@@ -2918,14 +2728,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,592",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "362.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Traffic",
-            "value": "1.3K",
-            "note": "Mar '26 page visits"
+            "label": "Best Traffic Month",
+            "value": "1.1K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -2935,14 +2745,14 @@
           "Across the full 3-month window, Discovery delivered 362.2K impressions, 12,874 page visits, and 4,092 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "April 2026 maintained Retargeting output with $0 in attributed revenue.",
-          "Across the full 3-month window, Retargeting delivered $0 in attributed revenue and 0 attributed bookings."
+          "April 2026 kept Retargeting active with 1,114 page visits from returning audiences.",
+          "Across the full 3-month window, Retargeting drove 2,604 page visits and kept warm traffic moving back to site."
         ],
         "performance_insights": [
           "Meta Ads generated $30,064 in attributed revenue across the selected period, with 6 attributed bookings in total.",
           "February 2026 was the strongest overall month, delivering $18,416 in combined attributed revenue.",
           "Discovery kept demand building throughout the window, contributing 362.2K impressions, 12,874 page visits, and 4,092 leads and followers.",
-          "Average blended ROAS held at 4.26x, keeping the account in a strong efficiency range over the full period."
+          "Retargeting supported lower-funnel momentum with 2,604 page visits from warm audiences."
         ]
       }
     }
@@ -2973,14 +2783,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "4,395",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "386.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "12.2K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3023,14 +2833,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "4,395",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "552.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "9.3K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3073,14 +2883,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "4,395",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "507.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.9K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3123,14 +2933,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,088",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "379K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "4.3K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3155,82 +2965,35 @@
     "meta": {
       "2026-02": {
         "range_label": "December 2025 to February 2026",
-        "performance_overview": [
-          {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
-          },
-          {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
-          },
-          {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Month",
-            "value": "Feb '26",
-            "note": "Discovery active"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
-          }
-        ],
+        "performance_overview": [],
         "discovery_key_takeaways": [
-          "February 2026 delivered 0 impressions and 0 page visits, giving the campaign a solid reach and traffic base.",
+          "Discovery data is limited in this month, but the campaign still maintained a visible awareness presence.",
           "Overall, Discovery kept new people entering the funnel and supported healthy awareness for the brand."
         ],
         "retargeting_key_takeaways": [
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in February 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market."
+          "Meta activity was limited in the current month, but the account still maintained a paid presence."
         ]
       },
       "2026-03": {
         "range_label": "January 2026 to March 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "104K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "4.1K",
+            "note": "Mar '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "2,265",
-            "note": "Mar '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$883",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -3242,9 +3005,9 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "February 2026 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 104K impressions, 4,080 page visits, and 2,265 leads and followers."
+          "March 2026 was the strongest awareness month, reaching 104,029 impressions and 4,080 page visits.",
+          "Discovery kept demand building throughout the window, contributing 104K impressions, 4,080 page visits, and 2,265 leads and followers.",
+          "Paid activity stayed consistent across the window, with $883 in spend supporting ongoing visibility and traffic."
         ]
       },
       "2026-04": {
@@ -3271,14 +3034,14 @@
             "note": "Discovery, Apr '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,265",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "231.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "4K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3325,14 +3088,14 @@
             "note": "Retargeting, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,254",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "270.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$50.5K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "3K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3378,14 +3141,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,254",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "390.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$62.3K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "3.1K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3431,14 +3194,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,254",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "424.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$62.3K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "3.1K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3484,14 +3247,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,620",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "396K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$62.3K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.7K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3521,34 +3284,19 @@
         "range_label": "November 2025 to January 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "46.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "1.9K",
+            "note": "Jan '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Dec '25",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Dec '25"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,073",
-            "note": "Jan '26 leads/followers"
-          },
-          {
-            "label": "Best Retargeting Month",
-            "value": "Dec '25",
-            "note": "Retargeting active"
+            "label": "Avg Booking Value",
+            "value": "$2,340",
+            "note": "Window average"
           }
         ],
         "discovery_key_takeaways": [
@@ -3557,13 +3305,11 @@
           "Across the full 2-month window, Discovery delivered 46.5K impressions, 2,489 page visits, and 1,429 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "December 2025 generated $0 in attributed revenue and 0 attributed bookings from Retargeting.",
-          "The campaign also drove 0 page visits, showing healthy lower-funnel interest from returning audiences.",
-          "Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month."
+          "Retargeting data is limited in this month, but the campaign still maintained lower-funnel activity.",
+          "Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "December 2025 was the strongest overall month, delivering $0 in combined attributed revenue.",
+          "January 2026 was the strongest awareness month, reaching 36,347 impressions and 1,949 page visits.",
           "Discovery kept demand building throughout the window, contributing 46.5K impressions, 2,489 page visits, and 1,429 leads and followers."
         ]
       },
@@ -3591,14 +3337,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,073",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "74.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "Dec '25",
-            "note": "Retargeting active"
+            "label": "Best Traffic Month",
+            "value": "1.5K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3608,9 +3354,8 @@
           "Across the full 3-month window, Discovery delivered 74.5K impressions, 3,978 page visits, and 2,238 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "December 2025 generated $0 in attributed revenue and 0 attributed bookings from Retargeting.",
-          "The campaign also drove 0 page visits, showing healthy lower-funnel interest from returning audiences.",
-          "Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month."
+          "Retargeting data is limited in this month, but the campaign still maintained lower-funnel activity.",
+          "Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum."
         ],
         "performance_insights": [
           "Meta Ads generated $2,756 in attributed revenue across the selected period, with 1 attributed bookings in total.",
@@ -3643,14 +3388,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,073",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "95.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "1.4K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3693,14 +3438,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "809",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "89.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "1.5K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3747,14 +3492,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,342",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "48.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2.2K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3797,14 +3542,14 @@
             "note": "Discovery, Apr '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,342",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "127.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2.8K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -3831,34 +3576,19 @@
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "106.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "4.7K",
+            "note": "Apr '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Apr '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Apr '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,162",
-            "note": "Apr '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$894",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -3870,8 +3600,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in April 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 106.7K impressions and 4,684 page visits."
         ]
       }
@@ -3883,34 +3611,24 @@
         "range_label": "November 2025 to January 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "164.4K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "3.5K",
+            "note": "Jan '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Dec '25",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$1,277",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Dec '25"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,797",
-            "note": "Dec '25 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$698",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -3922,43 +3640,33 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "December 2025 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 164.4K impressions, 6,950 page visits, and 3,594 leads and followers."
+          "December 2025 was the strongest awareness month, reaching 82,209 impressions and 3,475 page visits.",
+          "Discovery kept demand building throughout the window, contributing 164.4K impressions, 6,950 page visits, and 3,594 leads and followers.",
+          "Paid activity stayed consistent across the window, with $698 in spend supporting ongoing visibility and traffic."
         ]
       },
       "2026-02": {
         "range_label": "December 2025 to February 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "253.4K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "3.3K",
+            "note": "Feb '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Dec '25",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$1,564",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Dec '25"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,797",
-            "note": "Dec '25 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$1,452",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -3970,9 +3678,9 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "December 2025 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 253.4K impressions, 10,271 page visits, and 5,135 leads and followers."
+          "February 2026 was the strongest awareness month, reaching 88,953 impressions and 3,321 page visits.",
+          "Discovery kept demand building throughout the window, contributing 253.4K impressions, 10,271 page visits, and 5,135 leads and followers.",
+          "Paid activity stayed consistent across the window, with $1,452 in spend supporting ongoing visibility and traffic."
         ]
       },
       "2026-03": {
@@ -3999,14 +3707,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,797",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "250.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2.5K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4049,14 +3757,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,541",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "403.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.8K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4103,14 +3811,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,544",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "89.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "4.5K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4153,14 +3861,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,544",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "197.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "4.3K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4207,14 +3915,14 @@
             "note": "Retargeting, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "4,516",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "329.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$18.6K",
-            "note": "Dec '25 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "3.7K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4224,7 +3932,7 @@
           "Across the full 2-month window, Discovery delivered 329.2K impressions, 14,316 page visits, and 7,258 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "January 2026 maintained Retargeting output with $0 in attributed revenue.",
+          "January 2026 kept Retargeting active with 3,703 page visits from returning audiences.",
           "The strongest booking month was December 2025, producing 33 attributed bookings and confirming steady lower-funnel demand.",
           "Retargeting efficiency stayed healthy across the range, with the best ROAS landing at 21.10x in December 2025.",
           "The most efficient booking cost came in January 2026 at $34 per booking, showing stronger conversion quality as the campaign matured."
@@ -4260,14 +3968,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "4,516",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "497.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$18.6K",
-            "note": "Dec '25 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.6K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4277,7 +3985,7 @@
           "Across the full 3-month window, Discovery delivered 497.7K impressions, 19,901 page visits, and 10,509 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "February 2026 maintained Retargeting output with $0 in attributed revenue.",
+          "February 2026 kept Retargeting active with 2,558 page visits from returning audiences.",
           "The strongest booking month was December 2025, producing 33 attributed bookings and confirming steady lower-funnel demand.",
           "Retargeting efficiency stayed healthy across the range, with the best ROAS landing at 21.10x in December 2025.",
           "The most efficient booking cost came in January 2026 at $34 per booking, showing stronger conversion quality as the campaign matured."
@@ -4313,14 +4021,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "4,516",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "686.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$7.6K",
-            "note": "Mar '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.8K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4366,14 +4074,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,813",
-            "note": "Apr '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "692.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$7.6K",
-            "note": "Mar '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.8K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4423,14 +4131,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "832",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "210.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$18.1K",
-            "note": "Dec '25 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "3K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4440,7 +4148,7 @@
           "Across the full 2-month window, Discovery delivered 210.7K impressions, 6,491 page visits, and 1,444 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "January 2026 maintained Retargeting output with $0 in attributed revenue.",
+          "January 2026 kept Retargeting active with 3,016 page visits from returning audiences.",
           "The strongest booking month was December 2025, producing 43 attributed bookings and confirming steady lower-funnel demand.",
           "Retargeting efficiency stayed healthy across the range, with the best ROAS landing at 12.41x in December 2025.",
           "The most efficient booking cost came in January 2026 at $41 per booking, showing stronger conversion quality as the campaign matured."
@@ -4476,14 +4184,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "832",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "298.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$18.1K",
-            "note": "Dec '25 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.7K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4493,7 +4201,7 @@
           "Across the full 3-month window, Discovery delivered 298.7K impressions, 8,483 page visits, and 2,061 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "February 2026 maintained Retargeting output with $0 in attributed revenue.",
+          "February 2026 kept Retargeting active with 2,655 page visits from returning audiences.",
           "Booking volume also peaked in February 2026, with 44 attributed bookings captured from warm traffic.",
           "Retargeting efficiency stayed healthy across the range, with the best ROAS landing at 12.41x in December 2025.",
           "The most efficient booking cost came in February 2026 at $31 per booking, showing stronger conversion quality as the campaign matured."
@@ -4529,14 +4237,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "832",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "324.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$17.6K",
-            "note": "Mar '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.5K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4582,14 +4290,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "882",
-            "note": "Apr '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "312.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$24.8K",
-            "note": "Apr '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.5K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4639,14 +4347,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,673",
-            "note": "Dec '25 leads/followers"
+            "label": "Discovery Reach",
+            "value": "126.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "1.6K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4689,14 +4397,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,673",
-            "note": "Dec '25 leads/followers"
+            "label": "Discovery Reach",
+            "value": "143K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "1K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4739,14 +4447,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "781",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "62.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "1.1K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4789,14 +4497,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "598",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "59.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "961",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4843,14 +4551,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "268",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "5.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "415",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4893,14 +4601,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,889",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "111.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "6.4K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4943,14 +4651,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "3,889",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "230.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.6K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -4997,14 +4705,14 @@
             "note": "Discovery, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,236",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "89.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$1.7K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.5K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5050,14 +4758,14 @@
             "note": "Discovery, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,236",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "126.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$4.2K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.4K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5103,14 +4811,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,236",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "147.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$4.2K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "680",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5156,14 +4864,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,334",
-            "note": "Apr '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "165.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$4.2K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "577",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5213,14 +4921,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,515",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "129K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "3.3K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5263,14 +4971,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,515",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "181.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2.4K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5313,14 +5021,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,515",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "185.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2.6K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5363,14 +5071,14 @@
             "note": "Discovery, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,031",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "176.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2.9K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5397,34 +5105,19 @@
         "range_label": "December 2025 to February 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "61.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "2.5K",
+            "note": "Feb '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,212",
-            "note": "Feb '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$560",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -5436,8 +5129,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in February 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 61.8K impressions and 2,514 page visits."
         ]
       },
@@ -5445,34 +5136,19 @@
         "range_label": "January 2026 to March 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "129.4K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "2K",
+            "note": "Mar '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,212",
-            "note": "Feb '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$1,180",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -5484,43 +5160,33 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "February 2026 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 129.4K impressions, 4,497 page visits, and 2,129 leads and followers."
+          "March 2026 was the strongest awareness month, reaching 67,595 impressions and 1,983 page visits.",
+          "Discovery kept demand building throughout the window, contributing 129.4K impressions, 4,497 page visits, and 2,129 leads and followers.",
+          "Paid activity stayed consistent across the window, with $1,180 in spend supporting ongoing visibility and traffic."
         ]
       },
       "2026-04": {
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "181K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "1.5K",
+            "note": "Apr '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
+            "label": "Avg Booking Value",
+            "value": "$1,200",
+            "note": "Window average"
           },
           {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,212",
-            "note": "Feb '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$1,776",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -5532,9 +5198,9 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "February 2026 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 181K impressions, 5,949 page visits, and 3,035 leads and followers."
+          "March 2026 was the strongest awareness month, reaching 67,595 impressions and 1,983 page visits.",
+          "Discovery kept demand building throughout the window, contributing 181K impressions, 5,949 page visits, and 3,035 leads and followers.",
+          "Paid activity stayed consistent across the window, with $1,776 in spend supporting ongoing visibility and traffic."
         ]
       }
     }
@@ -5565,14 +5231,14 @@
             "note": "Discovery, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "4,663",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "487K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$14.1K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "573",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5618,14 +5284,14 @@
             "note": "Discovery, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "5,290",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "707.5K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$14.1K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "507",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5671,14 +5337,14 @@
             "note": "Retargeting, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "5,957",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "730.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$14.1K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "792",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5724,14 +5390,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "5,957",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "838.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$10.8K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "813",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5781,14 +5447,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,866",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "150.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.8K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5831,14 +5497,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,866",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "205.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "2.5K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5885,14 +5551,14 @@
             "note": "Discovery, Apr '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,012",
-            "note": "Apr '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "59.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "1.9K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5939,14 +5605,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,330",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "145.7K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$4.2K",
-            "note": "Jan '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.4K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -5992,14 +5658,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,330",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "201.6K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$8.9K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "2.4K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -6045,14 +5711,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,330",
-            "note": "Jan '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "271.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$8.9K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.9K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -6098,14 +5764,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,743",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "358.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$8.9K",
-            "note": "Feb '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "1.6K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -6155,14 +5821,14 @@
             "note": "Discovery, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,487",
-            "note": "Dec '25 leads/followers"
+            "label": "Discovery Reach",
+            "value": "126.2K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "1.9K",
+            "note": "Jan '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -6205,14 +5871,14 @@
             "note": "Discovery, Dec '25"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,111",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "223.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "3.9K",
+            "note": "Feb '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -6255,14 +5921,14 @@
             "note": "Discovery, Jan '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,477",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "248.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "4.5K",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -6305,14 +5971,14 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "2,477",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "327.3K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Best Traffic Month",
+            "value": "5.4K",
+            "note": "Apr '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -6359,12 +6025,12 @@
             "note": "Discovery, Feb '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "429",
-            "note": "Feb '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "14.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Retargeting Traffic",
+            "label": "Best Traffic Month",
             "value": "69",
             "note": "Feb '26 page visits"
           }
@@ -6376,9 +6042,8 @@
           "Overall, Discovery kept new people entering the funnel and supported healthy awareness for the brand."
         ],
         "retargeting_key_takeaways": [
-          "February 2026 generated $0 in attributed revenue and 0 attributed bookings from Retargeting.",
           "The campaign also drove 69 page visits, showing healthy lower-funnel interest from returning audiences.",
-          "Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month."
+          "Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum."
         ],
         "performance_insights": [
           "Meta Ads generated $685 in attributed revenue in February 2026, showing strong paid impact in the current month.",
@@ -6411,14 +6076,14 @@
             "note": "Retargeting, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,923",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "172.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$11.3K",
-            "note": "Mar '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "599",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
@@ -6464,24 +6129,22 @@
             "note": "Retargeting, Mar '26"
           },
           {
-            "label": "Best Discovery Volume",
-            "value": "1,923",
-            "note": "Mar '26 leads/followers"
+            "label": "Discovery Reach",
+            "value": "172.8K",
+            "note": "Window impressions"
           },
           {
-            "label": "Best Retargeting Month",
-            "value": "$11.3K",
-            "note": "Mar '26 revenue peak"
+            "label": "Best Traffic Month",
+            "value": "599",
+            "note": "Mar '26 page visits"
           }
         ],
         "discovery_key_takeaways": [
-          "April 2026 kept Discovery active with 0 impressions and 0 page visits.",
           "The strongest Discovery volume came in March 2026, generating 1,923 leads and followers and building momentum across the period.",
           "Discovery's strongest revenue month was February 2026, returning $685 and showing that awareness activity also created measurable value.",
           "Across the full 3-month window, Discovery delivered 172.8K impressions, 5,264 page visits, and 2,352 leads and followers."
         ],
         "retargeting_key_takeaways": [
-          "April 2026 maintained Retargeting output with $0 in attributed revenue.",
           "The strongest booking month was March 2026, producing 13 attributed bookings and confirming steady lower-funnel demand.",
           "Retargeting efficiency stayed healthy across the range, with the best ROAS landing at 37.59x in March 2026.",
           "Across the full 3-month window, Retargeting delivered $11,323 in attributed revenue and 13 attributed bookings."
@@ -6501,34 +6164,19 @@
         "range_label": "December 2025 to February 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "17.9K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "933",
+            "note": "Feb '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "642",
-            "note": "Feb '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$167",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -6540,8 +6188,6 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue in February 2026, showing strong paid impact in the current month.",
-          "The account also drove 0 attributed bookings, with Retargeting helping convert demand already in market.",
           "Discovery kept the top of the funnel moving with 17.9K impressions and 933 page visits."
         ]
       },
@@ -6549,34 +6195,19 @@
         "range_label": "January 2026 to March 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "48.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "1.5K",
+            "note": "Mar '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,014",
-            "note": "Mar '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$423",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -6588,47 +6219,31 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "February 2026 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 48.1K impressions, 2,461 page visits, and 1,656 leads and followers."
+          "March 2026 was the strongest awareness month, reaching 30,281 impressions and 1,528 page visits.",
+          "Discovery kept demand building throughout the window, contributing 48.1K impressions, 2,461 page visits, and 1,656 leads and followers.",
+          "Paid activity stayed consistent across the window, with $423 in spend supporting ongoing visibility and traffic."
         ]
       },
       "2026-04": {
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
-            "label": "Total Revenue",
-            "value": "$0",
-            "note": "Attributed"
+            "label": "Discovery Reach",
+            "value": "48.1K",
+            "note": "Window impressions"
           },
           {
-            "label": "Total Bookings",
-            "value": "0",
-            "note": "FB + Email"
+            "label": "Best Traffic Month",
+            "value": "1.5K",
+            "note": "Mar '26 page visits"
           },
           {
-            "label": "Best Month",
-            "value": "Feb '26",
-            "note": "Peak performance"
-          },
-          {
-            "label": "Peak ROAS",
-            "value": "0x",
-            "note": "Discovery, Feb '26"
-          },
-          {
-            "label": "Best Discovery Volume",
-            "value": "1,014",
-            "note": "Mar '26 leads/followers"
-          },
-          {
-            "label": "Retargeting Results",
-            "value": "0",
-            "note": "No retargeting data"
+            "label": "Total Spend",
+            "value": "$423",
+            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
-          "April 2026 kept Discovery active with 0 impressions and 0 page visits.",
           "The strongest Discovery volume came in March 2026, generating 1,014 leads and followers and building momentum across the period.",
           "Across the full 3-month window, Discovery delivered 48.1K impressions, 2,461 page visits, and 1,656 leads and followers."
         ],
@@ -6636,9 +6251,9 @@
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $0 in attributed revenue across the selected period, with 0 attributed bookings in total.",
-          "February 2026 was the strongest overall month, delivering $0 in combined attributed revenue.",
-          "Discovery kept demand building throughout the window, contributing 48.1K impressions, 2,461 page visits, and 1,656 leads and followers."
+          "March 2026 was the strongest awareness month, reaching 30,281 impressions and 1,528 page visits.",
+          "Discovery kept demand building throughout the window, contributing 48.1K impressions, 2,461 page visits, and 1,656 leads and followers.",
+          "Paid activity stayed consistent across the window, with $423 in spend supporting ongoing visibility and traffic."
         ]
       }
     }

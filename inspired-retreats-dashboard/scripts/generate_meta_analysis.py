@@ -306,6 +306,62 @@ def best_retargeting_overview(rows):
     return {"label": "Best Retargeting Month", "value": rows[-1]["shortLabel"], "note": "Retargeting active"}
 
 
+def total_reach_overview(discovery_rows, retargeting_rows):
+    discovery_impressions = sum_field(discovery_rows, "impressions")
+    all_visits = sum_field(discovery_rows, "profileVisits") + sum_field(retargeting_rows, "profileVisits")
+    if discovery_impressions > 0:
+        return {
+            "label": "Discovery Reach",
+            "value": compact_number(discovery_impressions),
+            "note": "Window impressions",
+            "signal": discovery_impressions,
+        }
+    if all_visits > 0:
+        return {
+            "label": "Total Page Visits",
+            "value": full_number(all_visits),
+            "note": "Paid traffic",
+            "signal": all_visits,
+        }
+    return None
+
+
+def total_spend_overview(months):
+    spend = sum_field(months, "totalSpend")
+    if spend <= 0:
+        return None
+    return {
+        "label": "Total Spend",
+        "value": full_currency(spend),
+        "note": "Selected window",
+        "signal": spend,
+    }
+
+
+def avg_booking_value_overview(months):
+    value = average_field(months, "avgBookingValue")
+    if value <= 0:
+        return None
+    return {
+        "label": "Avg Booking Value",
+        "value": full_currency(value),
+        "note": "Window average",
+        "signal": value,
+    }
+
+
+def current_traffic_overview(discovery_rows, retargeting_rows):
+    latest = latest_nonzero(discovery_rows + retargeting_rows, "profileVisits")
+    if not latest or numeric(latest.get("profileVisits")) <= 0:
+        return None
+    return {
+        "label": "Best Traffic Month",
+        "value": compact_number(latest["profileVisits"]),
+        "note": f"{latest['shortLabel']} page visits",
+        "signal": numeric(latest["profileVisits"]),
+    }
+
+
 def choose_overview(months, discovery_rows, retargeting_rows):
     if not months:
         return []
@@ -316,39 +372,77 @@ def choose_overview(months, discovery_rows, retargeting_rows):
     peak_roas_value = numeric(peak_roas_row.get("roas") or peak_roas_row.get("blendedRoas")) if peak_roas_row else 0
     avg_roas = average_field(months, "blendedRoas")
 
-    overview = [
-        {
+    candidates = []
+    total_revenue = sum_field(months, "attributedRevenue")
+    total_bookings = sum_field(months, "totalBookings")
+
+    if total_revenue > 0:
+        candidates.append({
             "label": "Total Revenue",
-            "value": full_currency(sum_field(months, "attributedRevenue")),
+            "value": full_currency(total_revenue),
             "note": "Attributed",
-        },
-        {
+            "signal": total_revenue,
+        })
+    if total_bookings > 0:
+        candidates.append({
             "label": "Total Bookings",
-            "value": full_number(sum_field(months, "totalBookings")),
+            "value": full_number(total_bookings),
             "note": "FB + Email",
-        },
-        {
+            "signal": total_bookings,
+        })
+    if numeric(best_month.get("attributedRevenue")) > 0:
+        candidates.append({
             "label": "Best Month",
             "value": best_month["shortLabel"],
             "note": "Peak performance",
-        },
-        {
+            "signal": numeric(best_month["attributedRevenue"]),
+        })
+    if peak_roas_value > 0:
+        candidates.append({
             "label": "Peak ROAS",
             "value": format_multiple(peak_roas_value),
-            "note": f"{peak_roas_row['campaignType']}, {peak_roas_row['shortLabel']}" if peak_roas_row else "No ROAS data",
-        },
-        best_discovery_overview(discovery_rows),
-        best_retargeting_overview(retargeting_rows),
-    ]
-
-    if peak_roas_value <= 0 and avg_roas > 0:
-        overview[3] = {
+            "note": f"{peak_roas_row['campaignType']}, {peak_roas_row['shortLabel']}" if peak_roas_row else "Top efficiency",
+            "signal": peak_roas_value,
+        })
+    elif avg_roas > 0:
+        candidates.append({
             "label": "Blended ROAS",
             "value": format_multiple(avg_roas),
             "note": "Average efficiency",
-        }
+            "signal": avg_roas,
+        })
 
-    return overview
+    for item in (
+        best_discovery_overview(discovery_rows),
+        best_retargeting_overview(retargeting_rows),
+        total_reach_overview(discovery_rows, retargeting_rows),
+        current_traffic_overview(discovery_rows, retargeting_rows),
+        avg_booking_value_overview(months),
+        total_spend_overview(months),
+    ):
+        if item:
+            candidates.append(item)
+
+    overview = []
+    seen_labels = set()
+    for item in candidates:
+        if not item:
+            continue
+        signal = numeric(item.get("signal"))
+        if signal <= 0:
+            continue
+        if item["label"] in seen_labels:
+            continue
+        seen_labels.add(item["label"])
+        overview.append({
+            "label": item["label"],
+            "value": item["value"],
+            "note": item["note"],
+        })
+        if len(overview) == 6:
+            break
+
+    return overview[:6]
 
 
 def discovery_takeaways(window_rows):
@@ -368,9 +462,10 @@ def discovery_takeaways(window_rows):
 
     bullets = []
     if len(window_rows) == 1:
-        bullets.append(
-            f"{current['label']} delivered {full_number(current['impressions'])} impressions and {full_number(current['profileVisits'])} page visits, giving the campaign a solid reach and traffic base."
-        )
+        if numeric(current["impressions"]) > 0 or numeric(current["profileVisits"]) > 0:
+            bullets.append(
+                f"{current['label']} delivered {full_number(current['impressions'])} impressions and {full_number(current['profileVisits'])} page visits, giving the campaign a solid reach and traffic base."
+            )
         if numeric(current["leadsFollowers"]) > 0:
             bullets.append(
                 f"Discovery also produced {full_number(current['leadsFollowers'])} leads and followers, helping keep new audience growth moving."
@@ -379,18 +474,20 @@ def discovery_takeaways(window_rows):
             bullets.append(
                 f"Attributed revenue reached {full_currency(current['revenue'])}, showing the campaign supported visibility and measurable return at the same time."
             )
+        if not bullets:
+            bullets.append("Discovery data is limited in this month, but the campaign still maintained a visible awareness presence.")
         bullets.append("Overall, Discovery kept new people entering the funnel and supported healthy awareness for the brand.")
         return bullets[:4]
 
-    if peak_impressions and peak_impressions["key"] == current["key"]:
+    if peak_impressions and numeric(peak_impressions["impressions"]) > 0 and peak_impressions["key"] == current["key"]:
         bullets.append(
             f"{current['label']} delivered the strongest Discovery reach in the window, with {full_number(current['impressions'])} impressions and {full_number(current['profileVisits'])} page visits."
         )
-    elif previous and numeric(current["impressions"]) > numeric(previous["impressions"]):
+    elif previous and numeric(current["impressions"]) > 0 and numeric(current["impressions"]) > numeric(previous["impressions"]):
         bullets.append(
             f"{current['label']} improved Discovery reach to {full_number(current['impressions'])} impressions, up from {full_number(previous['impressions'])} in {previous['label']}."
         )
-    else:
+    elif numeric(current["impressions"]) > 0 or numeric(current["profileVisits"]) > 0:
         bullets.append(
             f"{current['label']} kept Discovery active with {full_number(current['impressions'])} impressions and {full_number(current['profileVisits'])} page visits."
         )
@@ -415,9 +512,12 @@ def discovery_takeaways(window_rows):
                 f"Discovery's strongest revenue month was {peak_revenue['label']}, returning {full_currency(peak_revenue['revenue'])} and showing that awareness activity also created measurable value."
             )
 
-    bullets.append(
-        f"Across the full {len(window_rows)}-month window, Discovery delivered {compact_number(total_impressions)} impressions, {full_number(total_visits)} page visits, and {full_number(total_leads)} leads and followers."
-    )
+    if total_impressions > 0 or total_visits > 0 or total_leads > 0:
+        bullets.append(
+            f"Across the full {len(window_rows)}-month window, Discovery delivered {compact_number(total_impressions)} impressions, {full_number(total_visits)} page visits, and {full_number(total_leads)} leads and followers."
+        )
+    if not bullets:
+        bullets.append("Discovery data is limited in this window, but the campaign still maintained some top-of-funnel presence.")
     return bullets[:4]
 
 
@@ -437,34 +537,52 @@ def retargeting_takeaways(window_rows):
 
     bullets = []
     if len(window_rows) == 1:
-        bullets.append(
-            f"{current['label']} generated {full_currency(current['revenue'])} in attributed revenue and {full_number(current['bookingsFb'] + current['bookingsEmail'])} attributed bookings from Retargeting."
-        )
-        bullets.append(
-            f"The campaign also drove {full_number(current['profileVisits'])} page visits, showing healthy lower-funnel interest from returning audiences."
-        )
+        current_bookings = numeric(current["bookingsFb"]) + numeric(current["bookingsEmail"])
+        if numeric(current["revenue"]) > 0 or current_bookings > 0:
+            bullets.append(
+                f"{current['label']} generated {full_currency(current['revenue'])} in attributed revenue and {full_number(current_bookings)} attributed bookings from Retargeting."
+            )
+        if numeric(current["profileVisits"]) > 0:
+            bullets.append(
+                f"The campaign also drove {full_number(current['profileVisits'])} page visits, showing healthy lower-funnel interest from returning audiences."
+            )
+        elif numeric(current["impressions"]) > 0:
+            bullets.append(
+                f"Retargeting stayed active with {full_number(current['impressions'])} impressions, helping keep warm audiences engaged."
+            )
         if numeric(current["roas"]) > 0:
             bullets.append(
                 f"ROAS closed at {format_multiple(current['roas'])}, showing that spend translated into efficient conversion value."
             )
-        bullets.append("Overall, Retargeting helped turn warm demand into bookings and measurable revenue in the current month.")
+        if not bullets:
+            bullets.append("Retargeting data is limited in this month, but the campaign still maintained lower-funnel activity.")
+        bullets.append("Overall, Retargeting helped keep warm audiences engaged and supported lower-funnel momentum.")
         return bullets[:4]
 
-    if peak_revenue and peak_revenue["key"] == current["key"]:
+    current_total_bookings = numeric(current["bookingsFb"]) + numeric(current["bookingsEmail"])
+
+    if peak_revenue and numeric(peak_revenue["revenue"]) > 0 and peak_revenue["key"] == current["key"]:
         bullets.append(
             f"{current['label']} was the strongest Retargeting revenue month, generating {full_currency(current['revenue'])} in attributed revenue."
         )
-    elif previous and numeric(current["revenue"]) > numeric(previous["revenue"]):
+    elif previous and numeric(current["revenue"]) > 0 and numeric(current["revenue"]) > numeric(previous["revenue"]):
         bullets.append(
             f"{current['label']} improved Retargeting revenue to {full_currency(current['revenue'])}, up from {full_currency(previous['revenue'])} in {previous['label']}."
         )
-    else:
+    elif numeric(current["revenue"]) > 0:
         bullets.append(
             f"{current['label']} maintained Retargeting output with {full_currency(current['revenue'])} in attributed revenue."
         )
+    elif numeric(current["profileVisits"]) > 0:
+        bullets.append(
+            f"{current['label']} kept Retargeting active with {full_number(current['profileVisits'])} page visits from returning audiences."
+        )
+    elif numeric(current["impressions"]) > 0:
+        bullets.append(
+            f"{current['label']} kept Retargeting visible with {full_number(current['impressions'])} impressions across warm audiences."
+        )
 
     if peak_bookings and numeric(peak_bookings["bookingsFb"]) > 0:
-        current_total_bookings = numeric(current["bookingsFb"]) + numeric(current["bookingsEmail"])
         peak_total_bookings = numeric(peak_bookings["bookingsFb"]) + numeric(peak_bookings["bookingsEmail"])
         if peak_bookings["key"] == current["key"]:
             bullets.append(
@@ -484,10 +602,20 @@ def retargeting_takeaways(window_rows):
         bullets.append(
             f"The most efficient booking cost came in {lowest_cpb['label']} at {full_currency(lowest_cpb['costPerBooking'])} per booking, showing stronger conversion quality as the campaign matured."
         )
-    else:
+    elif total_revenue > 0 or total_bookings > 0:
         bullets.append(
             f"Across the full {len(window_rows)}-month window, Retargeting delivered {full_currency(total_revenue)} in attributed revenue and {full_number(total_bookings)} attributed bookings."
         )
+    elif sum_field(window_rows, "profileVisits") > 0:
+        bullets.append(
+            f"Across the full {len(window_rows)}-month window, Retargeting drove {full_number(sum_field(window_rows, 'profileVisits'))} page visits and kept warm traffic moving back to site."
+        )
+    elif sum_field(window_rows, "impressions") > 0:
+        bullets.append(
+            f"Across the full {len(window_rows)}-month window, Retargeting delivered {compact_number(sum_field(window_rows, 'impressions'))} impressions and maintained lower-funnel visibility."
+        )
+    if not bullets:
+        bullets.append("Retargeting data is limited in this window, but the campaign still maintained lower-funnel presence.")
     return bullets[:4]
 
 
@@ -506,24 +634,59 @@ def performance_takeaways(months, discovery_rows, retargeting_rows):
 
     if len(months) == 1:
         month = months[0]
-        bullets = [
-            f"Meta Ads generated {full_currency(total_revenue)} in attributed revenue in {month['label']}, showing strong paid impact in the current month.",
-            f"The account also drove {full_number(total_bookings)} attributed bookings, with Retargeting helping convert demand already in market.",
-        ]
+        bullets = []
+        if total_revenue > 0:
+            bullets.append(
+                f"Meta Ads generated {full_currency(total_revenue)} in attributed revenue in {month['label']}, showing strong paid impact in the current month."
+            )
+        if total_bookings > 0:
+            bullets.append(
+                f"The account also drove {full_number(total_bookings)} attributed bookings, with Retargeting helping convert demand already in market."
+            )
         if disc_reach > 0 or disc_visits > 0:
             bullets.append(
                 f"Discovery kept the top of the funnel moving with {compact_number(disc_reach)} impressions and {full_number(disc_visits)} page visits."
+            )
+        elif sum_field(retargeting_rows, "profileVisits") > 0:
+            bullets.append(
+                f"Retargeting kept warm audiences engaged with {full_number(sum_field(retargeting_rows, 'profileVisits'))} page visits in the current month."
+            )
+        if not bullets and sum_field(months, "totalSpend") > 0:
+            bullets.append(
+                f"Paid activity remained live in {month['label']}, with {full_currency(sum_field(months, 'totalSpend'))} in spend supporting continued audience visibility."
             )
         if avg_roas > 0:
             bullets.append(
                 f"Blended ROAS held at {format_multiple(avg_roas)}, keeping overall paid efficiency in a healthy position."
             )
+        if not bullets:
+            bullets.append("Meta activity was limited in the current month, but the account still maintained a paid presence.")
         return bullets[:4]
 
-    bullets = [
-        f"Meta Ads generated {full_currency(total_revenue)} in attributed revenue across the selected period, with {full_number(total_bookings)} attributed bookings in total.",
-        f"{best_month['label']} was the strongest overall month, delivering {full_currency(best_month['attributedRevenue'])} in combined attributed revenue.",
-    ]
+    bullets = []
+    if total_revenue > 0 and total_bookings > 0:
+        bullets.append(
+            f"Meta Ads generated {full_currency(total_revenue)} in attributed revenue across the selected period, with {full_number(total_bookings)} attributed bookings in total."
+        )
+    elif total_revenue > 0:
+        bullets.append(
+            f"Meta Ads generated {full_currency(total_revenue)} in attributed revenue across the selected period, showing clear paid contribution across the window."
+        )
+    elif total_bookings > 0:
+        bullets.append(
+            f"Meta Ads drove {full_number(total_bookings)} attributed bookings across the selected period, showing paid activity still supported direct action."
+        )
+
+    if numeric(best_month.get("attributedRevenue")) > 0:
+        bullets.append(
+            f"{best_month['label']} was the strongest overall month, delivering {full_currency(best_month['attributedRevenue'])} in combined attributed revenue."
+        )
+    elif disc_reach > 0 or disc_visits > 0:
+        strongest_reach = highest(discovery_rows, "impressions")
+        if strongest_reach and numeric(strongest_reach["impressions"]) > 0:
+            bullets.append(
+                f"{strongest_reach['label']} was the strongest awareness month, reaching {full_number(strongest_reach['impressions'])} impressions and {full_number(strongest_reach['profileVisits'])} page visits."
+            )
 
     if disc_reach > 0 or disc_leads > 0:
         bullets.append(
@@ -534,10 +697,21 @@ def performance_takeaways(months, discovery_rows, retargeting_rows):
         bullets.append(
             f"Retargeting turned that interest into direct action, generating {full_currency(ret_revenue)} in attributed revenue and {full_number(ret_bookings)} attributed bookings."
         )
+    elif sum_field(retargeting_rows, "profileVisits") > 0:
+        bullets.append(
+            f"Retargeting supported lower-funnel momentum with {full_number(sum_field(retargeting_rows, 'profileVisits'))} page visits from warm audiences."
+        )
     elif avg_roas > 0:
         bullets.append(
             f"Average blended ROAS held at {format_multiple(avg_roas)}, keeping the account in a strong efficiency range over the full period."
         )
+    elif sum_field(months, "totalSpend") > 0:
+        bullets.append(
+            f"Paid activity stayed consistent across the window, with {full_currency(sum_field(months, 'totalSpend'))} in spend supporting ongoing visibility and traffic."
+        )
+
+    if not bullets:
+        bullets.append("Meta activity was limited in this window, but the account still maintained a paid presence.")
 
     return bullets[:4]
 
