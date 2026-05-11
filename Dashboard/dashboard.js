@@ -1299,7 +1299,22 @@
       }
       target.innerHTML = "";
       const chart = new ApexCharts(target, options);
-      chart.render();
+      chart.render().then(function () {
+        const svg = target.querySelector("svg");
+        if (svg) {
+          svg.removeAttribute("role");
+          svg.removeAttribute("aria-label");
+          svg.removeAttribute("aria-labelledby");
+          svg.removeAttribute("title");
+        }
+        target.removeAttribute("role");
+        target.removeAttribute("aria-label");
+        target.removeAttribute("aria-labelledby");
+        target.removeAttribute("title");
+        target.querySelectorAll("title, desc").forEach(function (node) {
+          node.remove();
+        });
+      });
       pushChart(chart, key);
     }
 
@@ -1310,6 +1325,7 @@
           height: height,
           fontFamily: "Inter, sans-serif",
           toolbar: { show: false },
+          accessibility: { enabled: false },
           animations: { enabled: true, easing: "easeinout", speed: 520 },
           zoom: { enabled: false }
         },
@@ -1412,6 +1428,25 @@
       };
     }
 
+    function paddedAxisBounds(values) {
+      const cleaned = (Array.isArray(values) ? values : []).map(numeric).filter(function (value) {
+        return isFinite(value);
+      });
+      if (!cleaned.length) {
+        return { min: 0, max: undefined };
+      }
+
+      const min = Math.min.apply(null, cleaned);
+      const max = Math.max.apply(null, cleaned);
+      const span = Math.max(max - min, 1);
+      const padding = Math.max(Math.round(span * 0.2), Math.round(max * 0.05), 25);
+
+      return {
+        min: Math.max(0, min - padding),
+        max: max + padding
+      };
+    }
+
     createChart("contentViewsChart", "roi-content", {
       series: [
         { name: "Instagram", data: state.roiMonths.map(function (month) { return month.igViews; }) },
@@ -1423,6 +1458,7 @@
         height: 220,
         fontFamily: "Inter, sans-serif",
         toolbar: { show: false },
+        accessibility: { enabled: false },
         animations: { enabled: true, easing: "easeinout", speed: 520 },
         zoom: { enabled: false }
       },
@@ -1492,6 +1528,7 @@
         height: 240,
         fontFamily: "Inter, sans-serif",
         toolbar: { show: false },
+        accessibility: { enabled: false },
         animations: { enabled: true, easing: "easeinout", speed: 520 },
         zoom: { enabled: false }
       },
@@ -1654,11 +1691,13 @@
 
     createChart("totalLeadsChart", "roi-pipeline", Object.assign(
       sharedChart(190, "area"),
-      sharedAxis(formatNumber, {
-        showLegend: false,
-        min: 0,
-        tooltipFormatter: function (value) { return formatNumber(value) + " leads"; }
-      }),
+      sharedAxis(formatNumber, Object.assign(
+        {
+          showLegend: false,
+          tooltipFormatter: function (value) { return formatNumber(value) + " leads"; }
+        },
+        paddedAxisBounds(state.roiMonths.map(function (month) { return month.totalLeads; }))
+      )),
       {
         series: [{ name: "Total Pipeline", data: state.roiMonths.map(function (month) { return month.totalLeads; }) }],
         colors: [pipelineColor],
@@ -1687,6 +1726,7 @@
         height: 190,
         fontFamily: "Inter, sans-serif",
         toolbar: { show: false },
+        accessibility: { enabled: false },
         animations: { enabled: true, easing: "easeinout", speed: 520 },
         zoom: { enabled: false }
       },
@@ -1789,6 +1829,7 @@
         height: 210,
         fontFamily: "Inter, sans-serif",
         toolbar: { show: false },
+        accessibility: { enabled: false },
         animations: { enabled: true, easing: "easeinout", speed: 520 },
         zoom: { enabled: false }
       },
@@ -3005,6 +3046,7 @@
         height: 52,
         sparkline: { enabled: true },
         toolbar: { show: false },
+        accessibility: { enabled: false },
         animations: { enabled: true, easing: "easeinout", speed: 450 }
       },
       series: [{
@@ -3553,6 +3595,7 @@
       height: height,
       fontFamily: "Inter",
       toolbar: { show: false },
+      accessibility: { enabled: false },
       animations: { enabled: true, easing: "easeout", speed: 360 },
       zoom: { enabled: false }
     };
