@@ -133,10 +133,6 @@
       "name": "Reflections Resorts"
     },
     {
-      "slug": "riveria",
-      "name": "Riveria"
-    },
-    {
       "slug": "roundhouse-resort-spa",
       "name": "Roundhouse Resort & Spa"
     },
@@ -183,14 +179,6 @@
     {
       "slug": "treetop-escapes",
       "name": "Treetop Escapes"
-    },
-    {
-      "slug": "twin-beds",
-      "name": "Twin beds"
-    },
-    {
-      "slug": "vinifera-homes",
-      "name": "Vinifera Homes"
     },
     {
       "slug": "wanderin-star-farms",
@@ -7070,7 +7058,7 @@
         "ly_total_booking_revenue": 36182.9,
         "ly_direct_booking_revenue": 18883.72,
         "ly_direct_booking_split_pct": 0.5218962549,
-        "notes": "Drop in overall booking revenue possible due to change in minimum stay requirement\u2014changed from 2 to 3 night min."
+        "notes": "Drop in overall booking revenue possible due to change in minimum stay requirement—changed from 2 to 3 night min."
       },
       {
         "year": 2026,
@@ -8074,7 +8062,7 @@
         "year": 2025,
         "month": 6,
         "total_views": 3265.0,
-        "total_view_growth": "\u2014",
+        "total_view_growth": "—",
         "ig_views": 2726.0,
         "fb_views": 539.0,
         "tiktok_views": 0,
@@ -8335,7 +8323,7 @@
         "year": 2026,
         "month": 3,
         "total_views": 0,
-        "total_view_growth": "\u2014",
+        "total_view_growth": "—",
         "ig_views": 0,
         "fb_views": 0,
         "tiktok_views": 0,
@@ -12861,50 +12849,6 @@
         "comments": ""
       }
     ],
-    "riveria": [
-      {
-        "year": 2025,
-        "month": 12,
-        "campaign_type": "Discovery",
-        "spend": null,
-        "impressions": null,
-        "profile_visits": null,
-        "cost_per_visit": null,
-        "leads_followers": null,
-        "cost_per_lead_follower": null,
-        "ig_bio_leads": null,
-        "bookings_email_matched": null,
-        "bookings_fb_events": null,
-        "cost_per_booking": null,
-        "avg_booking_value": null,
-        "pct_avg_booking_value": null,
-        "revenue": null,
-        "roas": null,
-        "blended_roas": 0.0,
-        "comments": ""
-      },
-      {
-        "year": 2025,
-        "month": 12,
-        "campaign_type": "Retargeting",
-        "spend": 309.18,
-        "impressions": 33826.0,
-        "profile_visits": 733.0,
-        "cost_per_visit": 0.4218008186,
-        "leads_followers": null,
-        "cost_per_lead_follower": null,
-        "ig_bio_leads": null,
-        "bookings_email_matched": null,
-        "bookings_fb_events": null,
-        "cost_per_booking": null,
-        "avg_booking_value": null,
-        "pct_avg_booking_value": null,
-        "revenue": null,
-        "roas": 0.0,
-        "blended_roas": null,
-        "comments": ""
-      }
-    ],
     "parker-reserve": [
       {
         "year": 2025,
@@ -13030,50 +12974,6 @@
         "revenue": 1374.0,
         "roas": 4.604866278,
         "blended_roas": 4.604866278,
-        "comments": ""
-      }
-    ],
-    "twin-beds": [
-      {
-        "year": 2025,
-        "month": 12,
-        "campaign_type": "Discovery",
-        "spend": 930.63,
-        "impressions": 94619.0,
-        "profile_visits": 3615.0,
-        "cost_per_visit": 0.2574356846,
-        "leads_followers": 519.0,
-        "cost_per_lead_follower": null,
-        "ig_bio_leads": null,
-        "bookings_email_matched": null,
-        "bookings_fb_events": null,
-        "cost_per_booking": null,
-        "avg_booking_value": null,
-        "pct_avg_booking_value": null,
-        "revenue": null,
-        "roas": 0.0,
-        "blended_roas": 0.0,
-        "comments": ""
-      },
-      {
-        "year": 2025,
-        "month": 12,
-        "campaign_type": "Retargeting",
-        "spend": null,
-        "impressions": null,
-        "profile_visits": null,
-        "cost_per_visit": null,
-        "leads_followers": null,
-        "cost_per_lead_follower": null,
-        "ig_bio_leads": null,
-        "bookings_email_matched": null,
-        "bookings_fb_events": null,
-        "cost_per_booking": null,
-        "avg_booking_value": null,
-        "pct_avg_booking_value": null,
-        "revenue": null,
-        "roas": null,
-        "blended_roas": null,
         "comments": ""
       }
     ],
@@ -13309,50 +13209,6 @@
         "revenue": 8522.0,
         "roas": 6.459192336,
         "blended_roas": 6.464088037,
-        "comments": ""
-      }
-    ],
-    "vinifera-homes": [
-      {
-        "year": 2025,
-        "month": 12,
-        "campaign_type": "Discovery",
-        "spend": 559.76,
-        "impressions": 76964.0,
-        "profile_visits": 4395.0,
-        "cost_per_visit": 0.1273629124,
-        "leads_followers": 401.0,
-        "cost_per_lead_follower": null,
-        "ig_bio_leads": null,
-        "bookings_email_matched": null,
-        "bookings_fb_events": null,
-        "cost_per_booking": null,
-        "avg_booking_value": null,
-        "pct_avg_booking_value": null,
-        "revenue": null,
-        "roas": 0.0,
-        "blended_roas": 0.0,
-        "comments": ""
-      },
-      {
-        "year": 2025,
-        "month": 12,
-        "campaign_type": "Retargeting",
-        "spend": null,
-        "impressions": null,
-        "profile_visits": null,
-        "cost_per_visit": null,
-        "leads_followers": null,
-        "cost_per_lead_follower": null,
-        "ig_bio_leads": null,
-        "bookings_email_matched": null,
-        "bookings_fb_events": null,
-        "cost_per_booking": null,
-        "avg_booking_value": null,
-        "pct_avg_booking_value": null,
-        "revenue": null,
-        "roas": null,
-        "blended_roas": null,
         "comments": ""
       }
     ],

@@ -160,11 +160,6 @@
       "accessCode": "72013"
     },
     {
-      "clientName": "Riveria",
-      "clientSlug": "riveria",
-      "accessCode": "57764"
-    },
-    {
       "clientName": "Roundhouse Resort & Spa",
       "clientSlug": "roundhouse-resort-spa",
       "accessCode": "14195"
@@ -218,16 +213,6 @@
       "clientName": "Treetop Escapes",
       "clientSlug": "treetop-escapes",
       "accessCode": "15516"
-    },
-    {
-      "clientName": "Twin beds",
-      "clientSlug": "twin-beds",
-      "accessCode": "83719"
-    },
-    {
-      "clientName": "Vinifera Homes",
-      "clientSlug": "vinifera-homes",
-      "accessCode": "64627"
     },
     {
       "clientName": "Wanderin Star Farms",
