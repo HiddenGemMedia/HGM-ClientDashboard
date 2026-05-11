@@ -5,8 +5,12 @@
   const META_COLORS = ["#2663EB", "#F7AD43", "#12B981"];
   const CLIENT_ALIASES = {
     "apple-mountain": ["apple-mountain", "apple-mountain-resort"],
-    "casa-oso": ["casa-oso", "casa-oso-ad-account"]
+    "casa-oso": ["casa-oso", "casa-oso-ad-account"],
+    "bison-ridge-retreat": ["bison-ridge", "bison-ridge-retreat"],
+    "three-suns-cabins": ["three-suns", "three-suns-cabins"]
   };
+  const EXCLUDED_CLIENT_SLUGS = ["new", "north-star-nature-suites"];
+  const ACCESS_SESSION_KEY = "hgmDashboardAccess";
 
   const state = {
     performanceWorkbook: null,
@@ -26,7 +30,8 @@
     pendingMetaScrollKey: "",
     allCharts: [],
     sidebarOpen: false,
-    chartLabelBreakpoint: ""
+    chartLabelBreakpoint: "",
+    authorizedClientSlug: ""
   };
 
   const els = {
@@ -37,6 +42,7 @@
     clientSelect: document.getElementById("clientSelect"),
     monthInput: document.getElementById("monthInput"),
     applyFilterBtn: document.getElementById("applyFilterBtn"),
+    logoutBtn: document.getElementById("logoutBtn"),
     statusMessage: document.getElementById("statusMessage"),
     downloadPdfBtn: document.getElementById("downloadPdfBtn"),
     sidebarToggle: document.getElementById("sidebarToggle"),
@@ -84,18 +90,22 @@
     contentPeakPill: document.getElementById("contentPeakPill"),
     contentViewsChartSub: document.getElementById("contentViewsChartSub"),
     audienceTotalFollowers: document.getElementById("audienceTotalFollowers"),
+    audienceTotalMonthLabel: document.getElementById("audienceTotalMonthLabel"),
     audienceGrowthBadge: document.getElementById("audienceGrowthBadge"),
     audienceStartedFollowers: document.getElementById("audienceStartedFollowers"),
     audienceNetNewFollowers: document.getElementById("audienceNetNewFollowers"),
     audienceInstagramFollowers: document.getElementById("audienceInstagramFollowers"),
+    audienceInstagramMonthLabel: document.getElementById("audienceInstagramMonthLabel"),
     audienceInstagramNote: document.getElementById("audienceInstagramNote"),
     audienceInstagramStart: document.getElementById("audienceInstagramStart"),
     audienceInstagramShare: document.getElementById("audienceInstagramShare"),
     audienceFacebookFollowers: document.getElementById("audienceFacebookFollowers"),
+    audienceFacebookMonthLabel: document.getElementById("audienceFacebookMonthLabel"),
     audienceFacebookNote: document.getElementById("audienceFacebookNote"),
     audienceFacebookStart: document.getElementById("audienceFacebookStart"),
     audienceFacebookShare: document.getElementById("audienceFacebookShare"),
     audienceCostPerFollower: document.getElementById("audienceCostPerFollower"),
+    audienceTiktokMonthLabel: document.getElementById("audienceTiktokMonthLabel"),
     audienceCostPerFollowerNote: document.getElementById("audienceCostPerFollowerNote"),
     audienceTiktokFollowers: document.getElementById("audienceTiktokFollowers"),
     audienceTiktokGrowth: document.getElementById("audienceTiktokGrowth"),
@@ -144,7 +154,12 @@
     funnelCostFollower: document.getElementById("funnelCostFollower"),
     funnelCostLead: document.getElementById("funnelCostLead"),
     funnelRevenuePerSpend: document.getElementById("funnelRevenuePerSpend"),
-    funnelRevenuePerSpendNote: document.getElementById("funnelRevenuePerSpendNote")
+    funnelRevenuePerSpendNote: document.getElementById("funnelRevenuePerSpendNote"),
+    authGate: document.getElementById("authGate"),
+    authForm: document.getElementById("authForm"),
+    authCodeInput: document.getElementById("code"),
+    authError: document.getElementById("st"),
+    authSubmit: document.getElementById("btn")
   };
 
   const monthFormatter = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" });
@@ -161,11 +176,17 @@
 
   function bindUi() {
     els.applyFilterBtn.addEventListener("click", loadDashboard);
+    els.clientSelect.addEventListener("change", function () {
+      syncMonthInputBounds(els.clientSelect.value);
+    });
     bindSidebarDrawer();
     if (els.downloadPdfBtn) {
       els.downloadPdfBtn.addEventListener("click", function () {
         window.print();
       });
+    }
+    if (els.logoutBtn) {
+      els.logoutBtn.addEventListener("click", handleLogout);
     }
     els.roiSegmentBtn.addEventListener("click", function () {
       switchView("roi");
@@ -173,6 +194,20 @@
     els.metaSegmentBtn.addEventListener("click", function () {
       switchView("meta");
     });
+    if (els.authForm) {
+      els.authForm.addEventListener("submit", handleAccessSubmit);
+    }
+    if (els.authCodeInput) {
+      els.authCodeInput.addEventListener("input", function () {
+        els.authCodeInput.value = normalizeAccessCode(els.authCodeInput.value);
+        updateAccessDots();
+        if (els.authSubmit) {
+          els.authSubmit.disabled = els.authCodeInput.value.length < 5;
+          els.authSubmit.className = "btn";
+        }
+        clearAccessError();
+      });
+    }
     document.addEventListener("click", handleNavClick);
   }
 
@@ -276,6 +311,14 @@
       state.roiAnalysis = loaded[2];
       state.metaAnalysis = loaded[3];
       state.availableClients = (state.performanceWorkbook && state.performanceWorkbook.clients) || [];
+      if (!ensureAuthorizedAccess()) {
+        return;
+      }
+      if (state.authorizedClientSlug) {
+        state.availableClients = state.availableClients.filter(function (client) {
+          return client.slug === state.authorizedClientSlug;
+        });
+      }
       renderClientOptions();
       const params = new URLSearchParams(window.location.search);
       const routeClient = params.get("client");
@@ -283,6 +326,7 @@
       els.clientSelect.value = state.availableClients.some(function (client) {
         return client.slug === selectedSlug;
       }) ? selectedSlug : ((state.availableClients[0] && state.availableClients[0].slug) || "");
+      syncMonthInputBounds(els.clientSelect.value);
       await loadDashboard();
     } catch (error) {
       console.error(error);
@@ -291,8 +335,9 @@
   }
 
   async function loadDashboard() {
-    const selectedMonth = els.monthInput.value;
     const selectedClientSlug = els.clientSelect.value;
+    syncMonthInputBounds(selectedClientSlug);
+    const selectedMonth = els.monthInput.value;
 
     if (!selectedMonth) {
       showMessage("Please select a month.", "error");
@@ -325,7 +370,7 @@
 
       const roiMonths = buildRoiMetrics(getHistoricalMonthKeys(roiRows, selectedMonth, 3), roiRows);
       const allRoiMonths = buildRoiMetrics(getAllMonthKeys(roiRows), roiRows);
-      const filteredMetaRows = filterMetaRows(getHistoricalMonthKeys(metaRows, selectedMonth, 3), metaRows);
+      const filteredMetaRows = filterMetaRows(getHistoricalMonthKeys(metaRows, selectedMonth, 3), metaRows, roiRows);
       state.roiMonths = roiMonths;
       state.allRoiMonths = allRoiMonths;
       state.metaRows = filteredMetaRows;
@@ -427,6 +472,181 @@
     return String(value || "").replace(/\D/g, "").slice(0, 5);
   }
 
+  function clearStoredAccessSession() {
+    try {
+      window.sessionStorage.removeItem(ACCESS_SESSION_KEY);
+    } catch (_error) {
+      // ignore storage failures
+    }
+  }
+
+  function getStoredAccessSession() {
+    try {
+      var raw = window.sessionStorage.getItem(ACCESS_SESSION_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_error) {
+      return null;
+    }
+  }
+
+  function setStoredAccessSession(accessClient) {
+    try {
+      window.sessionStorage.setItem(ACCESS_SESSION_KEY, JSON.stringify({
+        code: normalizeAccessCode(accessClient.accessCode),
+        clientSlug: canonicalizeClientSlug(accessClient.clientSlug),
+        clientName: accessClient.clientName || "",
+        savedAt: Date.now()
+      }));
+    } catch (_error) {
+      // ignore storage failures
+    }
+  }
+
+  function findAccessClientByCode(code) {
+    var normalizedCode = normalizeAccessCode(code);
+    return state.accessClients.find(function (client) {
+      return normalizeAccessCode(client.accessCode) === normalizedCode
+        && EXCLUDED_CLIENT_SLUGS.indexOf(canonicalizeClientSlug(client.clientSlug)) === -1;
+    }) || null;
+  }
+
+  function showAccessGate(message) {
+    document.body.classList.add("auth-locked");
+    if (els.authError) {
+      els.authError.textContent = message || "";
+      els.authError.className = message ? "status e" : "status";
+    }
+    if (els.authCodeInput && !message) {
+      els.authCodeInput.focus();
+    }
+  }
+
+  function hideAccessGate() {
+    document.body.classList.remove("auth-locked");
+    clearAccessError();
+  }
+
+  function clearAccessError() {
+    if (els.authError) {
+      els.authError.textContent = "";
+      els.authError.className = "status";
+    }
+  }
+
+  function updateAccessDots() {
+    if (!els.authGate) {
+      return;
+    }
+    Array.prototype.forEach.call(els.authGate.querySelectorAll(".dot"), function (dot, index) {
+      dot.classList.toggle("on", !!(els.authCodeInput && index < els.authCodeInput.value.length));
+      dot.style.background = "";
+    });
+  }
+
+  function buildAuthorizedRoute(clientSlug, code, month, view) {
+    var canonicalSlug = canonicalizeClientSlug(clientSlug);
+    var bounds = getClientMonthBounds(canonicalSlug);
+    var nextMonth = month || bounds.max;
+    if (nextMonth > bounds.max || nextMonth < bounds.min) {
+      nextMonth = bounds.max;
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    params.set("client", canonicalSlug + normalizeAccessCode(code));
+    params.set("month", nextMonth);
+    params.set("view", view === "meta" ? "meta" : "roi");
+    params.delete("code");
+    params.delete("clientName");
+    return window.location.pathname + "?" + params.toString();
+  }
+
+  function ensureAuthorizedAccess() {
+    var session = getStoredAccessSession();
+    if (!session || !session.code) {
+      showAccessGate();
+      return false;
+    }
+
+    var accessClient = findAccessClientByCode(session.code);
+    if (!accessClient) {
+      clearStoredAccessSession();
+      showAccessGate("Enter a valid 5-digit access code.");
+      return false;
+    }
+
+    var authorizedSlug = canonicalizeClientSlug(accessClient.clientSlug);
+    var params = new URLSearchParams(window.location.search);
+    var routeClient = String(params.get("client") || "").trim();
+    var routeCode = normalizeAccessCode(routeClient);
+    var routeSlug = resolveRouteClientSlug(routeClient || authorizedSlug);
+    var requestedMonth = params.get("month") || DEFAULT_MONTH;
+    var requestedView = params.get("view") || "roi";
+
+    if (session.clientSlug && canonicalizeClientSlug(session.clientSlug) !== authorizedSlug) {
+      setStoredAccessSession(accessClient);
+    }
+
+    if (routeSlug !== authorizedSlug || routeCode !== normalizeAccessCode(accessClient.accessCode)) {
+      window.location.replace(buildAuthorizedRoute(authorizedSlug, accessClient.accessCode, requestedMonth, requestedView));
+      return false;
+    }
+
+    state.authorizedClientSlug = authorizedSlug;
+    hideAccessGate();
+    return true;
+  }
+
+  function handleAccessSubmit(event) {
+    event.preventDefault();
+    clearAccessError();
+
+    var accessCode = normalizeAccessCode(els.authCodeInput && els.authCodeInput.value);
+    var accessClient = findAccessClientByCode(accessCode);
+
+    if (!accessClient) {
+      showAccessGate("That access code was not recognized.");
+      if (els.authSubmit) {
+        els.authSubmit.className = "btn bad";
+        els.authSubmit.disabled = false;
+      }
+      return;
+    }
+
+    setStoredAccessSession(accessClient);
+    state.authorizedClientSlug = canonicalizeClientSlug(accessClient.clientSlug);
+    if (els.authSubmit) {
+      els.authSubmit.disabled = true;
+      els.authSubmit.className = "btn";
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var requestedView = params.get("view") || "roi";
+    var requestedMonth = params.get("month") || DEFAULT_MONTH;
+    window.location.replace(buildAuthorizedRoute(accessClient.clientSlug, accessClient.accessCode, requestedMonth, requestedView));
+  }
+
+  function handleLogout() {
+    clearStoredAccessSession();
+    state.authorizedClientSlug = "";
+    showAccessGate();
+    if (els.authCodeInput) {
+      els.authCodeInput.value = "";
+      updateAccessDots();
+      els.authCodeInput.focus();
+    }
+    if (els.authSubmit) {
+      els.authSubmit.disabled = true;
+      els.authSubmit.className = "btn";
+    }
+    var params = new URLSearchParams(window.location.search);
+    params.delete("client");
+    params.delete("code");
+    params.delete("clientName");
+    params.delete("month");
+    params.delete("view");
+    window.location.replace(window.location.pathname + (params.toString() ? "?" + params.toString() : ""));
+  }
+
   function resolveRouteClientSlug(routeClient) {
     var normalized = String(routeClient || "").trim();
     var directCanonical = canonicalizeClientSlug(normalized);
@@ -504,6 +724,10 @@
       nextMetaRowsByClientSlug[canonicalSlug] = aliases.reduce(function (rows, alias) {
         return rows.concat(nextMetaRowsByClientSlug[alias] || []);
       }, []).sort(compareWorkbookRows);
+    });
+
+    nextClients = nextClients.filter(function (client) {
+      return EXCLUDED_CLIENT_SLUGS.indexOf(client.slug) === -1;
     });
 
     nextWorkbook.clients = nextClients.sort(function (left, right) {
@@ -589,9 +813,9 @@
     }).filter(Boolean);
   }
 
-  function filterMetaRows(monthKeys, rows) {
+  function filterMetaRows(monthKeys, rows, roiRows) {
     const allowed = new Set(monthKeys);
-    return rows
+    const filteredRows = rows
       .filter(function (row) {
         return allowed.has(toMonthKey(row.year, row.month)) && isIncludedMetaCampaign(row.campaign_type);
       })
@@ -621,6 +845,8 @@
           comments: row.comments || ""
         };
       });
+
+    return filteredRows;
   }
 
   function isIncludedMetaCampaign(campaignType) {
@@ -645,6 +871,34 @@
       set.add(toMonthKey(row.year, row.month));
       return set;
     }, new Set())).sort();
+  }
+
+  function getClientMonthBounds(clientSlug) {
+    const canonicalClientSlug = canonicalizeClientSlug(clientSlug);
+    const roiKeys = getAllMonthKeys(getPerformanceRoiRows(canonicalClientSlug));
+    const metaKeys = getAllMonthKeys(getMetaRows(canonicalClientSlug));
+    const allKeys = Array.from(new Set(roiKeys.concat(metaKeys))).sort();
+
+    return {
+      min: allKeys[0] || DEFAULT_MONTH,
+      max: allKeys[allKeys.length - 1] || DEFAULT_MONTH
+    };
+  }
+
+  function syncMonthInputBounds(clientSlug) {
+    const bounds = getClientMonthBounds(clientSlug);
+    els.monthInput.min = bounds.min;
+    els.monthInput.max = bounds.max;
+
+    if (!els.monthInput.value || els.monthInput.value > bounds.max) {
+      els.monthInput.value = bounds.max;
+    }
+
+    if (els.monthInput.value < bounds.min) {
+      els.monthInput.value = bounds.min;
+    }
+
+    return bounds;
   }
 
   function getFollowerStartValue(months) {
@@ -679,6 +933,39 @@
     return candidate ? numeric(candidate.newLeads) : 0;
   }
 
+  function formatPositiveImprovementNote(previousValue, currentValue) {
+    const delta = percentDelta(previousValue, currentValue);
+    if (!(delta > 0)) {
+      return "";
+    }
+    return "↑ " + formatPercent(delta, 0) + " vs prev";
+  }
+
+  function formatCurrencyComparisonNote(previousValue, currentValue) {
+    const previous = numeric(previousValue);
+    const current = numeric(currentValue);
+    const difference = current - previous;
+
+    if (!previous) {
+      return "As of selected month";
+    }
+    if (difference > 0) {
+      return formatRoiCompactCurrency(difference) + " above prev";
+    }
+    if (difference < 0) {
+      return formatRoiCompactCurrency(Math.abs(difference)) + " below prev";
+    }
+    return "Flat vs prev";
+  }
+
+  function formatPercentComparisonNote(previousValue, currentValue) {
+    const delta = percentDelta(previousValue, currentValue);
+    if (!previousValue && !currentValue) {
+      return "";
+    }
+    return (delta > 0 ? "+" : "") + formatPercent(delta, 0) + " vs prev";
+  }
+
   function renderRoiDashboard(selectedMonth) {
     const totals = summarizeRoi(state.roiMonths);
     const peakViewsMonth = highestMonth(state.roiMonths, "totalViews");
@@ -699,12 +986,12 @@
     syncClientFrame(state.client, selectedMonth);
     setText(els.dateRangeLabel, "Social · " + firstMonth.label + " – " + latestMonth.label);
 
-    setText(els.summaryTotalImpressions, formatRoiCompactNumber(totals.totalViews));
-    setText(els.summaryNewFollowers, formatRoiCompactNumber(netNewFollowers));
-    setText(els.summaryNewLeads, formatRoiCompactNumber(totals.newLeads));
-    setText(els.summaryTotalRevenue, formatRoiCompactCurrency(totals.totalRevenue));
-    setText(els.summaryDirectSplitAvg, formatPercent(totals.avgDirectSplit, 0));
-    setText(els.summaryAvgCostPerLead, formatRoiCompactNumber(sumMetric(state.roiMonths, "totalLeads")));
+    setText(els.summaryNewFollowers, formatRoiCompactCurrency(latestMonth ? numeric(latestMonth.totalRevenue) : 0));
+    setText(els.summaryTotalImpressions, formatRoiCompactCurrency(latestMonth ? numeric(latestMonth.directRevenue) : 0));
+    setText(els.summaryTotalRevenue, formatPercent(latestMonth ? numeric(latestMonth.directSplit) : 0, 0));
+    setText(els.summaryAvgCostPerLead, formatRoiCompactNumber(latestMonth ? numeric(latestMonth.newLeads) : 0));
+    setText(els.summaryNewLeads, formatRoiCompactNumber(latestMonth ? numeric(latestMonth.netNewFollowers) : 0));
+    setText(els.summaryDirectSplitAvg, formatRoiCompactNumber(latestMonth ? numeric(latestMonth.totalViews) : 0));
     setDefaultRoiOverviewLabels();
 
     const defaultOverviewItems = [
@@ -723,16 +1010,26 @@
     applyRoiAnalysis(canonicalizeClientSlug(state.client && state.client.slug), selectedMonth);
 
     const latestMonthLabel = latestMonth ? latestMonth.label : "Selected month";
+    setText(els.summaryNote1, latestMonthLabel);
+    setText(els.summaryNote2, latestMonthLabel);
+    setText(els.summaryNote3, latestMonthLabel);
+    setText(els.summaryAvgCostPerLeadNote, latestMonthLabel);
+    setText(els.summaryNote5, latestMonthLabel);
+    setText(els.summaryNote6, latestMonthLabel);
 
-    const metaShare = share(totals.fbViews, totals.totalViews);
-    const instagramShare = share(totals.igViews, totals.totalViews);
-    const tiktokShare = share(totals.tiktokViews, totals.totalViews);
-    setText(els.contentInstagramViews, formatNumber(totals.igViews));
-    setText(els.contentMetaViews, formatNumber(totals.fbViews));
-    setText(els.contentTiktokViews, formatNumber(totals.tiktokViews));
-    setText(els.contentTotalViewsDisplay, formatRoiCompactNumber(totals.totalViews));
-    setText(els.contentTotalViewsSubcopy, "Across all platforms, " + state.roiMonths.length + " months");
-    setText(els.contentTiktokPeakText, peakTiktokMonth ? "Peak " + peakTiktokMonth.shortLabel + " '" + peakTiktokMonth.key.slice(2, 4) : "Growing");
+    const currentViewsTotal = latestMonth ? numeric(latestMonth.totalViews) : 0;
+    const currentFbViews = latestMonth ? numeric(latestMonth.fbViews) : 0;
+    const currentInstagramViews = latestMonth ? numeric(latestMonth.igViews) : 0;
+    const currentTiktokViews = latestMonth ? numeric(latestMonth.tiktokViews) : 0;
+    const metaShare = share(currentFbViews, currentViewsTotal);
+    const instagramShare = share(currentInstagramViews, currentViewsTotal);
+    const tiktokShare = share(currentTiktokViews, currentViewsTotal);
+    setText(els.contentInstagramViews, formatNumber(currentInstagramViews));
+    setText(els.contentMetaViews, formatNumber(currentFbViews));
+    setText(els.contentTiktokViews, formatNumber(currentTiktokViews));
+    setText(els.contentTotalViewsDisplay, formatRoiCompactNumber(currentViewsTotal));
+    setText(els.contentTotalViewsSubcopy, latestMonth ? "Across all platforms, " + latestMonth.label : "Across all platforms");
+    setText(els.contentTiktokPeakText, latestMonth ? latestMonth.label + " current" : "Current month");
     setText(els.contentMetaShareText, formatPercent(metaShare, 0));
     setText(els.contentInstagramShareText, formatPercent(instagramShare, 0));
     setText(els.contentTiktokShareText, tiktokShare > 0 && tiktokShare < 0.01 ? "<1%" : formatPercent(tiktokShare, 0));
@@ -743,11 +1040,11 @@
     setBarWidth(els.contentTiktokShareBar, tiktokShare);
     setText(
       els.contentPeakPill,
-      peakViewsMonth
-        ? "↑ " + peakViewsMonth.shortLabel + " peak " + formatRoiCompactNumber(peakViewsMonth.totalViews)
-        : "Peak -"
+      latestMonth
+        ? latestMonth.shortLabel + " current " + formatRoiCompactNumber(currentViewsTotal)
+        : "Current -"
     );
-    setText(els.contentViewsChartSub, "Platform breakdown · " + formatShortMonthYearKey(firstMonth.key) + " – " + formatShortMonthYearKey(latestMonth.key));
+    setText(els.contentViewsChartSub, latestMonth ? "Platform breakdown · " + formatShortMonthYearKey(latestMonth.key) : "Platform breakdown");
 
     const instagramStart = getPlatformStartValue(state.roiMonths, "igFollowers");
     const instagramCurrent = latestMonth ? numeric(latestMonth.igFollowers) : 0;
@@ -759,21 +1056,26 @@
     const tiktokCurrent = latestMonth ? numeric(latestMonth.tiktokFollowers) : 0;
     const tiktokNetNew = Math.max(0, tiktokCurrent - tiktokStart);
     const totalPlatformNetNew = instagramNetNew + facebookNetNew + tiktokNetNew;
+    const audienceMonthLabel = latestMonth ? "(" + latestMonth.label + ")" : "(Selected month)";
 
-    setText(els.audienceTotalFollowers, formatNumber(totalPlatformNetNew));
+    setText(els.audienceTotalFollowers, formatNumber(latestFollowers));
+    setText(els.audienceTotalMonthLabel, audienceMonthLabel);
     setTrendBadge(els.audienceGrowthBadge, percentDelta(startedFollowers, latestFollowers));
     setText(els.audienceStartedFollowers, formatNumber(startedFollowers));
     setText(els.audienceNetNewFollowers, "+" + formatNumber(totalPlatformNetNew));
 
-    setText(els.audienceInstagramFollowers, formatNumber(instagramNetNew));
+    setText(els.audienceInstagramFollowers, formatNumber(instagramCurrent));
+    setText(els.audienceInstagramMonthLabel, audienceMonthLabel);
     setTrendBadge(els.audienceInstagramNote, percentDelta(instagramStart, instagramCurrent));
     setText(els.audienceInstagramStart, formatNumber(instagramStart));
     setText(els.audienceInstagramShare, "+" + formatNumber(instagramNetNew));
-    setText(els.audienceFacebookFollowers, formatNumber(facebookNetNew));
+    setText(els.audienceFacebookFollowers, formatNumber(facebookCurrent));
+    setText(els.audienceFacebookMonthLabel, audienceMonthLabel);
     setTrendBadge(els.audienceFacebookNote, percentDelta(facebookStart, facebookCurrent));
     setText(els.audienceFacebookStart, formatNumber(facebookStart));
     setText(els.audienceFacebookShare, "+" + formatNumber(facebookNetNew));
-    setText(els.audienceCostPerFollower, formatNumber(tiktokNetNew));
+    setText(els.audienceCostPerFollower, formatNumber(tiktokCurrent));
+    setText(els.audienceTiktokMonthLabel, audienceMonthLabel);
     setTrendBadge(els.audienceCostPerFollowerNote, percentDelta(tiktokStart, tiktokCurrent));
     setText(els.audienceTiktokFollowers, formatNumber(tiktokStart));
     setText(els.audienceTiktokGrowth, "+" + formatNumber(tiktokNetNew));
@@ -811,13 +1113,13 @@
     setText(els.revenueDirectValue, formatRoiCompactCurrency(totals.directRevenue));
     setText(els.revenueDirectNote, formatPercent(totals.directSplitShare, 0) + " direct split");
     setText(els.revenueDirectShareValue, formatPercent(totals.directSplitShare, 0));
-    setText(els.revenueDirectPeakMonth, peakDirectRevenueMonth ? peakDirectRevenueMonth.shortLabel + " '" + peakDirectRevenueMonth.key.slice(2, 4) : "-");
+    setText(els.revenueDirectPeakMonth, formatRoiCompactCurrency(latestMonth.directRevenue));
     setText(els.revenueDirectSplitAvg, formatPercent(totals.avgDirectSplit, 0));
     setText(els.revenueVsLastYear, formatRoiCompactCurrency(totals.totalRevenue / Math.max(state.roiMonths.length, 1)));
-    setText(els.revenuePeakMonth, peakRevenueMonth ? peakRevenueMonth.shortLabel + " '" + peakRevenueMonth.key.slice(2, 4) : "-");
+    setText(els.revenuePeakMonth, formatRoiCompactCurrency(latestMonth.totalRevenue));
     setText(els.revenueSplitNote, bestSplitMonth ? bestSplitMonth.shortLabel + " peak " + formatPercent(bestSplitMonth.directSplit, 0) : "Selected range");
     setText(els.revenueSplitDirectValue, formatRoiCompactCurrency(totals.directRevenue));
-    setText(els.revenueSplitPeakMonth, bestSplitMonth ? bestSplitMonth.shortLabel + " '" + bestSplitMonth.key.slice(2, 4) : "-");
+    setText(els.revenueSplitPeakMonth, formatPercent(latestMonth.directSplit, 0));
     setText(
       els.revenueChartSub,
       peakRevenueMonth
@@ -826,25 +1128,36 @@
     );
     setText(els.bookingSplitChartSub, "Monthly % · direct bookings");
 
-    const funnelWidths = [1, 0.82, 0.62, 0.42, 0.22];
-    setText(els.funnelViewsValue, formatRoiCompactNumber(totals.totalViews));
-    setBarWidth(els.funnelViewsFill, funnelWidths[0]);
-    setText(els.funnelFollowersValue, formatRoiCompactNumber(netNewFollowers));
-    setBarWidth(els.funnelFollowersFill, funnelWidths[1]);
-    setText(els.funnelSessionsValue, formatRoiCompactNumber(totals.websiteTraffic));
-    setBarWidth(els.funnelSessionsFill, funnelWidths[2]);
-    setText(els.funnelLeadsValue, formatRoiCompactNumber(totals.newLeads));
-    setBarWidth(els.funnelLeadsFill, funnelWidths[3]);
-    setText(els.funnelRevenueValue, formatRoiCompactCurrency(totals.directRevenue));
-    setBarWidth(els.funnelRevenueFill, funnelWidths[4]);
-    setText(els.funnelFollowersConv, "↓ " + formatPercent(share(netNewFollowers, totals.totalViews), 1) + " to followers");
-    setText(els.funnelTrafficConv, "↓ to website sessions");
-    setText(els.funnelLeadsConv, "↓ " + formatPercent(share(totals.newLeads, totals.websiteTraffic), 1) + " to leads");
-    setText(els.funnelRevenueConv, "↓ to revenue");
-    setText(els.funnelCostFollower, formatCurrency(totals.avgCostPerFollower));
-    setText(els.funnelCostLead, formatCurrency(totals.avgCostPerLead));
-    setText(els.funnelRevenuePerSpend, "$" + round2(totals.adSpend ? totals.directRevenue / totals.adSpend : 0));
-    setText(els.funnelRevenuePerSpendNote, formatCurrency(totals.adSpend, 0) + " spend → " + formatCurrency(totals.directRevenue, 0) + " direct revenue");
+    const currentFunnelViews = latestMonth ? numeric(latestMonth.totalViews) : 0;
+    const currentFunnelFollowers = latestMonth ? numeric(latestMonth.totalFollowers) : 0;
+    const currentFunnelSessions = latestMonth ? numeric(latestMonth.websiteTraffic) : 0;
+    const currentFunnelLeads = latestMonth ? numeric(latestMonth.newLeads) : 0;
+    const currentFunnelRevenue = latestMonth ? numeric(latestMonth.directRevenue) : 0;
+    const funnelShowcaseWidths = {
+      views: 1,
+      followers: 0.78,
+      sessions: 0.55,
+      leads: 0.34,
+      revenue: 0.14
+    };
+    setText(els.funnelViewsValue, formatRoiCompactNumber(currentFunnelViews));
+    setBarWidth(els.funnelViewsFill, funnelShowcaseWidths.views);
+    setText(els.funnelFollowersValue, formatRoiCompactNumber(currentFunnelFollowers));
+    setBarWidth(els.funnelFollowersFill, funnelShowcaseWidths.followers);
+    setText(els.funnelSessionsValue, formatRoiCompactNumber(currentFunnelSessions));
+    setBarWidth(els.funnelSessionsFill, funnelShowcaseWidths.sessions);
+    setText(els.funnelLeadsValue, formatRoiCompactNumber(currentFunnelLeads));
+    setBarWidth(els.funnelLeadsFill, funnelShowcaseWidths.leads);
+    setText(els.funnelRevenueValue, formatRoiCompactCurrency(currentFunnelRevenue));
+    setBarWidth(els.funnelRevenueFill, funnelShowcaseWidths.revenue);
+    setText(els.funnelFollowersConv, "↓ " + formatPercent(share(currentFunnelFollowers, currentFunnelViews), 1) + " to followers");
+    setText(els.funnelTrafficConv, "↓ " + formatPercent(share(currentFunnelSessions, currentFunnelFollowers), 1) + " to website sessions");
+    setText(els.funnelLeadsConv, "↓ " + formatPercent(share(currentFunnelLeads, currentFunnelSessions), 1) + " to leads");
+    setText(els.funnelRevenueConv, "↓ revenue");
+    setText(els.funnelCostFollower, formatCurrency(currentFunnelFollowers ? numeric(latestMonth.adSpend) / currentFunnelFollowers : 0));
+    setText(els.funnelCostLead, formatCurrency(currentFunnelLeads ? numeric(latestMonth.adSpend) / currentFunnelLeads : 0));
+    setText(els.funnelRevenuePerSpend, "$" + round2(currentFunnelViews && latestMonth && numeric(latestMonth.adSpend) ? currentFunnelRevenue / numeric(latestMonth.adSpend) : 0));
+    setText(els.funnelRevenuePerSpendNote, formatCurrency(latestMonth ? numeric(latestMonth.adSpend) : 0, 0) + " spend → " + formatCurrency(currentFunnelRevenue, 0) + " direct revenue");
 
     renderRoiCharts();
   }
@@ -886,7 +1199,7 @@
     setText(els.audienceInstagramFollowers, "0");
     setText(els.audienceInstagramNote, "0%");
     setText(els.audienceInstagramStart, "0");
-    setText(els.audienceInstagramShare, "0%");
+    setText(els.audienceInstagramShare, "0");
     setText(els.audienceFacebookFollowers, "0");
     setText(els.audienceFacebookNote, "0%");
     setText(els.audienceFacebookStart, "0");
@@ -1457,6 +1770,14 @@
       }
     ));
 
+    const revenueLyAxis = buildTrendAxisBounds(
+      state.allRoiMonths.reduce(function (values, month) {
+        values.push(month.totalRevenue, month.directRevenue, month.totalRevenueLy);
+        return values;
+      }, []),
+      { step: 25000, tightRangeThreshold: 0.3 }
+    );
+
     createChart("revenueLyChart", "roi-revenue-ly", {
       series: [
         { name: "Total Revenue", data: state.allRoiMonths.map(function (month) { return month.totalRevenue; }) },
@@ -1488,7 +1809,9 @@
         axisTicks: { color: gridColor }
       },
       yaxis: {
-        min: 0,
+        min: revenueLyAxis.min,
+        max: revenueLyAxis.max,
+        tickAmount: revenueLyAxis.tickAmount,
         labels: {
           minWidth: 64,
           style: { colors: mutedText, fontSize: "12px", fontWeight: 600 },
@@ -1589,8 +1912,8 @@
   function renderMetaPortfolio(meta) {
     return [
       '<section class="meta-section" id="meta-portfolio">',
-      renderMetaStageHeader("01", "Portfolio Snapshot", renderMetaComparisonToggleButton()),
-      state.metaComparisonExpanded ? renderMetaComparisonTable(meta) : "",
+      renderMetaStageHeader("01", "Portfolio Snapshot"),
+      renderMetaComparisonTable(meta),
       '<div class="meta-feature-grid">',
       renderMetaChartCard("Revenue vs. Spend Trend", "Monthly direct revenue and total spend", "meta-rev-spend"),
       '<div class="meta-feature-stack">' +
@@ -1607,27 +1930,27 @@
   }
 
   function renderMetaSummaryStrip(meta) {
-    const analysisEntry = getMetaAnalysisEntry(canonicalizeClientSlug(state.client && state.client.slug), state.selectedMonth);
-    if (analysisEntry && Array.isArray(analysisEntry.performance_overview) && analysisEntry.performance_overview.length) {
-      return [
-        '<section class="meta-summary-strip">',
-        analysisEntry.performance_overview.slice(0, 6).map(function (item) {
-          return renderMetaSummaryStat(item.label || "-", item.value || "-", item.note || "");
-        }).join(""),
-        "</section>"
-      ].join("");
-    }
-
-    const summary = buildMetaSummary(meta);
+    const currentMonth = meta.months && meta.months.length ? meta.months[meta.months.length - 1] : null;
+    const currentRows = currentMonth ? meta.rows.filter(function (row) {
+      return row.key === currentMonth.key;
+    }) : [];
+    const currentMonthLabel = currentMonth ? currentMonth.label : "Selected month";
+    const currentBookings = currentMonth ? numeric(currentMonth.totalBookings) : 0;
+    const currentCostPerBooking = currentBookings ? numeric(currentMonth.totalSpend) / currentBookings : 0;
+    const currentFollowers = sumMetric(currentRows, "leadsFollowers");
+    const currentViews = sumMetric(currentRows, "profileVisits");
+    const currentLeads = sumMetric(currentRows, "igBioLeads");
+    const currentPctAvgBookingValue = averageMetric(currentRows, "pctAvgBookingValue");
 
     return [
       '<section class="meta-summary-strip">',
-      renderMetaSummaryStat("Total spend", formatCurrency(summary.totalSpend, 0), summary.monthCount + "-month"),
-      renderMetaSummaryStat("Total revenue", formatCurrency(summary.totalRevenue, 0), "Attributed"),
-      renderMetaSummaryStat("Blended ROAS", formatMultiple(summary.avgRoas), "Average"),
-      renderMetaSummaryStat("Total bookings", formatNumber(summary.totalBookings), "FB + Email"),
-      renderMetaSummaryStat("Best month", summary.bestMonth ? summary.bestMonth.shortLabel + " '" + String(summary.bestMonth.key).slice(2, 4) : "-", summary.bestMonth ? "Peak performance" : "No data"),
-      renderMetaSummaryStat("Peak ROAS", formatMultiple(summary.peakRoasValue), summary.peakRoasRow ? summary.peakRoasRow.campaignType + ", " + summary.peakRoasRow.shortLabel : "No campaign peak"),
+      renderMetaSummaryStat("Ad Spend", formatCurrency(currentMonth ? currentMonth.totalSpend : 0, 0), currentMonthLabel),
+      renderMetaSummaryStat("Ad Rev", formatCurrency(currentMonth ? currentMonth.attributedRevenue : 0, 0), currentMonthLabel),
+      renderMetaSummaryStat("ROAS", formatMultiple(currentMonth ? currentMonth.blendedRoas : 0), currentMonthLabel),
+      renderMetaSummaryStat("Cost Per Booking (%)", currentCostPerBooking ? formatCurrency(currentCostPerBooking, 0) : "—", currentPctAvgBookingValue ? formatPercent(currentPctAvgBookingValue, 0) + " avg BV" : currentMonthLabel),
+      renderMetaSummaryStat("Leads", formatNumber(currentLeads), currentMonthLabel),
+      renderMetaSummaryStat("Followers", formatNumber(currentFollowers), currentMonthLabel),
+      renderMetaSummaryStat("Views", formatNumber(currentViews), currentMonthLabel),
       "</section>"
     ].join("");
   }
@@ -2023,11 +2346,18 @@
   }
 
   function renderMetaComparisonTable(meta) {
+    const rows = (meta.rows || []).slice().sort(function (a, b) {
+      if (a.key !== b.key) {
+        return b.key.localeCompare(a.key);
+      }
+      return a.campaignType.localeCompare(b.campaignType);
+    });
+
     return [
       '<div class="meta-table-card meta-portfolio-table"><div class="meta-table-wrap"><table class="meta-table">',
       "<thead><tr><th>Month</th><th>Campaign</th><th>Spend</th><th>Revenue</th><th>ROAS</th><th>Impressions</th><th>Visits</th><th>Leads/Followers</th><th>IG Bio Leads</th><th>Bookings (Email)</th><th>Bookings (FB)</th><th>Cost/Booking</th><th>% Avg BV</th></tr></thead>",
       "<tbody>",
-      meta.rows.map(function (row) {
+      rows.map(function (row) {
         return [
           "<tr>",
           '<td><span class="meta-month-pill meta-month-' + escapeHtml(String(row.monthIndex)) + '">' + escapeHtml(row.shortLabel) + "</span></td>",
@@ -2356,6 +2686,14 @@
       const performanceValues = rows.map(function (row) { return primaryRoas(row); });
       const efficiencyValues = rows.map(function (row) { return numeric(row[efficiencyMetric.key]); });
       const volumeValues = rows.map(function (row) { return numeric(row[volumeMetric.key]); });
+      const performanceAxis = buildTrendAxisBounds(performanceValues, {
+        step: performanceValues.length && Math.max.apply(null, performanceValues.concat([0])) <= 20 ? 1 : 5,
+        tightRangeThreshold: 0.4
+      });
+      const efficiencyAxis = buildTrendAxisBounds(efficiencyValues, {
+        step: chooseAxisStep(Math.max.apply(null, efficiencyValues.concat([0]))),
+        tightRangeThreshold: 0.4
+      });
       const volumeMax = roundUpValue(Math.max.apply(null, volumeValues.concat([0])));
       const isRetargeting = campaignType.toLowerCase().indexOf("retarget") !== -1;
       const isDiscovery = campaignType.toLowerCase().indexOf("discovery") !== -1;
@@ -2366,6 +2704,10 @@
         const spendValues = rows.map(function (row) { return numeric(row.spend); });
         const revenueValues = rows.map(function (row) { return numeric(row.revenue); });
         const roasMonthMax = roundUpAxis(Math.max.apply(null, performanceValues.concat([2])));
+        const roasMonthAxis = buildTrendAxisBounds(performanceValues, {
+          step: roasMonthMax <= 20 ? 1 : 5,
+          tightRangeThreshold: 0.4
+        });
 
         if (spendRevenueEl) {
           pushChart(new ApexCharts(spendRevenueEl, {
@@ -2406,7 +2748,13 @@
             chart: sharedChart("line", 215),
             series: [{ name: "ROAS", type: "line", data: performanceValues }],
             xaxis: sharedXAxis(campaignMonthLabels, { offsetY: 6 }),
-            yaxis: sharedYAxis(function (value) { return round2(value) + "x"; }, { offsetX: 4, minWidth: 52, min: 0, max: roasMonthMax, tickAmount: 4 }),
+            yaxis: sharedYAxis(function (value) { return round2(value) + "x"; }, {
+              offsetX: 4,
+              minWidth: 52,
+              min: roasMonthAxis.min,
+              max: Math.max(roasMonthAxis.max, roasMonthMax),
+              tickAmount: roasMonthAxis.tickAmount
+            }),
             colors: ["#2663EB"],
             stroke: { width: 3, curve: "smooth", lineCap: "round" },
             markers: {
@@ -2441,6 +2789,14 @@
         const visitValues = rows.map(function (row) { return numeric(row.profileVisits); });
         const roasMax = roundUpAxis(Math.max.apply(null, performanceValues.concat([2])));
         const impressionsVisitsMax = roundUpValue(Math.max.apply(null, impressionValues.concat(visitValues).concat([0])));
+        const roasAxis = buildTrendAxisBounds(performanceValues, {
+          step: roasMax <= 20 ? 1 : 5,
+          tightRangeThreshold: 0.4
+        });
+        const impressionsVisitsAxis = buildTrendAxisBounds(impressionValues.concat(visitValues), {
+          step: chooseAxisStep(impressionsVisitsMax),
+          tightRangeThreshold: 0.35
+        });
 
         if (spendRevenueEl) {
           pushChart(new ApexCharts(spendRevenueEl, {
@@ -2481,7 +2837,13 @@
             chart: sharedChart("line", 235),
             series: [{ name: "ROAS", type: "line", data: performanceValues }],
             xaxis: sharedXAxis(campaignMonthLabels, { offsetY: 6 }),
-            yaxis: sharedYAxis(function (value) { return round2(value) + "x"; }, { offsetX: 4, minWidth: 52, min: 0, max: roasMax, tickAmount: 4 }),
+            yaxis: sharedYAxis(function (value) { return round2(value) + "x"; }, {
+              offsetX: 4,
+              minWidth: 52,
+              min: roasAxis.min,
+              max: Math.max(roasAxis.max, roasMax),
+              tickAmount: roasAxis.tickAmount
+            }),
             colors: ["#F7AD43"],
             stroke: { width: 3, curve: "smooth", lineCap: "round" },
             markers: {
@@ -2510,7 +2872,13 @@
               { name: "Page visits", type: "line", data: visitValues }
             ],
             xaxis: sharedXAxis(campaignMonthLabels, { offsetY: 6 }),
-            yaxis: sharedYAxis(function (value) { return formatCompactNumber(value); }, { offsetX: 4, minWidth: 52, min: 0, max: impressionsVisitsMax, tickAmount: 4 }),
+            yaxis: sharedYAxis(function (value) { return formatCompactNumber(value); }, {
+              offsetX: 4,
+              minWidth: 52,
+              min: impressionsVisitsAxis.min,
+              max: Math.max(impressionsVisitsAxis.max, impressionsVisitsMax),
+              tickAmount: impressionsVisitsAxis.tickAmount
+            }),
             colors: ["#2663EB", "#12B981"],
             stroke: { width: 3, curve: "smooth", lineCap: "round" },
             markers: {
@@ -2548,7 +2916,13 @@
           { name: "ROAS", type: "line", data: performanceValues }
         ],
         xaxis: sharedXAxis(campaignMonthLabels, { offsetY: 6 }),
-        yaxis: sharedYAxis(function (value) { return round2(value) + "x"; }, { offsetX: -8, minWidth: 52 }),
+        yaxis: sharedYAxis(function (value) { return round2(value) + "x"; }, {
+          offsetX: -8,
+          minWidth: 52,
+          min: performanceAxis.min,
+          max: performanceAxis.max,
+          tickAmount: performanceAxis.tickAmount
+        }),
         colors: [monthColor(1)],
         stroke: { width: 3, curve: "smooth", lineCap: "round" },
         markers: {
@@ -2589,7 +2963,13 @@
           { name: efficiencyMetric.label, type: "line", data: efficiencyValues }
         ],
         xaxis: sharedXAxis(campaignMonthLabels, { offsetY: 6 }),
-        yaxis: sharedYAxis(function (value) { return "$" + round2(value); }, { offsetX: -8, minWidth: 52 }),
+        yaxis: sharedYAxis(function (value) { return "$" + round2(value); }, {
+          offsetX: -8,
+          minWidth: 52,
+          min: efficiencyAxis.min,
+          max: efficiencyAxis.max,
+          tickAmount: efficiencyAxis.tickAmount
+        }),
         colors: [monthColor(0)],
         stroke: { width: 3, curve: "smooth", lineCap: "round" },
         markers: {
@@ -3005,17 +3385,18 @@
   }
 
   function setDefaultRoiOverviewLabels() {
-    setText(els.summaryLabel1, "New Followers");
-    setText(els.summaryLabel2, "Total Views");
-    setText(els.summaryLabel3, "Total Revenue");
-    setText(els.summaryLabel4, "Total Pipeline");
-    setText(els.summaryLabel5, "New Leads");
-    setText(els.summaryLabel6, "Direct Split");
-    setText(els.summaryNote1, "Selected range");
-    setText(els.summaryNote2, "All platforms");
-    setText(els.summaryNote3, "Period total");
-    setText(els.summaryNote5, "Acquired");
-    setText(els.summaryNote6, "Average");
+    setText(els.summaryLabel1, "Total Revenue");
+    setText(els.summaryLabel2, "Direct Revenue");
+    setText(els.summaryLabel3, "Direct Split");
+    setText(els.summaryLabel4, "New Leads");
+    setText(els.summaryLabel5, "New Followers");
+    setText(els.summaryLabel6, "Views");
+    setText(els.summaryNote1, "");
+    setText(els.summaryNote2, "");
+    setText(els.summaryNote3, "");
+    setText(els.summaryAvgCostPerLeadNote, "");
+    setText(els.summaryNote5, "");
+    setText(els.summaryNote6, "");
   }
 
   function applyRoiAnalysis(clientSlug, selectedMonth) {
@@ -3023,41 +3404,6 @@
     if (!entry) {
       return;
     }
-
-    const overview = Array.isArray(entry.performance_overview) ? entry.performance_overview.slice(0, 6) : [];
-    const overviewValues = [
-      els.summaryNewFollowers,
-      els.summaryTotalImpressions,
-      els.summaryTotalRevenue,
-      els.summaryAvgCostPerLead,
-      els.summaryNewLeads,
-      els.summaryDirectSplitAvg
-    ];
-    const overviewLabels = [
-      els.summaryLabel1,
-      els.summaryLabel2,
-      els.summaryLabel3,
-      els.summaryLabel4,
-      els.summaryLabel5,
-      els.summaryLabel6
-    ];
-    const overviewNotes = [
-      els.summaryNote1,
-      els.summaryNote2,
-      els.summaryNote3,
-      els.summaryAvgCostPerLeadNote,
-      els.summaryNote5,
-      els.summaryNote6
-    ];
-
-    overview.forEach(function (item, index) {
-      if (!overviewValues[index]) {
-        return;
-      }
-      setText(overviewLabels[index], item.label || "-");
-      setText(overviewValues[index], item.value || "-");
-      setText(overviewNotes[index], item.note || "");
-    });
 
     if (Array.isArray(entry.key_takeaways) && entry.key_takeaways.length) {
       renderList(els.summaryOverviewList, entry.key_takeaways);
@@ -3344,6 +3690,76 @@
       return Math.ceil(value / 1000) * 1000;
     }
     return Math.ceil(value / 5000) * 5000;
+  }
+
+  function roundDownToStep(value, step) {
+    if (!step) {
+      return Math.max(0, value);
+    }
+    return Math.max(0, Math.floor(value / step) * step);
+  }
+
+  function roundUpToStep(value, step) {
+    if (!step) {
+      return Math.max(0, value);
+    }
+    return Math.max(step, Math.ceil(value / step) * step);
+  }
+
+  function chooseAxisStep(maxValue) {
+    const safeMax = Math.max(0, numeric(maxValue));
+    if (safeMax <= 10) {
+      return 1;
+    }
+    if (safeMax <= 50) {
+      return 5;
+    }
+    if (safeMax <= 100) {
+      return 10;
+    }
+    if (safeMax <= 500) {
+      return 50;
+    }
+    if (safeMax <= 1000) {
+      return 100;
+    }
+    if (safeMax <= 10000) {
+      return 1000;
+    }
+    if (safeMax <= 100000) {
+      return 5000;
+    }
+    return 25000;
+  }
+
+  function buildTrendAxisBounds(values, options) {
+    options = options || {};
+    const numericValues = (values || []).map(numeric).filter(function (value) {
+      return Number.isFinite(value);
+    });
+
+    if (!numericValues.length) {
+      return { min: 0, max: 10, tickAmount: 4 };
+    }
+
+    const minValue = Math.min.apply(null, numericValues);
+    const maxValue = Math.max.apply(null, numericValues);
+    const spread = maxValue - minValue;
+    const effectiveSpread = spread || Math.max(1, maxValue * 0.12);
+    const lowerPadding = effectiveSpread * (options.lowerPaddingRatio || 0.18);
+    const upperPadding = effectiveSpread * (options.upperPaddingRatio || 0.14);
+    const shouldStartAtZero = options.forceZero === true
+      || minValue <= 0
+      || minValue / Math.max(maxValue, 1) < (options.tightRangeThreshold || 0.45);
+    const step = options.step || chooseAxisStep(maxValue + upperPadding);
+    const axisMin = shouldStartAtZero ? 0 : roundDownToStep(minValue - lowerPadding, step);
+    const axisMax = roundUpToStep(maxValue + upperPadding, step);
+
+    return {
+      min: axisMin,
+      max: Math.max(axisMin + step, axisMax),
+      tickAmount: options.tickAmount || 4
+    };
   }
 
   function buildCurrencyAxisBounds(minValue, maxValue, step) {

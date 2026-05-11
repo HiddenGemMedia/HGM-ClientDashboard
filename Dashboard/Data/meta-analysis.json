@@ -801,7 +801,7 @@
       }
     }
   },
-  "bison-ridge": {
+  "bison-ridge-retreat": {
     "meta": {
       "2026-04": {
         "range_label": "February 2026 to April 2026",
@@ -855,11 +855,6 @@
             "label": "Best Traffic Month",
             "value": "933",
             "note": "Feb '26 page visits"
-          },
-          {
-            "label": "Total Spend",
-            "value": "$147",
-            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -890,11 +885,6 @@
             "label": "Best Traffic Month",
             "value": "933",
             "note": "Feb '26 page visits"
-          },
-          {
-            "label": "Total Spend",
-            "value": "$147",
-            "note": "Selected window"
           }
         ],
         "discovery_key_takeaways": [
@@ -1696,7 +1686,7 @@
         "discovery_key_takeaways": [
           "March 2026 delivered the strongest Discovery reach in the window, with 134,738 impressions and 6,814 page visits.",
           "Lead and follower volume also peaked in March 2026, with 3,045 new actions generated from Discovery.",
-          "March 2026 was also the best Discovery revenue month, with $19,336 in attributed revenue and 15.35x ROAS.",
+          "March 2026 was also the best Discovery revenue month, with $19,336 in attributed revenue and 5.17x ROAS.",
           "Across the full 3-month window, Discovery delivered 247.4K impressions, 11,637 page visits, and 4,642 leads and followers."
         ],
         "retargeting_key_takeaways": [
@@ -2201,6 +2191,11 @@
             "label": "Best Traffic Month",
             "value": "1.5K",
             "note": "Jan '26 page visits"
+          },
+          {
+            "label": "Avg Booking Value",
+            "value": "$1,878",
+            "note": "Window average"
           }
         ],
         "discovery_key_takeaways": [
@@ -2228,9 +2223,9 @@
             "note": "Feb '26 page visits"
           },
           {
-            "label": "Total Spend",
-            "value": "$274",
-            "note": "Selected window"
+            "label": "Avg Booking Value",
+            "value": "$1,978",
+            "note": "Window average"
           }
         ],
         "discovery_key_takeaways": [
@@ -2572,7 +2567,7 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "0.13x",
+            "value": "17.31x",
             "note": "Discovery, Jan '26"
           },
           {
@@ -2589,7 +2584,7 @@
         "discovery_key_takeaways": [
           "January 2026 delivered the strongest Discovery reach in the window, with 169,650 impressions and 8,506 page visits.",
           "Lead and follower volume also peaked in January 2026, with 2,721 new actions generated from Discovery.",
-          "January 2026 was also the best Discovery revenue month, with $21,403 in attributed revenue and 0.13x ROAS.",
+          "January 2026 was also the best Discovery revenue month, with $21,403 in attributed revenue and 17.31x ROAS.",
           "Across the full 2-month window, Discovery delivered 269.3K impressions, 15,329 page visits, and 4,744 leads and followers."
         ],
         "retargeting_key_takeaways": [
@@ -2599,7 +2594,7 @@
           "Meta Ads generated $21,403 in attributed revenue across the selected period, with 5 attributed bookings in total.",
           "January 2026 was the strongest overall month, delivering $21,403 in combined attributed revenue.",
           "Discovery kept demand building throughout the window, contributing 269.3K impressions, 15,329 page visits, and 4,744 leads and followers.",
-          "Average blended ROAS held at 7.81x, keeping the account in a strong efficiency range over the full period."
+          "Average blended ROAS held at 8.66x, keeping the account in a strong efficiency range over the full period."
         ]
       },
       "2026-02": {
@@ -2622,8 +2617,8 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "16.45x",
-            "note": "Discovery, Feb '26"
+            "value": "17.31x",
+            "note": "Discovery, Jan '26"
           },
           {
             "label": "Discovery Reach",
@@ -2673,8 +2668,8 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "16.45x",
-            "note": "Discovery, Feb '26"
+            "value": "17.31x",
+            "note": "Discovery, Jan '26"
           },
           {
             "label": "Discovery Reach",
@@ -2724,7 +2719,7 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "16.45x",
+            "value": "15.28x",
             "note": "Discovery, Feb '26"
           },
           {
@@ -3084,8 +3079,8 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "41.06x",
-            "note": "Retargeting, Jan '26"
+            "value": "165.57x",
+            "note": "Discovery, Jan '26"
           },
           {
             "label": "Discovery Reach",
@@ -3101,7 +3096,7 @@
         "discovery_key_takeaways": [
           "January 2026 delivered the strongest Discovery reach in the window, with 160,991 impressions and 7,766 page visits.",
           "Lead and follower volume also peaked in January 2026, with 3,254 new actions generated from Discovery.",
-          "January 2026 was also the best Discovery revenue month, with $204,685 in attributed revenue and 1.27x ROAS.",
+          "January 2026 was also the best Discovery revenue month, with $204,685 in attributed revenue and 165.57x ROAS.",
           "Across the full 2-month window, Discovery delivered 270.3K impressions, 15,524 page visits, and 5,816 leads and followers."
         ],
         "retargeting_key_takeaways": [
@@ -3137,8 +3132,8 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "111.60x",
-            "note": "Discovery, Feb '26"
+            "value": "165.57x",
+            "note": "Discovery, Jan '26"
           },
           {
             "label": "Discovery Reach",
@@ -3190,8 +3185,8 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "111.60x",
-            "note": "Discovery, Feb '26"
+            "value": "165.57x",
+            "note": "Discovery, Jan '26"
           },
           {
             "label": "Discovery Reach",
@@ -3243,8 +3238,8 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "111.60x",
-            "note": "Discovery, Feb '26"
+            "value": "55.93x",
+            "note": "Retargeting, Feb '26"
           },
           {
             "label": "Discovery Reach",
@@ -3928,7 +3923,7 @@
         "discovery_key_takeaways": [
           "January 2026 delivered the strongest Discovery reach in the window, with 213,484 impressions and 7,487 page visits.",
           "Lead and follower volume also peaked in January 2026, with 4,516 new actions generated from Discovery.",
-          "January 2026 was also the best Discovery revenue month, with $25,987 in attributed revenue and 0.12x ROAS.",
+          "January 2026 was also the best Discovery revenue month, with $25,987 in attributed revenue and 21.06x ROAS.",
           "Across the full 2-month window, Discovery delivered 329.2K impressions, 14,316 page visits, and 7,258 leads and followers."
         ],
         "retargeting_key_takeaways": [
@@ -3964,7 +3959,7 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "39.10x",
+            "value": "22.51x",
             "note": "Discovery, Feb '26"
           },
           {
@@ -3981,7 +3976,7 @@
         "discovery_key_takeaways": [
           "February 2026 kept Discovery active with 168,470 impressions and 5,585 page visits.",
           "The strongest Discovery volume came in January 2026, generating 4,516 leads and followers and building momentum across the period.",
-          "February 2026 was also the best Discovery revenue month, with $42,888 in attributed revenue and 39.10x ROAS.",
+          "February 2026 was also the best Discovery revenue month, with $42,888 in attributed revenue and 22.51x ROAS.",
           "Across the full 3-month window, Discovery delivered 497.7K impressions, 19,901 page visits, and 10,509 leads and followers."
         ],
         "retargeting_key_takeaways": [
@@ -4017,7 +4012,7 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "39.10x",
+            "value": "22.51x",
             "note": "Discovery, Feb '26"
           },
           {
@@ -4070,7 +4065,7 @@
           },
           {
             "label": "Peak ROAS",
-            "value": "39.10x",
+            "value": "22.51x",
             "note": "Discovery, Feb '26"
           },
           {
@@ -4370,7 +4365,7 @@
           "Meta Ads generated $1,728 in attributed revenue across the selected period, with 4 attributed bookings in total.",
           "January 2026 was the strongest overall month, delivering $1,185 in combined attributed revenue.",
           "Discovery kept demand building throughout the window, contributing 126.1K impressions, 9,902 page visits, and 3,454 leads and followers.",
-          "Average blended ROAS held at 2.46x, keeping the account in a strong efficiency range over the full period."
+          "Average blended ROAS held at 2.47x, keeping the account in a strong efficiency range over the full period."
         ]
       },
       "2026-02": {
@@ -4420,7 +4415,7 @@
           "Meta Ads generated $3,526 in attributed revenue across the selected period, with 6 attributed bookings in total.",
           "February 2026 was the strongest overall month, delivering $1,798 in combined attributed revenue.",
           "Discovery kept demand building throughout the window, contributing 143K impressions, 10,914 page visits, and 3,960 leads and followers.",
-          "Average blended ROAS held at 4.11x, keeping the account in a strong efficiency range over the full period."
+          "Average blended ROAS held at 4.12x, keeping the account in a strong efficiency range over the full period."
         ]
       },
       "2026-03": {
@@ -5527,17 +5522,117 @@
   },
   "three-suns-cabins": {
     "meta": {
+      "2026-01": {
+        "range_label": "November 2025 to January 2026",
+        "performance_overview": [
+          {
+            "label": "Total Revenue",
+            "value": "$5,441",
+            "note": "Attributed"
+          },
+          {
+            "label": "Total Bookings",
+            "value": "10",
+            "note": "FB + Email"
+          },
+          {
+            "label": "Best Month",
+            "value": "Jan '26",
+            "note": "Peak performance"
+          },
+          {
+            "label": "Peak ROAS",
+            "value": "4.44x",
+            "note": "Discovery, Jan '26"
+          },
+          {
+            "label": "Discovery Reach",
+            "value": "150.9K",
+            "note": "Window impressions"
+          },
+          {
+            "label": "Best Traffic Month",
+            "value": "5.8K",
+            "note": "Jan '26 page visits"
+          }
+        ],
+        "discovery_key_takeaways": [
+          "January 2026 delivered the strongest Discovery reach in the window, with 119,886 impressions and 5,771 page visits.",
+          "Lead and follower volume also peaked in January 2026, with 2,866 new actions generated from Discovery.",
+          "January 2026 was also the best Discovery revenue month, with $4,100 in attributed revenue and 4.44x ROAS.",
+          "Across the full 2-month window, Discovery delivered 150.9K impressions, 7,920 page visits, and 4,254 leads and followers."
+        ],
+        "retargeting_key_takeaways": [
+          "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
+        ],
+        "performance_insights": [
+          "Meta Ads generated $5,441 in attributed revenue across the selected period, with 10 attributed bookings in total.",
+          "January 2026 was the strongest overall month, delivering $4,100 in combined attributed revenue.",
+          "Discovery kept demand building throughout the window, contributing 150.9K impressions, 7,920 page visits, and 4,254 leads and followers.",
+          "Average blended ROAS held at 3.72x, keeping the account in a strong efficiency range over the full period."
+        ]
+      },
+      "2026-02": {
+        "range_label": "December 2025 to February 2026",
+        "performance_overview": [
+          {
+            "label": "Total Revenue",
+            "value": "$10,736",
+            "note": "Attributed"
+          },
+          {
+            "label": "Total Bookings",
+            "value": "19",
+            "note": "FB + Email"
+          },
+          {
+            "label": "Best Month",
+            "value": "Feb '26",
+            "note": "Peak performance"
+          },
+          {
+            "label": "Peak ROAS",
+            "value": "10.39x",
+            "note": "Discovery, Feb '26"
+          },
+          {
+            "label": "Discovery Reach",
+            "value": "205.6K",
+            "note": "Window impressions"
+          },
+          {
+            "label": "Best Traffic Month",
+            "value": "2.5K",
+            "note": "Feb '26 page visits"
+          }
+        ],
+        "discovery_key_takeaways": [
+          "February 2026 kept Discovery active with 54,659 impressions and 2,543 page visits.",
+          "The strongest Discovery volume came in January 2026, generating 2,866 leads and followers and building momentum across the period.",
+          "February 2026 was also the best Discovery revenue month, with $5,295 in attributed revenue and 10.39x ROAS.",
+          "Across the full 3-month window, Discovery delivered 205.6K impressions, 10,463 page visits, and 5,407 leads and followers."
+        ],
+        "retargeting_key_takeaways": [
+          "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
+        ],
+        "performance_insights": [
+          "Meta Ads generated $10,736 in attributed revenue across the selected period, with 19 attributed bookings in total.",
+          "February 2026 was the strongest overall month, delivering $5,295 in combined attributed revenue.",
+          "Discovery kept demand building throughout the window, contributing 205.6K impressions, 10,463 page visits, and 5,407 leads and followers.",
+          "Average blended ROAS held at 5.94x, keeping the account in a strong efficiency range over the full period."
+        ]
+      },
       "2026-04": {
         "range_label": "February 2026 to April 2026",
         "performance_overview": [
           {
             "label": "Total Revenue",
-            "value": "$6,549",
+            "value": "$11,844",
             "note": "Attributed"
           },
           {
             "label": "Total Bookings",
-            "value": "9",
+            "value": "18",
             "note": "FB + Email"
           },
           {
@@ -5552,7 +5647,7 @@
           },
           {
             "label": "Discovery Reach",
-            "value": "59.6K",
+            "value": "114.2K",
             "note": "Window impressions"
           },
           {
@@ -5562,19 +5657,19 @@
           }
         ],
         "discovery_key_takeaways": [
-          "April 2026 delivered 59,588 impressions and 1,879 page visits, giving the campaign a solid reach and traffic base.",
-          "Discovery also produced 1,012 leads and followers, helping keep new audience growth moving.",
-          "Attributed revenue reached $6,549, showing the campaign supported visibility and measurable return at the same time.",
-          "Overall, Discovery kept new people entering the funnel and supported healthy awareness for the brand."
+          "April 2026 delivered the strongest Discovery reach in the window, with 59,588 impressions and 1,879 page visits.",
+          "The strongest Discovery volume came in February 2026, generating 1,153 leads and followers and building momentum across the period.",
+          "April 2026 was also the best Discovery revenue month, with $6,549 in attributed revenue and 13.34x ROAS.",
+          "Across the full 2-month window, Discovery delivered 114.2K impressions, 4,422 page visits, and 2,165 leads and followers."
         ],
         "retargeting_key_takeaways": [
           "Retargeting data is limited in this window, but the account still kept a conversion-focused presence live."
         ],
         "performance_insights": [
-          "Meta Ads generated $6,549 in attributed revenue in April 2026, showing strong paid impact in the current month.",
-          "The account also drove 9 attributed bookings, with Retargeting helping convert demand already in market.",
-          "Discovery kept the top of the funnel moving with 59.6K impressions and 1,879 page visits.",
-          "Blended ROAS held at 13.34x, keeping overall paid efficiency in a healthy position."
+          "Meta Ads generated $11,844 in attributed revenue across the selected period, with 18 attributed bookings in total.",
+          "April 2026 was the strongest overall month, delivering $6,549 in combined attributed revenue.",
+          "Discovery kept demand building throughout the window, contributing 114.2K impressions, 4,422 page visits, and 2,165 leads and followers.",
+          "Average blended ROAS held at 11.87x, keeping the account in a strong efficiency range over the full period."
         ]
       }
     }

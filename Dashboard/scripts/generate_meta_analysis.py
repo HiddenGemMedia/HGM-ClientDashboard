@@ -3,13 +3,15 @@ from copy import deepcopy
 from pathlib import Path
 
 
-ROOT = Path("/Users/Pooja/Documents/New project copy/inspired-retreats-dashboard")
+ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PATH = ROOT / "Data" / "performance-dashboard.json"
 OUTPUT_PATH = ROOT / "Data" / "meta-analysis.json"
 
 CLIENT_ALIASES = {
     "apple-mountain": ["apple-mountain", "apple-mountain-resort"],
     "casa-oso": ["casa-oso", "casa-oso-ad-account"],
+    "bison-ridge-retreat": ["bison-ridge", "bison-ridge-retreat"],
+    "three-suns-cabins": ["three-suns", "three-suns-cabins"],
 }
 
 TARGET_MONTHS = {

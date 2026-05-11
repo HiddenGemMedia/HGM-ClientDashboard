@@ -96,13 +96,6 @@ def build_meta_row_map(headers: list[str], row: tuple[object, ...]) -> dict[str,
         seen[header] = seen.get(header, 0) + 1
         key = header if seen[header] == 1 else f"{header}_{seen[header]}"
         row_map[key] = row[index]
-
-    # Preserve the original Facebook spend column while promoting the split spend
-    # column to the canonical "spend" field used by the dashboard.
-    if len(row) > 4:
-        row_map["spend_total"] = row[4]
-    if len(row) > 5 and row[5] not in (None, ""):
-        row_map["spend"] = row[5]
     return row_map
 
 MANUAL_META_CLIENTS = {
@@ -149,6 +142,8 @@ MANUAL_META_CLIENTS = {
     "stay saluda": ("stay-saluda", "Stay Saluda"),
     "stay saluda ads": ("stay-saluda", "Stay Saluda"),
     "stay with branch": ("stay-with-branch", "Stay With Branch"),
+    "bison ridge": ("bison-ridge-retreat", "Bison Ridge Retreat"),
+    "bison ridge retreat": ("bison-ridge-retreat", "Bison Ridge Retreat"),
     "three suns": ("three-suns", "Three Suns"),
     "treetop": ("treetop-escapes", "Treetop Escapes"),
     "treetop escapes": ("treetop-escapes", "Treetop Escapes"),
@@ -161,6 +156,7 @@ MANUAL_META_CLIENTS = {
 }
 
 MANUAL_ROI_CLIENTS = {
+    "bison ridge retreat": ("bison-ridge-retreat", "Bison Ridge Retreat"),
     "three suns cabins": ("three-suns", "Three Suns"),
 }
 
@@ -488,22 +484,22 @@ def export_meta_workbook():
             if current is None:
                 continue
 
-            campaign_type = classify_campaign(get_value(row_map, "campaign_type"))
-            if campaign_type is None:
-                continue
-
             avg_booking_value = clean_number(
                 get_value(row_map, "avg_booking_value", "average_booking_value")
             )
             if avg_booking_value is not None:
                 current.avg_booking_value = avg_booking_value
 
+            campaign_type = classify_campaign(get_value(row_map, "campaign_type"))
+            if campaign_type is None:
+                continue
+
             comment = collect_comments(row_map, *META_COMMENT_KEYS)
             if comment:
                 current.comments.append(comment)
 
             payload = {
-                "spend": get_value(row_map, "spend", "campaign_spend"),
+                "spend": get_value(row_map, "spend", "campaign_spend", "ad_spend"),
                 "impressions": get_value(row_map, "impressions"),
                 "profile_visits": get_value(
                     row_map,

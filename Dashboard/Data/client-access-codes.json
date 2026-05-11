@@ -45,11 +45,6 @@
       "accessCode": "94581"
     },
     {
-      "clientName": "Bison ridge",
-      "clientSlug": "bison-ridge",
-      "accessCode": "16537"
-    },
-    {
       "clientName": "Bison Ridge Retreat",
       "clientSlug": "bison-ridge-retreat",
       "accessCode": "35491"
@@ -140,16 +135,6 @@
       "accessCode": "73984"
     },
     {
-      "clientName": "New",
-      "clientSlug": "new",
-      "accessCode": "28960"
-    },
-    {
-      "clientName": "North Star Nature Suites",
-      "clientSlug": "north-star-nature-suites",
-      "accessCode": "51726"
-    },
-    {
       "clientName": "Paradise Pointe",
       "clientSlug": "paradise-pointe",
       "accessCode": "58971"
@@ -225,14 +210,9 @@
       "accessCode": "83136"
     },
     {
-      "clientName": "Three Suns",
-      "clientSlug": "three-suns",
-      "accessCode": "86758"
-    },
-    {
       "clientName": "Three suns Cabins",
       "clientSlug": "three-suns-cabins",
-      "accessCode": "99217"
+      "accessCode": "86758"
     },
     {
       "clientName": "Treetop Escapes",
