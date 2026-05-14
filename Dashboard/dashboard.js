@@ -557,19 +557,19 @@
     params.set("view", view === "meta" ? "meta" : "roi");
     params.delete("code");
     params.delete("clientName");
-    return window.location.pathname + "?" + params.toString();
+    return window.location.pathname + "?" + params.toString() + "#auth=" + normalizeAccessCode(code);
   }
 
   function ensureAuthorizedAccess() {
-    var session = getStoredAccessSession();
-    if (!session || !session.code) {
+    var hashParams = new URLSearchParams(String(window.location.hash || "").replace(/^#/, ""));
+    var authCode = normalizeAccessCode(hashParams.get("auth"));
+    if (!authCode) {
       showAccessGate();
       return false;
     }
 
-    var accessClient = findAccessClientByCode(session.code);
+    var accessClient = findAccessClientByCode(authCode);
     if (!accessClient) {
-      clearStoredAccessSession();
       showAccessGate("Enter a valid 5-digit access code.");
       return false;
     }
@@ -582,16 +582,13 @@
     var requestedMonth = params.get("month") || DEFAULT_MONTH;
     var requestedView = params.get("view") || "roi";
 
-    if (session.clientSlug && canonicalizeClientSlug(session.clientSlug) !== authorizedSlug) {
-      setStoredAccessSession(accessClient);
-    }
-
     if (routeSlug !== authorizedSlug || routeCode !== normalizeAccessCode(accessClient.accessCode)) {
-      showAccessGate();
+      window.location.replace(buildAuthorizedRoute(authorizedSlug, accessClient.accessCode, requestedMonth, requestedView));
       return false;
     }
 
     state.authorizedClientSlug = authorizedSlug;
+    window.history.replaceState({}, "", window.location.pathname + "?" + params.toString());
     hideAccessGate();
     return true;
   }
@@ -612,7 +609,7 @@
       return;
     }
 
-    setStoredAccessSession(accessClient);
+    clearStoredAccessSession();
     state.authorizedClientSlug = canonicalizeClientSlug(accessClient.clientSlug);
     if (els.authSubmit) {
       els.authSubmit.disabled = true;
