@@ -587,7 +587,7 @@
     }
 
     if (routeSlug !== authorizedSlug || routeCode !== normalizeAccessCode(accessClient.accessCode)) {
-      window.location.replace(buildAuthorizedRoute(authorizedSlug, accessClient.accessCode, requestedMonth, requestedView));
+      showAccessGate();
       return false;
     }
 
