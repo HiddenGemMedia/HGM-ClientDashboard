@@ -557,19 +557,19 @@
     params.set("view", view === "meta" ? "meta" : "roi");
     params.delete("code");
     params.delete("clientName");
-    return window.location.pathname + "?" + params.toString() + "#auth=" + normalizeAccessCode(code);
+    return window.location.pathname + "?" + params.toString();
   }
 
   function ensureAuthorizedAccess() {
-    var hashParams = new URLSearchParams(String(window.location.hash || "").replace(/^#/, ""));
-    var authCode = normalizeAccessCode(hashParams.get("auth"));
-    if (!authCode) {
+    var session = getStoredAccessSession();
+    if (!session || !session.code) {
       showAccessGate();
       return false;
     }
 
-    var accessClient = findAccessClientByCode(authCode);
+    var accessClient = findAccessClientByCode(session.code);
     if (!accessClient) {
+      clearStoredAccessSession();
       showAccessGate("Enter a valid 5-digit access code.");
       return false;
     }
@@ -588,8 +588,8 @@
     }
 
     state.authorizedClientSlug = authorizedSlug;
-    window.history.replaceState({}, "", window.location.pathname + "?" + params.toString());
     hideAccessGate();
+    clearStoredAccessSession();
     return true;
   }
 
@@ -609,7 +609,7 @@
       return;
     }
 
-    clearStoredAccessSession();
+    setStoredAccessSession(accessClient);
     state.authorizedClientSlug = canonicalizeClientSlug(accessClient.clientSlug);
     if (els.authSubmit) {
       els.authSubmit.disabled = true;
