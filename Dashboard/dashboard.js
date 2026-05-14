@@ -582,10 +582,6 @@
     var requestedMonth = params.get("month") || DEFAULT_MONTH;
     var requestedView = params.get("view") || "roi";
 
-    if (session.clientSlug && canonicalizeClientSlug(session.clientSlug) !== authorizedSlug) {
-      setStoredAccessSession(accessClient);
-    }
-
     if (routeSlug !== authorizedSlug || routeCode !== normalizeAccessCode(accessClient.accessCode)) {
       window.location.replace(buildAuthorizedRoute(authorizedSlug, accessClient.accessCode, requestedMonth, requestedView));
       return false;
