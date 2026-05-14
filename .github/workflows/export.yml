@@ -21,12 +21,12 @@ jobs:
         run: pip install openpyxl
 
       - name: Run export script
-        run: python Dashboard/scripts/export_performance_workbook.py
+        run: python inspired-retreats-dashboard/scripts/export_performance_workbook.py
 
       - name: Commit updated JSON
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Dashboard/Data/performance-dashboard.json
+          git add inspired-retreats-dashboard/Data/performance-dashboard.json
           git diff --staged --quiet || git commit -m "chore: auto-update performance-dashboard.json [$(date -u '+%Y-%m-%d %H:%M UTC')]"
           git push
