@@ -4,12 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>HiddenGem Media Dashboard</title>
-    <meta http-equiv="refresh" content="0; url=Dashboard/index.html" />
     <script>
-      const target = new URL('Dashboard/index.html', window.location.href);
-      target.search = window.location.search;
-      target.hash = window.location.hash;
-      window.location.replace(target.toString());
+      try {
+        window.sessionStorage.removeItem('hgmDashboardAccess');
+      } catch (_error) {
+        // ignore storage failures
+      }
+      window.location.replace('Dashboard/index.html');
     </script>
   </head>
   <body>
