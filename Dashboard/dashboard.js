@@ -17,6 +17,7 @@
     accessClients: [],
     roiAnalysis: {},
     metaAnalysis: {},
+    pricingToolData: null,
     client: null,
     availableClients: [],
     activeView: "roi",
@@ -50,10 +51,12 @@
     sidebarPanel: document.getElementById("sidebarPanel"),
     roiSegmentBtn: document.getElementById("roiSegmentBtn"),
     metaSegmentBtn: document.getElementById("metaSegmentBtn"),
+    pricingSegmentBtn: document.getElementById("pricingSegmentBtn"),
     roiNav: document.getElementById("roiNav"),
     metaNav: document.getElementById("metaNav"),
     roiView: document.getElementById("roiView"),
     metaView: document.getElementById("metaView"),
+    pricingView: document.getElementById("pricingView"),
     summaryTotalImpressions: document.getElementById("summaryTotalImpressions"),
     summaryNewFollowers: document.getElementById("summaryNewFollowers"),
     summaryNewLeads: document.getElementById("summaryNewLeads"),
@@ -194,6 +197,11 @@
     els.metaSegmentBtn.addEventListener("click", function () {
       switchView("meta");
     });
+    if (els.pricingSegmentBtn) {
+      els.pricingSegmentBtn.addEventListener("click", function () {
+        switchView("pricing");
+      });
+    }
     if (els.authForm) {
       els.authForm.addEventListener("submit", handleAccessSubmit);
     }
@@ -293,8 +301,12 @@
 
   function hydrateView() {
     const params = new URLSearchParams(window.location.search);
-    state.activeView = params.get("view") === "meta" ? "meta" : "roi";
-    els.sidebarDashboardTitle.textContent = state.activeView === "meta" ? "Meta Ads Dashboard" : "Performance Dashboard";
+    state.activeView = params.get("view") === "meta" ? "meta" : (params.get("view") === "pricing" ? "pricing" : "roi");
+    els.sidebarDashboardTitle.textContent = state.activeView === "meta"
+      ? "Meta Ads Dashboard"
+      : state.activeView === "pricing"
+        ? "Pricing Tool"
+        : "Performance Dashboard";
     applyViewState();
   }
 
@@ -304,12 +316,14 @@
         fetchPerformanceWorkbook(),
         fetchAccessClients(),
         fetchRoiAnalysis(),
-        fetchMetaAnalysis()
+        fetchMetaAnalysis(),
+        fetchPricingToolData()
       ]);
       state.performanceWorkbook = loaded[0];
       state.accessClients = loaded[1];
       state.roiAnalysis = loaded[2];
       state.metaAnalysis = loaded[3];
+      state.pricingToolData = loaded[4];
       state.availableClients = (state.performanceWorkbook && state.performanceWorkbook.clients) || [];
       if (!ensureAuthorizedAccess()) {
         return;
@@ -390,6 +404,8 @@
         showMessage("No workbook rows were found for this client in the selected 3-month window.", "info");
       } else if (state.activeView === "meta" && !state.metaModel.months.length) {
         showMessage("No workbook Meta Ads rows were found for this client in the selected 3-month window.", "info");
+      } else if (state.activeView === "pricing" && !isPricingToolClient(canonicalClientSlug)) {
+        showMessage("Pricing data is not available for this client.", "info");
       } else {
         showMessage("", "");
       }
@@ -460,12 +476,38 @@
     }
   }
 
+  async function fetchPricingToolData() {
+    const pricingToolConfig = config.pricingTool || {};
+    const dataPath = pricingToolConfig.dataPath || "Pricing Tool Files/Data/pricing-tool-data.json";
+    try {
+      const response = await fetch(new URL(dataPath, window.location.href).toString() + "?ts=" + Date.now(), {
+        cache: "no-store"
+      });
+      if (!response.ok) {
+        return null;
+      }
+      return await response.json();
+    } catch (_error) {
+      return null;
+    }
+  }
+
   function canonicalizeClientSlug(slug) {
     var normalized = String(slug || "").trim();
     var canonical = Object.keys(CLIENT_ALIASES).find(function (candidate) {
       return CLIENT_ALIASES[candidate].indexOf(normalized) !== -1;
     });
     return canonical || normalized;
+  }
+
+  function isPricingToolClient(clientSlug) {
+    const pricingToolConfig = config.pricingTool || {};
+    const allowedSlugs = Array.isArray(pricingToolConfig.clientSlugs) ? pricingToolConfig.clientSlugs : [];
+    if (!allowedSlugs.length) {
+      return true;
+    }
+    const canonical = canonicalizeClientSlug(clientSlug);
+    return allowedSlugs.map(canonicalizeClientSlug).indexOf(canonical) !== -1;
   }
 
   function normalizeAccessCode(value) {
@@ -546,15 +588,12 @@
   function buildAuthorizedRoute(clientSlug, code, month, view) {
     var canonicalSlug = canonicalizeClientSlug(clientSlug);
     var bounds = getClientMonthBounds(canonicalSlug);
-    var nextMonth = month || bounds.max;
-    if (nextMonth > bounds.max || nextMonth < bounds.min) {
-      nextMonth = bounds.max;
-    }
+    var nextMonth = bounds.max;
 
     var params = new URLSearchParams(window.location.search);
     params.set("client", canonicalSlug + normalizeAccessCode(code));
     params.set("month", nextMonth);
-    params.set("view", view === "meta" ? "meta" : "roi");
+    params.set("view", view === "meta" ? "meta" : view === "pricing" ? "pricing" : "roi");
     params.delete("code");
     params.delete("clientName");
     return window.location.pathname + "?" + params.toString();
@@ -575,14 +614,15 @@
     }
 
     var authorizedSlug = canonicalizeClientSlug(accessClient.clientSlug);
+    var bounds = getClientMonthBounds(authorizedSlug);
     var params = new URLSearchParams(window.location.search);
     var routeClient = String(params.get("client") || "").trim();
     var routeCode = normalizeAccessCode(routeClient);
     var routeSlug = resolveRouteClientSlug(routeClient || authorizedSlug);
-    var requestedMonth = params.get("month") || DEFAULT_MONTH;
     var requestedView = params.get("view") || "roi";
+    var requestedMonth = bounds.max;
 
-    if (routeSlug !== authorizedSlug || routeCode !== normalizeAccessCode(accessClient.accessCode)) {
+    if (routeSlug !== authorizedSlug || routeCode !== normalizeAccessCode(accessClient.accessCode) || params.get("month") !== requestedMonth) {
       window.location.replace(buildAuthorizedRoute(authorizedSlug, accessClient.accessCode, requestedMonth, requestedView));
       return false;
     }
@@ -1944,6 +1984,41 @@
       });
     }
     renderMetaCharts(meta);
+  }
+
+  function renderPricingEmpty(selectedMonth, clientName) {
+    if (!els.pricingView) {
+      return;
+    }
+    els.pricingView.innerHTML = [
+      '<div class="pricing-ref-shell">',
+      '<div class="pp-wrap">',
+      '<section class="section visible pricing-ref-hero">',
+      '<header class="pp-header">',
+      '<div class="pp-eyebrow">Pricing Tool</div>',
+      '<h1>' + escapeHtml(clientName || (state.client && state.client.name) || "Pricing Tool") + '</h1>',
+      '<div class="pp-subtitle">' + escapeHtml(formatMonthKey(selectedMonth)) + '</div>',
+      '</header>',
+      '<div class="pricing-empty-card">Pricing data is not available yet for this client.</div>',
+      '</section>',
+      '</div>',
+      '</div>'
+    ].join("");
+  }
+
+  function renderPricingView(selectedMonth) {
+    if (!els.pricingView) {
+      return;
+    }
+    if (!state.client || !isPricingToolClient(state.client.slug) || !state.pricingToolData || !window.PricingToolModule) {
+      renderPricingEmpty(selectedMonth, state.client && state.client.name);
+      return;
+    }
+    window.PricingToolModule.render(els.pricingView, {
+      data: state.pricingToolData,
+      client: state.client,
+      selectedMonth: selectedMonth
+    });
   }
 
   function renderMetaPortfolio(meta) {
@@ -3343,14 +3418,20 @@
   }
 
   function switchView(view) {
-    state.activeView = view === "meta" ? "meta" : "roi";
+    state.activeView = view === "meta" ? "meta" : view === "pricing" ? "pricing" : "roi";
     setSidebarOpen(false, true);
-    els.sidebarDashboardTitle.textContent = state.activeView === "meta" ? "Meta Ads Dashboard" : "Performance Dashboard";
+    els.sidebarDashboardTitle.textContent = state.activeView === "meta"
+      ? "Meta Ads Dashboard"
+      : state.activeView === "pricing"
+        ? "Pricing Tool"
+        : "Performance Dashboard";
     applyViewState();
     updateRoute(els.clientSelect.value, els.monthInput.value, state.activeView);
     destroyCharts();
     if (state.activeView === "meta") {
       renderMetaView(els.monthInput.value);
+    } else if (state.activeView === "pricing") {
+      renderPricingView(els.monthInput.value);
     } else {
       if (state.roiMonths.length) {
         renderRoiCharts();
@@ -3395,7 +3476,11 @@
       return;
     }
 
-    document.title = client.name + " | " + (state.activeView === "meta" ? "Meta Ads Dashboard" : "Performance Dashboard");
+    document.title = client.name + " | " + (state.activeView === "meta"
+      ? "Meta Ads Dashboard"
+      : state.activeView === "pricing"
+        ? "Pricing Tool"
+        : "Performance Dashboard");
     els.sidebarCurrentMonth.textContent = formatMonthKey(selectedMonth);
     var heading = document.getElementById("clientNameHeading") || els.clientNameHeading;
     if (heading) {
@@ -3405,12 +3490,19 @@
 
   function applyViewState() {
     const isMeta = state.activeView === "meta";
-    els.roiSegmentBtn.classList.toggle("active", !isMeta);
+    const isPricing = state.activeView === "pricing";
+    els.roiSegmentBtn.classList.toggle("active", !isMeta && !isPricing);
     els.metaSegmentBtn.classList.toggle("active", isMeta);
-    els.roiNav.classList.toggle("hidden", isMeta);
-    els.metaNav.classList.toggle("hidden", !isMeta);
-    els.roiView.classList.toggle("hidden", isMeta);
-    els.metaView.classList.toggle("hidden", !isMeta);
+    if (els.pricingSegmentBtn) {
+      els.pricingSegmentBtn.classList.toggle("active", isPricing);
+    }
+    els.roiNav.classList.toggle("hidden", isMeta || isPricing);
+    els.metaNav.classList.toggle("hidden", !isMeta || isPricing);
+    els.roiView.classList.toggle("hidden", isMeta || isPricing);
+    els.metaView.classList.toggle("hidden", !isMeta || isPricing);
+    if (els.pricingView) {
+      els.pricingView.classList.toggle("hidden", !isPricing);
+    }
   }
 
   function renderList(element, items) {
@@ -3566,7 +3658,7 @@
     const params = new URLSearchParams(window.location.search);
     params.set("client", buildRouteClientParam(clientSlug));
     params.set("month", month);
-    params.set("view", view || "roi");
+    params.set("view", view === "meta" ? "meta" : view === "pricing" ? "pricing" : "roi");
     params.delete("code");
     params.delete("clientName");
     window.history.replaceState({}, "", window.location.pathname + "?" + params.toString());

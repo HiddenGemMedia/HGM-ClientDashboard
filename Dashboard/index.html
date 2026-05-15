@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./Pricing%20Tool%20Files/pricing-tool.css?v=20260515a">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <style>
@@ -209,6 +210,7 @@
       background: rgba(15, 23, 42, 0.32);
       backdrop-filter: blur(2px);
       opacity: 0;
+      pointer-events: none;
       transition: opacity 180ms ease;
     }
 
@@ -3040,8 +3042,8 @@
     }
 
     .meta-efficiency-sub {
-      font-size: 11px;
-      line-height: 1.4;
+      font-size: 14px;
+      line-height: 1.5;
       font-weight: 400;
       color: #64748b;
     }
@@ -3175,6 +3177,7 @@
 
       .sidebar-backdrop.is-visible {
         opacity: 1;
+        pointer-events: auto;
       }
 
       .main-content {
@@ -4065,6 +4068,7 @@
       <div class="sidebar-segment-switcher">
         <button class="segment-link active" id="roiSegmentBtn" type="button">Performance Dashboard</button>
         <button class="segment-link" id="metaSegmentBtn" type="button">Meta Ads Data</button>
+        <button class="segment-link" id="pricingSegmentBtn" type="button">Pricing Tool</button>
       </div>
       <div class="sidebar-view-label">Views</div>
       <nav class="sidebar-nav" id="roiNav">
@@ -4453,10 +4457,12 @@
       </div>
 
       <div id="metaView" class="hidden"></div>
+      <div id="pricingView" class="hidden pricing-view"></div>
     </main>
   </div>
 
   <script src="./dashboard.config.js?v=20260511a"></script>
+  <script src="./Pricing%20Tool%20Files/pricing-tool.js?v=20260515a"></script>
   <script src="./dashboard.js?v=20260511a"></script>
 </body>
 </html>

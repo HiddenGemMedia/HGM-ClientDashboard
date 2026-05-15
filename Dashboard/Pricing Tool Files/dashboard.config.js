@@ -7,7 +7,7 @@ window.DASHBOARD_CONFIG = {
   },
   campaignOrder: ["Discovery", "Retargeting"],
   pricingTool: {
-    dataPath: "Pricing Tool Files/Data/pricing-tool-data.json",
+    dataPath: "Data/pricing-tool-data.json",
     clientSlugs: ["reflections-resorts"]
   },
   benchmarks: {
