@@ -242,13 +242,34 @@ def get_value(row_map: dict[str, object], *keys: str):
     return None
 
 
-def get_split_spend(row_map: dict[str, object]):
+def get_campaign_spend(row_map: dict[str, object]):
     """
-    Campaign rows in the source workbook now carry the usable spend in the
-    second spend column. Do not fall back to the first spend column, which is
-    a broader total and will overstate discovery/retargeting spend.
+    Most campaign rows carry the usable spend in the second spend column, but
+    January and December only have a single spend column in the source workbook.
+    Use the first spend column for those months and the split spend column for
+    the rest.
     """
-    return get_value(row_map, "spend_2", "campaign_spend_2", "ad_spend_2")
+    timeline = get_value(row_map, "timeline", "month")
+    month = getattr(timeline, "month", None)
+    if month in {1, 12}:
+        return get_value(
+            row_map,
+            "spend",
+            "campaign_spend",
+            "ad_spend",
+            "spend_2",
+            "campaign_spend_2",
+            "ad_spend_2",
+        )
+    return get_value(
+        row_map,
+        "spend_2",
+        "campaign_spend_2",
+        "ad_spend_2",
+        "spend",
+        "campaign_spend",
+        "ad_spend",
+    )
 
 
 def collect_comments(row_map: dict[str, object], *comment_keys: str) -> str:
@@ -515,7 +536,7 @@ def export_meta_workbook():
                 current.comments.append(comment)
 
             payload = {
-                "spend": get_split_spend(row_map),
+                "spend": get_campaign_spend(row_map),
                 "impressions": get_value(row_map, "impressions"),
                 "profile_visits": get_value(
                     row_map,
