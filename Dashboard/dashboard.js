@@ -26,6 +26,7 @@
     allRoiMonths: [],
     metaRows: [],
     metaModel: null,
+    pricingToolAvailable: false,
     metaExpandedCampaigns: {},
     metaComparisonExpanded: false,
     pendingMetaScrollKey: "",
@@ -340,6 +341,10 @@
       els.clientSelect.value = state.availableClients.some(function (client) {
         return client.slug === selectedSlug;
       }) ? selectedSlug : ((state.availableClients[0] && state.availableClients[0].slug) || "");
+      if (!updatePricingToolAvailability(els.clientSelect.value) && state.activeView === "pricing") {
+        state.activeView = "roi";
+        applyViewState();
+      }
       syncMonthInputBounds(els.clientSelect.value);
       await loadDashboard();
     } catch (error) {
@@ -378,6 +383,7 @@
 
       state.client = performanceClient;
       syncClientFrame(performanceClient, selectedMonth);
+      const pricingAvailable = updatePricingToolAvailability(canonicalClientSlug);
 
       const roiRows = getPerformanceRoiRows(canonicalClientSlug);
       const metaRows = getMetaRows(canonicalClientSlug);
@@ -398,13 +404,17 @@
       }
 
       renderMetaView(selectedMonth);
+      if (!pricingAvailable && state.activeView === "pricing") {
+        state.activeView = "roi";
+        updateRoute(canonicalClientSlug, selectedMonth, state.activeView);
+      }
       switchView(state.activeView);
 
       if (state.activeView === "roi" && !state.roiMonths.length) {
         showMessage("No workbook rows were found for this client in the selected 3-month window.", "info");
       } else if (state.activeView === "meta" && !state.metaModel.months.length) {
         showMessage("No workbook Meta Ads rows were found for this client in the selected 3-month window.", "info");
-      } else if (state.activeView === "pricing" && !isPricingToolClient(canonicalClientSlug)) {
+      } else if (state.activeView === "pricing" && !pricingAvailable) {
         showMessage("Pricing data is not available for this client.", "info");
       } else {
         showMessage("", "");
@@ -508,6 +518,15 @@
     }
     const canonical = canonicalizeClientSlug(clientSlug);
     return allowedSlugs.map(canonicalizeClientSlug).indexOf(canonical) !== -1;
+  }
+
+  function updatePricingToolAvailability(clientSlug) {
+    const available = !!state.pricingToolData && isPricingToolClient(clientSlug);
+    state.pricingToolAvailable = available;
+    if (els.pricingSegmentBtn) {
+      els.pricingSegmentBtn.classList.toggle("hidden", !available);
+    }
+    return available;
   }
 
   function normalizeAccessCode(value) {
@@ -3496,14 +3515,15 @@
     els.roiSegmentBtn.classList.toggle("active", !isMeta && !isPricing);
     els.metaSegmentBtn.classList.toggle("active", isMeta);
     if (els.pricingSegmentBtn) {
-      els.pricingSegmentBtn.classList.toggle("active", isPricing);
+      els.pricingSegmentBtn.classList.toggle("hidden", !state.pricingToolAvailable);
+      els.pricingSegmentBtn.classList.toggle("active", isPricing && state.pricingToolAvailable);
     }
     els.roiNav.classList.toggle("hidden", isMeta || isPricing);
     els.metaNav.classList.toggle("hidden", !isMeta || isPricing);
     els.roiView.classList.toggle("hidden", isMeta || isPricing);
     els.metaView.classList.toggle("hidden", !isMeta || isPricing);
     if (els.pricingView) {
-      els.pricingView.classList.toggle("hidden", !isPricing);
+      els.pricingView.classList.toggle("hidden", !isPricing || !state.pricingToolAvailable);
     }
   }
 

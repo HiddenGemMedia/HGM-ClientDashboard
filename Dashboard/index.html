@@ -454,36 +454,90 @@
 
     .sidebar-segment-switcher {
       display: grid;
-      gap: 8px;
+      gap: 10px;
       margin-bottom: 14px;
     }
 
-    .segment-link {
-      min-height: 36px;
-      padding: 10px 12px;
-      font-size: 11px;
+    .sidebar-modules-label {
+      margin-top: 2px;
+      margin-bottom: 8px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      color: #94a3b8;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #475569;
+    }
+
+    .segment-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 42px;
+      padding: 6px 8px;
+      font-family: "Inter", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.15;
+      text-transform: uppercase;
+      color: #64748b;
       cursor: pointer;
-      border-radius: 14px;
+      text-align: left;
+      border-radius: 12px;
       transition: all 200ms ease;
-      border: 1.5px solid #dbe6f3;
-      background: #f8fafc;
+      border: none;
+      background: transparent;
     }
 
     .segment-link:hover {
-      background: #eff6ff;
+      background: rgba(37, 99, 235, 0.06);
       color: #2563eb;
-      border-color: #bfdbfe;
     }
 
     .segment-link.active {
       background: #2563eb;
       color: #ffffff;
-      border-color: #2563eb;
       box-shadow: 0 8px 18px rgba(37, 99, 235, 0.16);
+    }
+
+    .module-icon {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      border-radius: 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef2ff;
+      color: #64748b;
+      transition: background 200ms ease, color 200ms ease, transform 200ms ease;
+    }
+
+    .module-icon svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .segment-link.active .module-icon {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+
+    .segment-link:hover .module-icon {
+      transform: translateY(-1px);
+    }
+
+    .segment-label {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
 
     .nav-link {
@@ -4065,10 +4119,36 @@
           </div>
         </div>
       </div>
+      <div class="sidebar-modules-label">Modules</div>
       <div class="sidebar-segment-switcher">
-        <button class="segment-link active" id="roiSegmentBtn" type="button">Performance Dashboard</button>
-        <button class="segment-link" id="metaSegmentBtn" type="button">Meta Ads Data</button>
-        <button class="segment-link" id="pricingSegmentBtn" type="button">Pricing Tool</button>
+        <button class="segment-link active" id="roiSegmentBtn" type="button">
+          <span class="module-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+            </svg>
+          </span>
+          <span class="segment-label">Performance Dashboard</span>
+        </button>
+        <button class="segment-link" id="metaSegmentBtn" type="button">
+          <span class="module-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 14h4l2.5-8 4 16 2.5-8H21"></path>
+            </svg>
+          </span>
+          <span class="segment-label">Meta Ads Data</span>
+        </button>
+        <button class="segment-link" id="pricingSegmentBtn" type="button">
+          <span class="module-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="8"></circle>
+              <path d="M12 8v4l3 2"></path>
+            </svg>
+          </span>
+          <span class="segment-label">Pricing Tool</span>
+        </button>
       </div>
       <div class="sidebar-view-label">Views</div>
       <nav class="sidebar-nav" id="roiNav">
