@@ -90,12 +90,19 @@ def find_meta_header_row(sheet) -> tuple[int | None, list[str]]:
 def build_meta_row_map(headers: list[str], row: tuple[object, ...]) -> dict[str, object]:
     row_map: dict[str, object] = {}
     seen: dict[str, int] = {}
+    last_header: str | None = None
     for index, header in enumerate(headers):
-        if not header or index >= len(row):
+        if index >= len(row):
             continue
-        seen[header] = seen.get(header, 0) + 1
-        key = header if seen[header] == 1 else f"{header}_{seen[header]}"
+        normalized_header = header
+        if not normalized_header:
+            if not last_header:
+                continue
+            normalized_header = last_header
+        seen[normalized_header] = seen.get(normalized_header, 0) + 1
+        key = normalized_header if seen[normalized_header] == 1 else f"{normalized_header}_{seen[normalized_header]}"
         row_map[key] = row[index]
+        last_header = normalized_header
     return row_map
 
 MANUAL_META_CLIENTS = {
@@ -233,6 +240,15 @@ def get_value(row_map: dict[str, object], *keys: str):
         if key in row_map:
             return row_map[key]
     return None
+
+
+def get_split_spend(row_map: dict[str, object]):
+    """
+    Campaign rows in the source workbook now carry the usable spend in the
+    second spend column. Do not fall back to the first spend column, which is
+    a broader total and will overstate discovery/retargeting spend.
+    """
+    return get_value(row_map, "spend_2", "campaign_spend_2", "ad_spend_2")
 
 
 def collect_comments(row_map: dict[str, object], *comment_keys: str) -> str:
@@ -499,7 +515,7 @@ def export_meta_workbook():
                 current.comments.append(comment)
 
             payload = {
-                "spend": get_value(row_map, "spend", "campaign_spend", "ad_spend"),
+                "spend": get_split_spend(row_map),
                 "impressions": get_value(row_map, "impressions"),
                 "profile_visits": get_value(
                     row_map,
