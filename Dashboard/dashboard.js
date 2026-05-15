@@ -3476,11 +3476,13 @@
       return;
     }
 
-    document.title = client.name + " | " + (state.activeView === "meta"
-      ? "Meta Ads Dashboard"
-      : state.activeView === "pricing"
-        ? "Pricing Tool"
-        : "Performance Dashboard");
+    document.title = document.body.classList.contains("auth-locked")
+      ? "HGM Client Dashboard"
+      : client.name + " | " + (state.activeView === "meta"
+        ? "Meta Ads Dashboard"
+        : state.activeView === "pricing"
+          ? "Pricing Tool"
+          : "Performance Dashboard");
     els.sidebarCurrentMonth.textContent = formatMonthKey(selectedMonth);
     var heading = document.getElementById("clientNameHeading") || els.clientNameHeading;
     if (heading) {
